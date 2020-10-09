@@ -20,7 +20,7 @@ public class UserManager {
     }
 
     public synchronized void addUser(String username) {
-        // if Logic == null -> creat logic -> add user to users Array.
+        // if Logic == null -> create logic -> add user to users Array.
         // need to figure out
         usersSet.add(username);
     }

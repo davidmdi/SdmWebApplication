@@ -17,7 +17,9 @@ import static constants.Constants.USERNAME;
 
 //import logic.users.UserManager;
 
-
+/*
+    <url-pattern>/pages/loginPage/login</url-pattern>
+*/
 public class LoginServlet extends HttpServlet {
 
     // urls that starts with forward slash '/' are considered absolute
@@ -26,9 +28,10 @@ public class LoginServlet extends HttpServlet {
     // ( can be fetched from request.getContextPath() ) and then the 'absolute' path from it.
     // Each method with it's pros and cons...
     private final String CHAT_ROOM_URL = "../chatroom/chatroom.html";
-    private final String SIGN_UP_URL = "../loginPage/login.html";
+    private final String HOME_PAGE_URL = "../homePage/home.html";
+    private final String SIGN_UP_URL = "login.html";//"../loginPage/login.html";
     //private final String SIGN_UP_URL = "../index.html";
-    private final String LOGIN_ERROR_URL = "/pages/loginerror/login_attempt_after_error.jsp";  // must start with '/' since will be used in request dispatcher...
+    private final String LOGIN_ERROR_URL = "/pages/loginError/login_attempt_after_error.jsp";  // must start with '/' since will be used in request dispatcher...
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -90,13 +93,13 @@ public class LoginServlet extends HttpServlet {
 
                         //redirect the request to the chat room - in order to actually change the URL
                         System.out.println("On login, request URI is: " + request.getRequestURI());
-                        response.sendRedirect(CHAT_ROOM_URL);
+                        response.sendRedirect(HOME_PAGE_URL);
                     }
                 }
             }
         } else {
             //user is already logged in
-            response.sendRedirect(CHAT_ROOM_URL);
+            response.sendRedirect(HOME_PAGE_URL);
         }
     }
 
