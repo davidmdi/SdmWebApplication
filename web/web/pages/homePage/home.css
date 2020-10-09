@@ -1,0 +1,59 @@
+#headline
+{
+    background-color: #f9ed69;
+}
+
+#greeting
+{
+    display:flex;
+    flex-direction:column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin: 5px;
+}
+
+.bar
+{
+    background-color: #f9ed69;
+    margin: 5px;
+}
+
+.logo
+{
+    width: 80px;
+    margin: 3px;
+
+}
+
+#frame{
+    font-family: Arial, Helvetica, sans-serif;
+    display:flex;
+    flex-direction:column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#customersContainer{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+
+}
+
+#customers
+{
+    order:1;
+    border: 1px;
+    margin: 10px;
+}
+
+#loadXml
+{
+    order:2;
+    border: 1px;
+    margin: 10px;
+}
