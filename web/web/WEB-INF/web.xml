@@ -7,12 +7,26 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>webCode.servlets.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UsersListServlet</servlet-name>
+        <servlet-class>webCode.servlets.UsersListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadXmlServlet</servlet-name>
+        <servlet-class>webCode.servlets.LoadXmlServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
     </servlet-mapping>
-
-
+    <servlet-mapping>
+        <servlet-name>UsersListServlet</servlet-name>
+        <url-pattern>/userslist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadXmlServlet</servlet-name>
+        <url-pattern>/loadXml</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

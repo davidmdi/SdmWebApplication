@@ -11,29 +11,41 @@ of the user of this class to handle the synchronization of isUserExists with oth
  */
 public class UserManager {
 
-    private final Set<String> usersSet;
+    private final Set<User> usersSet;
 
     public UserManager() {
-        System.out.println("In UserManager");
         usersSet = new HashSet<>();
-        usersSet.add("moshe");
+        usersSet.add(new User("moshe","customer"));
     }
 
-    public synchronized void addUser(String username) {
+    public synchronized void addUser(String username,String userType) {
         // if Logic == null -> create logic -> add user to users Array.
         // need to figure out
-        usersSet.add(username);
+        usersSet.add(new User(username,userType));
     }
 
-    public synchronized void removeUser(String username) {
+    public synchronized void removeUser(User username) {
         usersSet.remove(username);
     }
 
-    public synchronized Set<String> getUsers() {
+    public synchronized Set<User> getUsers() {
         return Collections.unmodifiableSet(usersSet);
     }
 
     public boolean isUserExists(String username) {
-        return usersSet.contains(username);
+        for (User user:usersSet) {
+            if(user.getName().equals(username))
+                return true;
+        }
+        return false;
+    }
+
+    public User getUserByName(String userName){
+        for (User user:usersSet) {
+            if(user.getName().equals(userName))
+                return user;
+        }
+
+        return null;
     }
 }
