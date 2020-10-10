@@ -42,10 +42,10 @@ function refreshUsersList(users) {
     $("#userslist").empty();
 
     // rebuild the list of users: scan all users and add them to the list of users
-    $.each(users || [], function(index, username) {
-        console.log("Adding user #" + index + ": " + username);
+    $.each(users || [], function(index, user) {
+        console.log("Adding user #" + index + ": " + user.name +", type: "+user.type);
         //create a new <option> tag with a value in it and
         //appeand it to the #userslist (div with id=userslist) element
-        $('<li>' + username.name+", "+username.type + '</li>').appendTo($("#userslist"));
+        $('<li>' + user.name+", "+user.type + '</li>').appendTo($("#userslist"));
     });
 }

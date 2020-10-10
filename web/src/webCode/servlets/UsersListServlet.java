@@ -1,8 +1,8 @@
 package webCode.servlets;
 
 import com.google.gson.Gson;
-import logic.users.User;
-import logic.users.UserManager;
+import logic.Logic.Engine;
+import logic.Logic.My_CLASS.User;
 import utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -20,12 +20,18 @@ public class UsersListServlet extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            UserManager userManager = ServletUtils.getUserManager(getServletContext());
-            Set<User> usersList = userManager.getUsers();
+            //UserManager userManager = ServletUtils.getUserManager(getServletContext());
+            Engine engine = ServletUtils.getEngine(getServletContext());
+            //Set<User> usersList = engine.getMyUsers().getAllUsersSet();
+            Set<User> usersList = engine.getMyUsers().getUserSet();
+
+
+            System.out.println(usersList);
             String json = gson.toJson(usersList);
+            System.out.println(json);
+
             out.println(json);
             out.flush();
-
         }
     }
 

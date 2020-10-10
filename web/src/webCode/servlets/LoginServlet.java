@@ -2,7 +2,7 @@ package webCode.servlets;
 
 
 import constants.Constants;
-import logic.users.UserManager;
+import logic.Logic.Engine;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -45,7 +45,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        //UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        Engine engine = ServletUtils.getEngine(getServletContext());
         //need to create instance of Logic...
         if (usernameFromSession == null) {
             //user is not logged in yet
@@ -74,7 +75,8 @@ public class LoginServlet extends HttpServlet {
                 do here other not related actions (such as request dispatcher\redirection etc. this is shown here in that manner just to stress this issue
                  */
                 synchronized (this) {
-                    if (userManager.isUserExists(usernameFromParameter)) {
+                    //if (userManager.isUserExists(usernameFromParameter)) {
+                    if (engine.getMyUsers().isUserExists(usernameFromParameter)) {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
                         // username already exists, forward the request back to index.jsp
                         // with a parameter that indicates that an error should be displayed
@@ -86,7 +88,8 @@ public class LoginServlet extends HttpServlet {
                         getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
                     } else {
                         //add the new user to the users list
-                        userManager.addUser(usernameFromParameter ,userTypeFromParameter );
+                        //userManager.addUser(usernameFromParameter ,userTypeFromParameter );
+                        engine.getMyUsers().addUser(usernameFromParameter ,userTypeFromParameter );
                         //set the username in a session so it will be available on each request
                         //the true parameter means that if a session object does not exists yet
                         //create a new one

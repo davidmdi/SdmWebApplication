@@ -2,8 +2,8 @@ package utils;
 
 
 import constants.Constants;
-import logic.users.User;
-import logic.users.UserManager;
+import logic.Logic.Engine;
+import logic.Logic.My_CLASS.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +19,19 @@ public class SessionUtils {
 
     public static User getUser(HttpServletRequest request, ServletContext servletContext) {
         User user = null;
+        Engine engine = (Engine) servletContext.getAttribute(Constants.ENGINE_ATTRIBUTE_NAME);
+        HttpSession session = request.getSession(false);
+
+        if(session != null){
+            String username = (String)session.getAttribute(Constants.USERNAME);
+            user = engine.getMyUsers().getUserByName(username);
+        }
+
+        return user;
+    }
+    /*
+        public static User getUser(HttpServletRequest request, ServletContext servletContext) {
+        User user = null;
         UserManager currUserManager = (UserManager) servletContext.getAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME);
         HttpSession session = request.getSession(false);
 
@@ -29,6 +42,7 @@ public class SessionUtils {
 
         return user;
     }
+     */
 
     public static void clearSession (HttpServletRequest request) {
         request.getSession().invalidate();

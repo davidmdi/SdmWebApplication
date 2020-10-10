@@ -1,5 +1,7 @@
 package logic.users;
 
+import logic.Logic.My_CLASS.User;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,9 @@ public class UserManager {
 
     public UserManager() {
         usersSet = new HashSet<>();
+        //eNGIN ->USERS  :
+        //if(customer ->create customer ) else create owner
+        //Users.addUser()
         usersSet.add(new User("moshe","customer"));
     }
 

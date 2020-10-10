@@ -1,10 +1,6 @@
 package webCode.servlets;
 
-import com.google.gson.Gson;
-import constants.Constants;
-import logic.users.User;
-import logic.users.UserManager;
-import utils.ServletUtils;
+import logic.Logic.My_CLASS.User;
 import utils.SessionUtils;
 
 import javax.servlet.ServletException;
@@ -13,10 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Set;
-
-import static constants.Constants.USERKIND;
-import static constants.Constants.USERNAME;
 
 public class LoadXmlServlet extends HttpServlet {
 
@@ -30,12 +22,16 @@ public class LoadXmlServlet extends HttpServlet {
             if (currUser.getType().equalsIgnoreCase(User.OWNER)) {
                 System.out.println("Owner");
 
-                //Gson gson = new Gson();
-                //UserManager userManager = ServletUtils.getUserManager(getServletContext());
-                //Set<User> usersList = userManager.getUsers();
-                //String json = gson.toJson(usersList);
-
-                out.println("<div id=\"loadXml\">Hi + " + currUser.getName() + "</div>");
+                /*
+                            <div id="loadXml">
+                loadXml:
+                <button id="openFile">Open file</button>
+                <button id="loadFile">Load file</button>
+                <label id="fileName">File name:</label>
+                <label id="errorMsg">File name:</label>
+            </div>
+                 */
+                out.println("<div id=\"loadXml\">Hi  " + currUser.getName() + "</div>");
                 out.flush();
             } else {
                 System.out.println("Customer");
