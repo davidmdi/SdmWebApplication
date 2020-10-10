@@ -51,6 +51,12 @@
     margin: 10px;
 }
 
+#userslist
+{
+    margin: 10px;
+    list-style-type: circle;
+}
+
 #loadXml
 {
     order:2;

@@ -21,9 +21,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+        return this.getName() +  ", " +this.getType();
     }
 }
