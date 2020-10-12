@@ -21,6 +21,8 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        // response.sendRedirect("fileupload/form.html");
+
+
     }
 
     @Override
@@ -35,10 +37,9 @@ public class FileUploadServlet extends HttpServlet {
         String msg = engine.createSDMSuperMarket(ownerName, filePart.getInputStream());
 
         PrintWriter out = response.getWriter();
-        out.println("<html><head></head><body><div>");
+        //out.println("<html><head></head><body><div>");
         out.println(msg);
-        out.println("</div></body></html>");
-
+        //out.println("</div></body></html>");
 
     }
 

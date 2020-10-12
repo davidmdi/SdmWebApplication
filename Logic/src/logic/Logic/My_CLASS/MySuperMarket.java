@@ -13,6 +13,7 @@ import java.util.*;
 
 public class MySuperMarket {
    private SuperDuperMarketDescriptor sdmSuper;
+   private MyOwner owner;
    private MyItems items;
    private MyStores stores;
    private MyOrders orders;
@@ -21,11 +22,9 @@ public class MySuperMarket {
 
 
 
-    public MySuperMarket(SuperDuperMarketDescriptor sdmSuper) {
+    public MySuperMarket(SuperDuperMarketDescriptor sdmSuper , MyOwner owner) {
+        this.owner = owner;
         this.sdmSuper = sdmSuper;
-        for (SDMItem item : sdmSuper.getSDMItems().getSDMItem()) {
-            System.out.println(item.getName() + " ;");
-        }
         this.items = new MyItems(sdmSuper.getSDMItems());
         this.stores = new MyStores(sdmSuper.getSDMStores(),items);
         this.orders = new MyOrders();
@@ -90,7 +89,16 @@ public class MySuperMarket {
     public void setOrders(MyOrders orders) {
         this.orders = orders;
     }
-/*
+
+    public MyOwner getOwner() {
+        return owner;
+    }
+
+    public String getZoneName() {
+        return zoneName;
+    }
+
+    /*
     public MyCustomers getCustomers() {
         return customers;
     }

@@ -99,7 +99,7 @@ public class Engine {
             if(validationForBuild){
                 MyOwner owner = this.getMyUsers().findOwnerByName(ownerName);
                 owner.getZonesNames().add(temp.getSDMZone().getName()); // updates super zone name.
-                this.mySupermarkets.addSuperMarketToList(owner,new MySuperMarket(temp));
+                this.mySupermarkets.addSuperMarketToList(owner,new MySuperMarket(temp,owner));
                 validationForBuild = false ;
             }
 

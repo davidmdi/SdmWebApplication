@@ -38,6 +38,7 @@ public class LoadXmlServlet extends HttpServlet {
         formString.append("<form id=\"uploadForm\" action=\"/uploadXmlFile\" enctype=\"multipart/form-data\" method=\"POST\">");
         formString.append("<input type=\"file\" name=\"xmlFile\" accept=\".xml\"><br>");
         formString.append("<input type=\"Submit\" value=\"Upload File\"><br>");
+        formString.append("<div id=errorMsg></div>");
         formString.append("</form>");
 
     return  formString.toString();
