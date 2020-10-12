@@ -2,6 +2,7 @@ package logic.Logic.My_CLASS;
 
 
 import SDM_CLASS.SDMDiscount;
+import SDM_CLASS.SDMItem;
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.scene.control.DatePicker;
 
@@ -11,20 +12,24 @@ import java.time.ZoneId;
 import java.util.*;
 
 public class MySuperMarket {
-    //private MyZone zone {Owner , SdmZone }
    private SuperDuperMarketDescriptor sdmSuper;
    private MyItems items;
    private MyStores stores;
-   MyOrders orders;
+   private MyOrders orders;
+   private String  zoneName ;
    //MyCustomers customers;
 
 
 
     public MySuperMarket(SuperDuperMarketDescriptor sdmSuper) {
         this.sdmSuper = sdmSuper;
+        for (SDMItem item : sdmSuper.getSDMItems().getSDMItem()) {
+            System.out.println(item.getName() + " ;");
+        }
         this.items = new MyItems(sdmSuper.getSDMItems());
         this.stores = new MyStores(sdmSuper.getSDMStores(),items);
         this.orders = new MyOrders();
+        this.zoneName = sdmSuper.getSDMZone().getName();
         //this.customers = new MyCustomers(sdmSuper.getSDMCustomers()) ;
 
         //updates for each item avg price & how many stores sells each item.
@@ -94,14 +99,14 @@ public class MySuperMarket {
         this.customers = customers;
     }
 */
-    public void addItemToMapFromGui(MyStoreItem item, Map<MyStoreItem, Double> selectedItemsMap) {
-
-            if(selectedItemsMap.containsKey(item))
-                selectedItemsMap.replace(item,item.getSpinner().getValue());
-            else
-                selectedItemsMap.put(item,item.getSpinner().getValue());
-
-    }
+//    public void addItemToMapFromGui(MyStoreItem item, Map<MyStoreItem, Double> selectedItemsMap) {
+//
+//            if(selectedItemsMap.containsKey(item))
+//                selectedItemsMap.replace(item,item.getSpinner().getValue());
+//            else
+//                selectedItemsMap.put(item,item.getSpinner().getValue());
+//
+//    }
 
     public Double caculateDeliveryDistance(MyStore store, MyLocation M, MyLocation N) {
         int Mx = M.getSdmLocation().getX();
@@ -141,7 +146,7 @@ public class MySuperMarket {
         MyOrder order = new MyOrder( getDateFromDatePicker(orderDatePicker),  customer,  selectedItemsMap,
                  orderKind, deliveryMap);
 
-        resetSpinners(selectedItemsMap.keySet()); // reset spinner to selected items
+//        resetSpinners(selectedItemsMap.keySet()); // reset spinner to selected items
         return order;
     }
 
@@ -193,11 +198,11 @@ public class MySuperMarket {
          return Date.from(instant);
     }
 
-    public void resetSpinners(Set<MyStoreItem> keySet) {
-        for (MyStoreItem item:keySet) {
-            item.getMyItem().setSpinnerValue(0.0);
-        }
-    }
+//    public void resetSpinners(Set<MyStoreItem> keySet) {
+//        for (MyStoreItem item:keySet) {
+//            item.getMyItem().setSpinnerValue(0.0);
+//        }
+//    }
 
     public Map<MyStoreItem, Double> findBestPrice(Map<MyItem, Double> selectedMyItemsMap) {
         Map<MyStoreItem,Double> map = new HashMap<>();
@@ -231,12 +236,12 @@ public class MySuperMarket {
         }
     }
 
-    public void resetSpinnersForDynamic(Map<MyItem, Double> selectedMyItemsMap) {
-        for (MyItem item:selectedMyItemsMap.keySet()) {
-            item.setSpinnerValue(0.0);
-        }
-
-    }
+//    public void resetSpinnersForDynamic(Map<MyItem, Double> selectedMyItemsMap) {
+//        for (MyItem item:selectedMyItemsMap.keySet()) {
+//            item.setSpinnerValue(0.0);
+//        }
+//
+//    }
 
     public int getDiscountStoreId(SDMDiscount discount) {
         int returnInt = -1 ;

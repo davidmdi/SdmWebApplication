@@ -16,35 +16,35 @@ public class MyItem {
     private double howManyTimesItemSold = 0 ;
     private String howManyTimesItemSoldString = "0.0";
 
-    private Spinner<Double> spinner;
+    //private Spinner<Double> spinner;
 
     public MyItem(SDMItem sdmItem) {
         this.sdmItem = sdmItem;
         this.itemId = sdmItem.getId();
         this.name = sdmItem.getName();
         this.purchaseCategory = sdmItem.getPurchaseCategory();
-        this.spinner = buildSpinner();
+        //this.spinner = buildSpinner();
     }
 
     public SDMItem getSdmItem() {
         return sdmItem;
     }
 
-    public Spinner<Double> getSpinner() {
-        return spinner;
-    }
+    //public Spinner<Double> getSpinner() {
+       // return spinner;
+   // }
 
     public String getName(){
        return name;
     }
 
-    public void setSpinner(Spinner<Double> spinner) {
-        this.spinner = spinner;
-    }
+   // public void setSpinner(Spinner<Double> spinner) {
+     //   this.spinner = spinner;
+    //}
 
-    public void setSpinnerValue(double value){
-        spinner.getValueFactory().setValue(value);
-    }
+//    public void setSpinnerValue(double value){
+//        spinner.getValueFactory().setValue(value);
+//    }
 
     public void setName(String name) {
         this.name = name;

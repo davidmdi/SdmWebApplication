@@ -1,10 +1,5 @@
 package logic.Logic.My_CLASS;
 
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-
-import java.awt.*;
-
 public class MyStoreItem {
     private MyItem myItem;
     private int price;
@@ -39,9 +34,9 @@ public class MyStoreItem {
         return this.myItem.getSdmItem().getName();
     }
 
-    public Spinner<Double> getSpinner() {
-        return this.getMyItem().getSpinner();
-    }
+//    public Spinner<Double> getSpinner() {
+//        return this.getMyItem().getSpinner();
+//    }
 
     public int getStoreId() {
         return storeId;

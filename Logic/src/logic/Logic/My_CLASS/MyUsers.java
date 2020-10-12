@@ -88,4 +88,11 @@ public class MyUsers {
     }
 
 
+    public MyOwner findOwnerByName(String ownerName) {
+        for (MyOwner owner : this.getOwnerSet()) {
+            if(owner.getUserName().equals(ownerName))
+                return owner;
+        }
+        return null; // should not come to this return ever
+    }
 }
