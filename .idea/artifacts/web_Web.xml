@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" build-on-make="true" name="web:Web">
-    <output-path>$PROJECT_DIR$/out/artifacts/web_Web</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/webSdm</output-path>
     <root id="archive" name="sdm.war">
       <element id="artifact" artifact-name="web:Web exploded" />
     </root>
