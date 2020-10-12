@@ -19,6 +19,10 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>webCode.servlets.FileUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowAreasTableServlet</servlet-name>
+        <servlet-class>webCode.servlets.ShowAreasTableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -35,7 +39,10 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <url-pattern>/uploadXmlFile</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>ShowAreasTableServlet</servlet-name>
+        <url-pattern>/areasTable</url-pattern>
+    </servlet-mapping>
 </web-app>
 
 

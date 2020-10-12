@@ -8,10 +8,15 @@ import java.util.Map;
 public class MyOrders {
     private List<MyOrder> orderList;
     private Map<Integer,MyOrder> orderMap;
+    private double avgOrdersPrice; //without delivery price !
+    private double sumOfOrdersPrice; //without delivery price !
+
 
     public MyOrders() {
         orderList = new ArrayList<>();
         orderMap = new HashMap<>();
+        this.avgOrdersPrice = 0;
+        this.sumOfOrdersPrice = 0;
     }
 
     public List<MyOrder> getOrderList() {
@@ -33,6 +38,13 @@ public class MyOrders {
     public void addOrder(MyOrder order){
         orderList.add(order);
         orderMap.put(order.getOrderId(),order);
+
+        this.sumOfOrdersPrice += order.getOrderCost();
+        this.avgOrdersPrice = order.getOrderCost() / this.orderList.size();
+    }
+
+    public double getAvgOrdersPrice() {
+        return avgOrdersPrice;
     }
 
 
