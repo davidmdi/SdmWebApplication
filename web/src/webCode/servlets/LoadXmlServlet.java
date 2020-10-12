@@ -22,22 +22,25 @@ public class LoadXmlServlet extends HttpServlet {
             if (currUser.getType().equalsIgnoreCase(User.OWNER)) {
                 System.out.println("Owner");
 
-                /*
-                            <div id="loadXml">
-                loadXml:
-                <button id="openFile">Open file</button>
-                <button id="loadFile">Load file</button>
-                <label id="fileName">File name:</label>
-                <label id="errorMsg">File name:</label>
-            </div>
-                 */
-                out.println("<div id=\"loadXml\">Hi  " + currUser.getName() + "</div>");
+                out.println("<div id=\"loadXml\">Hi  " + currUser.getName());
+                out.println(createFormString());
+                out.println("</div>");
                 out.flush();
             } else {
                 System.out.println("Customer");
                 out.println("<div id=\"loadXml\"></div>");
             }
         }
+    }
+
+    private String createFormString(){
+        StringBuilder formString = new StringBuilder();
+        formString.append("<form id=\"uploadForm\" action=\"/uploadXmlFile\" enctype=\"multipart/form-data\" method=\"POST\">");
+        formString.append("<input type=\"file\" name=\"xmlFile\" accept=\".xml\"><br>");
+        formString.append("<input type=\"Submit\" value=\"Upload File\"><br>");
+        formString.append("</form>");
+
+    return  formString.toString();
     }
 
     @Override

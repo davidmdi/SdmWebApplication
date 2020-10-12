@@ -21,9 +21,16 @@ public class XmlLoaderTask extends Task<Boolean> {
     Boolean validationForBuild = false;
     private Consumer<MySuperMarket> superMarketDelegate;
     private Consumer<Boolean> isSuperMarketIsValidDelegate;
+    private SuperDuperMarketDescriptor sdmJAXB;
 
     public Boolean getValidationForBuild() {
         return validationForBuild;
+    }
+
+    public XmlLoaderTask(SuperDuperMarketDescriptor sdmJAXB, Consumer<MySuperMarket> superMarketConsumer, Consumer<Boolean> validationConsumer ){
+        this.sdmJAXB = sdmJAXB;
+        this.superMarketDelegate = superMarketConsumer;
+        this.isSuperMarketIsValidDelegate = validationConsumer;
     }
 
     public XmlLoaderTask(String path, Consumer<MySuperMarket> superMarketConsumer, Consumer<Boolean> validationConsumer ){
@@ -44,10 +51,11 @@ public class XmlLoaderTask extends Task<Boolean> {
         updateProgress(0.75,1);
         Thread.sleep(500);
         updateProgress(1,1);
-        updateMessage(loadXML(filePath));
+        //updateMessage(loadXML(filePath));
         return null;
     }
 
+    /*
     public String loadXML(String xmlPathString)  {
         String returnString ;
         Path xmlPath = Paths.get(xmlPathString);
@@ -80,7 +88,7 @@ public class XmlLoaderTask extends Task<Boolean> {
 
         return returnString;
     }
-
+*/
     private String buildSuperMarket(SuperDuperMarketDescriptor temp) {
         String returnString = "";
         boolean isItemIdUnique , isStoreIdUnique, iseReferencedToExistItem ,

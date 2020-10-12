@@ -1,9 +1,15 @@
 package logic.Logic;
 
 
+import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.beans.property.SimpleBooleanProperty;
 import logic.Logic.My_CLASS.MySuperMarkets;
 import logic.Logic.My_CLASS.MyUsers;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.InputStream;
 
 public class
 Engine {
@@ -37,6 +43,21 @@ s     */
         this.mySupermarkets = null ;
         isSuperMarketIsValid = new SimpleBooleanProperty(false);
     }
+
+    public synchronized String loadFileFromOwner(String ownerName, InputStream inputStream) {
+        try {
+            JAXBContext jc = JAXBContext.newInstance("SDM_CLASS");
+            Unmarshaller u = jc.createUnmarshaller();
+            SuperDuperMarketDescriptor sdmJAXB = (SuperDuperMarketDescriptor) u.unmarshal(inputStream);
+            //sdmJAXB.getSDMZone().getName();
+            // buildsuper()...
+
+        }catch (JAXBException e){e.printStackTrace();}
+
+
+        return new String();
+    }
+
 
     //    public boolean isIsSuperMarketIsValid() {
 //        return isSuperMarketIsValid.get();
