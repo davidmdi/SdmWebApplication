@@ -1,21 +1,27 @@
 
 var refreshRate = 2000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
+var refreshRateForAccount = 10000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
 var LOAD_XML_URL = buildUrlWithContextPath("loadXml");
 var UPLOAD_XML_URL = buildUrlWithContextPath("uploadXmlFile");
 var AREAS_TABLE_URL = buildUrlWithContextPath("areasTable");
+var ACCOUNT_ACTIONS_URL = buildUrlWithContextPath("accountTable");
 
 //activate the timer calls after the page is loaded
 $(function() {
      //init:
-     ajaxUsersList();
-     ajaxAreasTable();
+    ajaxLoadXml();
+    ajaxUsersList();
+    ajaxAreasTable();
+    ajaxAccountActionsTable();
+
     //The users list is refreshed automatically every second
     setInterval(ajaxUsersList, refreshRate);
     setInterval(ajaxAreasTable, refreshRateForAreas);
+    setInterval(ajaxAccountActionsTable, refreshRateForAccount);
 
-    ajaxLoadXml();
+
     //The chat content is refreshed only once (using a timeout) but
     //on each call it triggers another execution of itself later (1 second later)
             // triggerAjaxChatContent();
@@ -96,18 +102,7 @@ function ajaxAreasTable() {
         }
     });
 }
-/*
-[
-{"sdmSuper":{
-                        "sdmZone":{"name":"Galil Maarvi"},
-                        "sdmItems":{"sdmItem":[{"name":"Ketshop","purchaseCategory":"Quantity","id":1},{"name":"Banana","purchaseCategory":"Weight","id":2},{"name":"Water","purchaseCategory":"Quantity","id":3},{"name":"Pasta","purchaseCategory":"Quantity","id":4},{"name":"Tomato","purchaseCategory":"Weight","id":5}]},
-                        "sdmStores":{"sdmStore":[{"name":"super baba","deliveryPpk":30,"location":{"y":4,"x":3},"sdmPrices":{"sdmSell":[{"price":20,"itemId":1},{"price":10,"itemId":2},{"price":50,"itemId":5}]},"sdmDiscounts":{"sdmDiscount":[{"name":"Balabait ishtagea !","ifYouBuy":{"quantity":1.0,"itemId":1},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":2,"forAdditional":0},{"quantity":2.0,"itemId":5,"forAdditional":20}],"operator":"ONE-OF"}},{"name":"1 + 1","ifYouBuy":{"quantity":1.0,"itemId":2},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":1,"forAdditional":0}]}}]},"id":1},{"name":"Givataim Shivataim","deliveryPpk":20,"location":{"y":5,"x":1},"sdmPrices":{"sdmSell":[{"price":20,"itemId":2},{"price":10,"itemId":3},{"price":50,"itemId":4}]},"id":2}]}},
-                        "owner":{"user":{"userId":1,"name":"admin","type":"owner"},
-                        "zonesNames":["Galil Maarvi"]},
-                        "items":{"sdmItems":{"sdmItem":[{"name":"Ketshop","purchaseCategory":"Quantity","id":1},{"name":"Banana","purchaseCategory":"Weight","id":2},{"name":"Water","purchaseCategory":"Quantity","id":3},{"name":"Pasta","purchaseCategory":"Quantity","id":4},{"name":"Tomato","purchaseCategory":"Weight","id":5}]},
-                        "itemList":[{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"}],"itemsMap":{"1":{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"2":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"3":{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"4":{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"5":{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"}}},"stores":{"sdmStores":{"sdmStore":[{"name":"super baba","deliveryPpk":30,"location":{"y":4,"x":3},"sdmPrices":{"sdmSell":[{"price":20,"itemId":1},{"price":10,"itemId":2},{"price":50,"itemId":5}]},"sdmDiscounts":{"sdmDiscount":[{"name":"Balabait ishtagea !","ifYouBuy":{"quantity":1.0,"itemId":1},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":2,"forAdditional":0},{"quantity":2.0,"itemId":5,"forAdditional":20}],"operator":"ONE-OF"}},{"name":"1 + 1","ifYouBuy":{"quantity":1.0,"itemId":2},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":1,"forAdditional":0}]}}]},"id":1},{"name":"Givataim Shivataim","deliveryPpk":20,"location":{"y":5,"x":1},"sdmPrices":{"sdmSell":[{"price":20,"itemId":2},{"price":10,"itemId":3},{"price":50,"itemId":4}]},"id":2}]},"storeList":[{"sdmStore":{"name":"super baba","deliveryPpk":30,"location":{"y":4,"x":3},"sdmPrices":{"sdmSell":[{"price":20,"itemId":1},{"price":10,"itemId":2},{"price":50,"itemId":5}]},"sdmDiscounts":{"sdmDiscount":[{"name":"Balabait ishtagea !","ifYouBuy":{"quantity":1.0,"itemId":1},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":2,"forAdditional":0},{"quantity":2.0,"itemId":5,"forAdditional":20}],"operator":"ONE-OF"}},{"name":"1 + 1","ifYouBuy":{"quantity":1.0,"itemId":2},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":1,"forAdditional":0}]}}]},"id":1},"storeItems":{"itemsList":[{"myItem":{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":1,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":1,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":1,"itemKind":"store","howManyTimeSold":0}],"itemsMap":{"1":{"myItem":{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":1,"itemKind":"store","howManyTimeSold":0},"2":{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":1,"itemKind":"store","howManyTimeSold":0},"5":{"myItem":{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":1,"itemKind":"store","howManyTimeSold":0}}},"storeOrderMap":{},"myLocation":{"sdmLocation":{"y":4,"x":3},"X":3,"Y":4},"storeSingleOrderItemsList":[]},{"sdmStore":{"name":"Givataim Shivataim","deliveryPpk":20,"location":{"y":5,"x":1},"sdmPrices":{"sdmSell":[{"price":20,"itemId":2},{"price":10,"itemId":3},{"price":50,"itemId":4}]},"id":2},"storeItems":{"itemsList":[{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":2,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":2,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":2,"itemKind":"store","howManyTimeSold":0}],"itemsMap":{"2":{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":2,"itemKind":"store","howManyTimeSold":0},"3":{"myItem":{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":2,"itemKind":"store","howManyTimeSold":0},"4":{"myItem":{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":2,"itemKind":"store","howManyTimeSold":0}}},"storeOrderMap":{},"myLocation":{"sdmLocation":{"y":5,"x":1},"X":1,"Y":5},"storeSingleOrderItemsList":[]}],"storeMap":{"1":{"sdmStore":{"name":"super baba","deliveryPpk":30,"location":{"y":4,"x":3},"sdmPrices":{"sdmSell":[{"price":20,"itemId":1},{"price":10,"itemId":2},{"price":50,"itemId":5}]},"sdmDiscounts":{"sdmDiscount":[{"name":"Balabait ishtagea !","ifYouBuy":{"quantity":1.0,"itemId":1},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":2,"forAdditional":0},{"quantity":2.0,"itemId":5,"forAdditional":20}],"operator":"ONE-OF"}},{"name":"1 + 1","ifYouBuy":{"quantity":1.0,"itemId":2},"thenYouGet":{"sdmOffer":[{"quantity":1.0,"itemId":1,"forAdditional":0}]}}]},"id":1},"storeItems":{"itemsList":[{"myItem":{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":1,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":1,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":1,"itemKind":"store","howManyTimeSold":0}],"itemsMap":{"1":{"myItem":{"sdmItem":{"name":"Ketshop","purchaseCategory":"Quantity","id":1},"itemId":1,"name":"Ketshop","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":20.0,"averageItemPriceString":"20.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":1,"itemKind":"store","howManyTimeSold":0},"2":{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":1,"itemKind":"store","howManyTimeSold":0},"5":{"myItem":{"sdmItem":{"name":"Tomato","purchaseCategory":"Weight","id":5},"itemId":5,"name":"Tomato","purchaseCategory":"Weight","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":1,"itemKind":"store","howManyTimeSold":0}}},"storeOrderMap":{},"myLocation":{"sdmLocation":{"y":4,"x":3},"X":3,"Y":4},"storeSingleOrderItemsList":[]},"2":{"sdmStore":{"name":"Givataim Shivataim","deliveryPpk":20,"location":{"y":5,"x":1},"sdmPrices":{"sdmSell":[{"price":20,"itemId":2},{"price":10,"itemId":3},{"price":50,"itemId":4}]},"id":2},"storeItems":{"itemsList":[{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":2,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":2,"itemKind":"store","howManyTimeSold":0},{"myItem":{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":2,"itemKind":"store","howManyTimeSold":0}],"itemsMap":{"2":{"myItem":{"sdmItem":{"name":"Banana","purchaseCategory":"Weight","id":2},"itemId":2,"name":"Banana","purchaseCategory":"Weight","howManyStoresSellsThisItem":2,"averageItemPrice":15.0,"averageItemPriceString":"15.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":20,"storeId":2,"itemKind":"store","howManyTimeSold":0},"3":{"myItem":{"sdmItem":{"name":"Water","purchaseCategory":"Quantity","id":3},"itemId":3,"name":"Water","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":10.0,"averageItemPriceString":"10.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":10,"storeId":2,"itemKind":"store","howManyTimeSold":0},"4":{"myItem":{"sdmItem":{"name":"Pasta","purchaseCategory":"Quantity","id":4},"itemId":4,"name":"Pasta","purchaseCategory":"Quantity","howManyStoresSellsThisItem":1,"averageItemPrice":50.0,"averageItemPriceString":"50.00","howManyTimesItemSold":0.0,"howManyTimesItemSoldString":"0.0"},"price":50,"storeId":2,"itemKind":"store","howManyTimeSold":0}}},"storeOrderMap":{},"myLocation":{"sdmLocation":{"y":5,"x":1},"X":1,"Y":5},"storeSingleOrderItemsList":[]}}},
-                        "orders":{"orderList":[],"orderMap":{},"avgOrdersPrice":0.0,"sumOfOrdersPrice":0.0},"zoneName":"Galil Maarvi"}]
-*/
+
 function refreshAreasTable(areas) {
     $("#areasTable").empty();    //clear all current areas
 
@@ -140,6 +135,57 @@ function refreshAreasTable(areas) {
                             "<td>"+avgOrdersPrice+"</td>" +
                         "</tr>";
         $(areaInfo).appendTo($("#areasTable"));
-
     });
+
+    if(areas.length == 0 ){
+        var emptyAreas = "<tr><td>There are no areas</td></tr>";
+        console.log(areas);
+        $(emptyAreas).appendTo($("#areasTable"));
+    }
+}
+
+function ajaxAccountActionsTable() {
+    $.ajax({
+        url: ACCOUNT_ACTIONS_URL,
+        success: function(accountActions) {
+            refreshAccountTable(accountActions);
+        }
+    });
+}
+
+function refreshAccountTable(accountActions) {
+    $("#accountActionsTable").empty();    //clear all current areas
+
+    var tableHeaders = "<tr>" +
+        "<th>Action type</th>" +
+        "<th>Date</th>" +
+        "<th>Sum</th>" +
+        "<th>Balance before action</th>" +
+        "<th>Balance before action</th>" +
+        "</tr>";
+
+    $(tableHeaders).appendTo($("#accountActionsTable"));
+
+    // rebuild the list of users: scan all areas and add them to the table of areas
+    $.each(accountActions || [], function(index, action) {
+        var type = action.type;
+        var date = action.date;
+        var sum = action.sumOfAction;
+        var balanceBefore = action.balanceBefore
+        var balanceAfter = action.balanceAfter;
+
+        var actionInfo = "<tr>" +
+            "<td>"+type+"</td>" +
+            "<td>"+date+"</td>" +
+            "<td>"+sum+"</td>" +
+            "<td>"+balanceBefore+"</td>" +
+            "<td>"+balanceAfter+"</td>" +
+            "</tr>";
+        $(actionInfo).appendTo($("#accountActionsTable"));
+    });
+
+    if(accountActions.length == 0 ){
+        var emptyActions = "<tr><td>There are no actions</td></tr>";
+        $(emptyActions).appendTo($("#accountActionsTable"));
+    }
 }

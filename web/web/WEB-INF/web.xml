@@ -23,6 +23,10 @@
         <servlet-name>ShowAreasTableServlet</servlet-name>
         <servlet-class>webCode.servlets.ShowAreasTableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountServlet</servlet-name>
+        <servlet-class>webCode.servlets.AccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>ShowAreasTableServlet</servlet-name>
         <url-pattern>/areasTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountServlet</servlet-name>
+        <url-pattern>/accountTable</url-pattern>
     </servlet-mapping>
 </web-app>
 

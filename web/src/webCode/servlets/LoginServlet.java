@@ -45,7 +45,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        //UserManager userManager = ServletUtils.getUserManager(getServletContext());
         Engine engine = ServletUtils.getEngine(getServletContext());
         //need to create instance of Logic...
         if (usernameFromSession == null) {

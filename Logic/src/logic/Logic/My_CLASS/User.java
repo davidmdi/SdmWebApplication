@@ -7,11 +7,13 @@ public class User {
     private String type;
     public static final String OWNER = "owner";
     public static final String CUSTOMER = "customer";
+    AccountManager account ;
 
     public User(String name, String type) {
         this.name = name;
         this.type = type;
         this.userId = ++idGeneretor; // give id to user.
+        this.account = new AccountManager(0);
     }
 
 
@@ -27,6 +29,16 @@ public class User {
     public int getUserId() {
         return userId;
     }
+
+    public void addMoneyToAccountBalance(double balance){
+        this.account.setBalance(this.account.getBalance() + balance);
+    }
+
+    public AccountManager getAccount() {
+        return account;
+    }
+
+
 
     @Override
     public String toString() {
