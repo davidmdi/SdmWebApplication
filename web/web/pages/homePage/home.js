@@ -7,8 +7,11 @@ var LOAD_XML_URL = buildUrlWithContextPath("loadXml");
 var UPLOAD_XML_URL = buildUrlWithContextPath("uploadXmlFile");
 var AREAS_TABLE_URL = buildUrlWithContextPath("areasTable");
 var ACCOUNT_ACTIONS_URL = buildUrlWithContextPath("accountTable");
+//************************************************************************************
+var SELECTED_ZONE_URL = buildUrlWithContextPath("zoneSelected");
 
 //activate the timer calls after the page is loaded
+// The onLoad function...
 $(function() {
      //init:
     ajaxLoadXml();
@@ -126,7 +129,7 @@ function refreshAreasTable(areas) {
         var ordersNum = area.orders.avgOrdersPrice;
         var avgOrdersPrice = area.orders.avgOrdersPrice;
 
-        var areaInfo = "<tr>" +
+        var areaInfo = "<tr name='area' selectedArea="+zone+">" +
                             "<td>"+name+"</td>" +
                             "<td>"+zone+"</td>" +
                             "<td>"+itemsNum+"</td>" +
@@ -142,6 +145,8 @@ function refreshAreasTable(areas) {
         console.log(areas);
         $(emptyAreas).appendTo($("#areasTable"));
     }
+    //add click event for each zone
+    addZoneClickEvent();
 }
 
 function ajaxAccountActionsTable() {
@@ -188,4 +193,27 @@ function refreshAccountTable(accountActions) {
         var emptyActions = "<tr><td>There are no actions</td></tr>";
         $(emptyActions).appendTo($("#accountActionsTable"));
     }
+}
+
+
+function addZoneClickEvent(){
+    var cells = document.getElementsByName("area");//document.getElementById("trArea");
+    for (var i = 0 ; i < cells.length ; i++){
+        var cell = cells[i];
+        cell.onmouseup = myZoneClickEvent;
+    }
+};
+
+//declaration of a function that will be called on mouse clicks
+function myZoneClickEvent (event) {
+    console.log("clicked");
+    var area = event.currentTarget.attributes['selectedArea'].value;
+    document.getElementById('selected_area').value = area;
+    var myform = document.forms['areaSelect'];
+    console.log(myform);
+    //SELECTED_ZONE_URL
+    //myform.setAttribute("action", SELECTED_ZONE_URL);
+    myform.submit();
+
+
 }

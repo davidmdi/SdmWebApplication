@@ -27,6 +27,10 @@
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>webCode.servlets.AccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ZoneSelectedServlet</servlet-name>
+        <servlet-class>webCode.servlets.ZoneSelectedServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -50,6 +54,10 @@
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/accountTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ZoneSelectedServlet</servlet-name>
+        <url-pattern>/showZone</url-pattern>
     </servlet-mapping>
 </web-app>
 

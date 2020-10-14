@@ -63,3 +63,7 @@
     border: 1px;
     margin: 10px;
 }
+
+tr{
+    cursor: pointer;
+}
