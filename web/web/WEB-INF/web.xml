@@ -31,6 +31,18 @@
         <servlet-name>ZoneSelectedServlet</servlet-name>
         <servlet-class>webCode.servlets.ZoneSelectedServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AreaInfoServlet</servlet-name>
+        <servlet-class>webCode.servlets.AreaInfoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SingleAreaMenuServlet</servlet-name>
+        <servlet-class>webCode.servlets.SingleAreaMenuServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoreOrdersServlet</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.StoreOrdersServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -57,7 +69,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ZoneSelectedServlet</servlet-name>
-        <url-pattern>/showZone</url-pattern>
+        <url-pattern>/zoneSelected</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AreaInfoServlet</servlet-name>
+        <url-pattern>/areaInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SingleAreaMenuServlet</servlet-name>
+        <url-pattern>/singleAreaMenu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreOrdersServlet</servlet-name>
+        <url-pattern>/storeOrdersPage</url-pattern>
     </servlet-mapping>
 </web-app>
 

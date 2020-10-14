@@ -129,7 +129,7 @@ function refreshAreasTable(areas) {
         var ordersNum = area.orders.avgOrdersPrice;
         var avgOrdersPrice = area.orders.avgOrdersPrice;
 
-        var areaInfo = "<tr name='area' selectedArea="+zone+">" +
+        var areaInfo = "<tr name='area' selectedArea='"+zone+"'>" +
                             "<td>"+name+"</td>" +
                             "<td>"+zone+"</td>" +
                             "<td>"+itemsNum+"</td>" +
@@ -210,11 +210,6 @@ function myZoneClickEvent (event) {
     var area = event.currentTarget.attributes['selectedArea'].value;
     document.getElementById('selected_area').value = area;
     var myform = document.forms['areaSelect'];
-    console.log(myform);
-    //SELECTED_ZONE_URL
-    //myform.setAttribute("action", SELECTED_ZONE_URL);
-    //***
+    myform.setAttribute("action", SELECTED_ZONE_URL);
     myform.submit();
-
-
 }

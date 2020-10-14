@@ -17,9 +17,9 @@ public class MyStores {
 
 
 
-    public MyStores(SDMStores sdmStores, MyItems items) {
+    public MyStores(SDMStores sdmStores, MyItems items, String ownerName) {
         this.sdmStores = sdmStores;
-        this.storeList = buildStoreList(items);
+        this.storeList = buildStoreList(items , ownerName);
         this.storeMap = buildStoreMap();
     }
 
@@ -33,11 +33,11 @@ public class MyStores {
         return map;
     }
 
-    private List<MyStore> buildStoreList(MyItems items) {
+    private List<MyStore> buildStoreList(MyItems items , String ownerName) {
         List<MyStore> list = new ArrayList<>();
        List<SDMStore> sdm = getSdmStores().getSDMStore();
         for (SDMStore sdmStore:sdm) {
-            list.add(new MyStore(sdmStore,items));
+            list.add(new MyStore(sdmStore,items , ownerName));
         }
         return list;
     }

@@ -26,7 +26,7 @@ public class MySuperMarket {
         this.owner = owner;
         this.sdmSuper = sdmSuper;
         this.items = new MyItems(sdmSuper.getSDMItems());
-        this.stores = new MyStores(sdmSuper.getSDMStores(),items);
+        this.stores = new MyStores(sdmSuper.getSDMStores(),items,owner.getUserName());
         this.orders = new MyOrders();
         this.zoneName = sdmSuper.getSDMZone().getName();
         //this.customers = new MyCustomers(sdmSuper.getSDMCustomers()) ;
