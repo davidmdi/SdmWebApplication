@@ -213,6 +213,7 @@ function myZoneClickEvent (event) {
     console.log(myform);
     //SELECTED_ZONE_URL
     //myform.setAttribute("action", SELECTED_ZONE_URL);
+    //***
     myform.submit();
 
 
