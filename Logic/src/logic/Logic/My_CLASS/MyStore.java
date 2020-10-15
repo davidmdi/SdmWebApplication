@@ -18,13 +18,21 @@ public class MyStore {
     private Map<Integer,MyOrder> storeOrderMap;
     private MyLocation myLocation;
     private List<MyStoreSingleOrderItems> storeSingleOrderItemsList;
+    private  String ownerName ;
+    private double totalOrdersCost = 0 ;
+    private double totalDeliveryCosts = 0 ;
+    /*
+    ownerName
+    totalOrder costs
+    total deliveryCosts
+    * */
 
 
 
-
-    public MyStore(SDMStore sdmStore, MyItems items) {
+    public MyStore(SDMStore sdmStore, MyItems items, String ownerName) {
         this.sdmStore = sdmStore;
         this.storeOrderMap = new HashMap<>();
+        this.ownerName = ownerName;
         this.storeItems = new MyStoreItems(sdmStore,items);
         this.myLocation = new MyLocation(this.getSdmStore().getLocation());
         this.storeSingleOrderItemsList = new ArrayList<>();

@@ -29,6 +29,12 @@ public class SessionUtils {
 
         return user;
     }
+
+    public static String getAreaName (HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Object sessionAttribute = session != null ? session.getAttribute(Constants.SELECTED_ZONE) : null;
+        return sessionAttribute != null ? sessionAttribute.toString() : null;
+    }
     /*
         public static User getUser(HttpServletRequest request, ServletContext servletContext) {
         User user = null;

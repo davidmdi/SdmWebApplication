@@ -26,4 +26,17 @@ public class MySuperMarkets {
             this.superMarkets.put(owner,temp);
         }
     }
+
+    public Set<MySuperMarket> getAreaSuperMarketsSet(String areaName){
+        Set<MySuperMarket> zoneSuperMarkets = new HashSet<>();
+
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                if(superMarket.getZoneName().equalsIgnoreCase(areaName))
+                    zoneSuperMarkets.add(superMarket);
+            }
+        }
+
+        return zoneSuperMarkets;
+    }
 }
