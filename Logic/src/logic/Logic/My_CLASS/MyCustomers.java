@@ -1,6 +1,5 @@
 //package logic.Logic.My_CLASS;
 //
-//
 //import javafx.collections.FXCollections;
 //import javafx.collections.ObservableList;
 //

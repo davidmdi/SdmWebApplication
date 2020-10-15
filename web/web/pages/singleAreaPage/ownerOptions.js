@@ -12,7 +12,7 @@ function changeSelectedMenuOption(selectedMenuOptionID){
 }
 
 function storeOrdersClicked(){
-            changeSelectedMenuOption("#storeOrders");
+            changeSelectedMenuOption("#storeOrders");//changes to ui options
             //$("#content").empty(); //clear old content
 
              $.ajax({
