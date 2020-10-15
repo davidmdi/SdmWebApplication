@@ -51,7 +51,9 @@ form{
 }
 
 .logo{
-
     border-radius: 50%;
     background-color: #f9ed69;
+    display: block;
+    margin: 0 auto;
+    width: 30%;
 }

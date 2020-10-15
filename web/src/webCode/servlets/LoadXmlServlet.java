@@ -16,13 +16,13 @@ public class LoadXmlServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        //UserManager userManager = ServletUtils.getUserManager(getServletContext());
         User currUser = SessionUtils.getUser(request, getServletContext());
         try (PrintWriter out = response.getWriter()) {
             if (currUser.getType().equalsIgnoreCase(User.OWNER)) {
                 System.out.println("Owner");
 
-                out.println("<div id=\"loadXml\">Hi  " + currUser.getName());
+                out.println("<div id=\"loadXml\">");
+                out.println("Load XML file:");
                 out.println(createFormString());
                 out.println("</div>");
                 out.flush();

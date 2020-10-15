@@ -3,15 +3,6 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#greeting
-{
-    display:flex;
-    flex-direction:row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    margin: 5px;
-}
-
 .bar
 {
     background-color: #f9ed69;
@@ -51,4 +42,25 @@ body{
 .topnav a.active {
     background-color: #f9ed69;
     color: black;
+}
+
+.previous {
+    background-color: #471e4b;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    position:absolute;
+    bottom:20px;
+    margin-left: 40px;
+}
+
+.previous:hover{
+    background-color: #8d3a95;
+}
+
+.zone{
+    color: #8d3a95;
+    margin-left:10px;
+    margin-bottom:10px;
+    font-weight: bold;
 }

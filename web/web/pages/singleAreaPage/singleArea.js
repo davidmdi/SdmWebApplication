@@ -2,10 +2,12 @@
 var refreshRate = 10000; //milli seconds
 var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var MENU_URL = buildUrlWithContextPath("singleAreaMenu");
+var ZONE_NAME_URL = buildUrlWithContextPath("zoneName");
 
 $(function() {
 //init:
     ajaxCreateMenuByUserType();
+    ajaxInsertZoneNameHeadLine();
     ajaxAreaInfo();
 
 //The users list is refreshed automatically every second
@@ -126,6 +128,16 @@ function createStoreItemsTable(storeItems){
     storeItemsTable += "</table>";
 
     return storeItemsTable;
+}
+
+function ajaxInsertZoneNameHeadLine() {
+    $("#zone").empty(); //clear old zone name
+     $.ajax({
+        url: ZONE_NAME_URL,
+        success: function(response) {
+            $("#zone").replaceWith(response);
+        }
+    });
 }
 
 function ajaxCreateMenuByUserType() {

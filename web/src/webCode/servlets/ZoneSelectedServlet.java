@@ -17,5 +17,5 @@ public class ZoneSelectedServlet extends HttpServlet {
         req.getSession(true).setAttribute(Constants.SELECTED_ZONE, zoneName);
         resp.sendRedirect(SINGLE_AREA_URL);
 
-    }//http://localhost:8080/webSdm/zoneSelected
+    }
 }
