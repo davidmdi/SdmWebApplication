@@ -51,6 +51,10 @@
         <servlet-name>UserNameServlet</servlet-name>
         <servlet-class>webCode.servlets.generalServlets.UserNameServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ZoneStoresListServlet</servlet-name>
+        <servlet-class>webCode.servlets.generalServlets.ZoneStoresListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -98,6 +102,10 @@
     <servlet-mapping>
         <servlet-name>UserNameServlet</servlet-name>
         <url-pattern>/userName</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ZoneStoresListServlet</servlet-name>
+        <url-pattern>/zoneStoresList</url-pattern>
     </servlet-mapping>
 </web-app>
 
