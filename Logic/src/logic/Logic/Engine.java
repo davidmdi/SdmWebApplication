@@ -3,15 +3,13 @@ package logic.Logic;
 
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.beans.property.SimpleBooleanProperty;
-import logic.Logic.My_CLASS.MyOwner;
-import logic.Logic.My_CLASS.MySuperMarket;
-import logic.Logic.My_CLASS.MySuperMarkets;
-import logic.Logic.My_CLASS.MyUsers;
+import logic.Logic.My_CLASS.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
+import java.util.List;
 
 public class Engine {
 
@@ -60,7 +58,24 @@ public class Engine {
         return returnString;
     }
 
-
+    public boolean isCordValid(String xCord, String yCord, String zoneName) {
+        try {
+            int x = Integer.parseInt(xCord);
+            int y = Integer.parseInt(yCord);
+            if(x<1||x>50||y<1||y>50)
+                return false;
+            MyLocation location = new MyLocation(x,y);
+            List<MyStore> stores =  this.getMySupermarkets().getAreaStoresList(zoneName);
+            for (MyStore store:stores) {
+                MyLocation storeLocation = store.getMyLocation();
+                if(storeLocation.compare(location))
+                    return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 
 
 //
