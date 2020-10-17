@@ -28,7 +28,7 @@ public class UsersListServlet extends HttpServlet {
 
             System.out.println(usersList);
             String json = gson.toJson(usersList);
-            System.out.println(json);
+
 
             out.println(json);
             out.flush();

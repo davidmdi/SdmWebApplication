@@ -36,10 +36,9 @@ public class SingleAreaMenuServlet extends HttpServlet {
     private String createCustomerMenuString(){
         StringBuilder customerMenuString = new StringBuilder();
         customerMenuString.append("<div id=\"menu\" class=\"topnav\">");
-        customerMenuString.append("<a href='#' class=\"active\">Home</a>");
-        customerMenuString.append("<a href='#'>Shop</a>");
-        customerMenuString.append("<a href='#'>Rate</a>");
-        customerMenuString.append("<a href='#'>Orders history</a>");
+        customerMenuString.append("<a href=\"\" id='homePage' class=\"active\">Home</a>");
+        customerMenuString.append("<a href='#' id='makeOrder' onclick=\"return makeOrderOnClick()\" >Make an order</a>");
+        customerMenuString.append("<a href='#' id='orderHistory' onclick=\"return showOrderHistory()\">My orders history</a>");
         customerMenuString.append("</div>");
 
         return  customerMenuString.toString();

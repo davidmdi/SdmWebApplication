@@ -27,8 +27,6 @@ public class MyCustomer {
         return user.getUserId();
     }
 
-
-
     public String getUserName() {
         return user.getName();
     }
@@ -40,8 +38,6 @@ public class MyCustomer {
     public void setLocation(MyLocation location) {
         this.location = location;
     }
-
-
 
     public int getHowManyOrdersHasMade() {
         return howManyOrdersHasMade;
@@ -84,12 +80,6 @@ public class MyCustomer {
     public void setCustomerOrders(MyOrders customerOrders) {
         this.customerOrders = customerOrders;
     }
-/*
-    @Override
-    public String toString() {
-        return "Customer id: " + this.getUserId() + " ,Customer name: " + getName();
-    }
-*/
 
     public void setAvgDeatails() {
      this.setHowManyOrdersHasMade(this.getCustomerOrders().getOrderList().size());
@@ -122,4 +112,12 @@ public class MyCustomer {
         this.getCustomerOrders().addOrder(order); // add order to customer
         this.setAvgDeatails(); // calculate customer cost and delivery ave
     }
+
+    /*
+    @Override
+    public String toString() {
+        return "Customer id: " + this.getUserId() + " ,Customer name: " + getName();
+    }
+*/
+
 }

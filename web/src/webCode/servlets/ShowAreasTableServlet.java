@@ -2,10 +2,7 @@ package webCode.servlets;
 
 import com.google.gson.Gson;
 import logic.Logic.Engine;
-import logic.Logic.My_CLASS.MyOwner;
 import logic.Logic.My_CLASS.MySuperMarket;
-import logic.Logic.My_CLASS.MySuperMarkets;
-import logic.Logic.My_CLASS.User;
 import utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -15,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class ShowAreasTableServlet extends HttpServlet {
@@ -32,7 +28,7 @@ public class ShowAreasTableServlet extends HttpServlet {
 
             Set<MySuperMarket> superMarketsForJson = getSuperMarketsJson(engine);
             String json = gson.toJson(superMarketsForJson);
-            System.out.println(json);
+
 
             out.println(json);
             out.flush();

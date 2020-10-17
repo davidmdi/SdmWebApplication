@@ -19,7 +19,7 @@ public class LoadXmlServlet extends HttpServlet {
         User currUser = SessionUtils.getUser(request, getServletContext());
         try (PrintWriter out = response.getWriter()) {
             if (currUser.getType().equalsIgnoreCase(User.OWNER)) {
-                System.out.println("Owner");
+
 
                 out.println("<div id=\"loadXml\">");
                 out.println("Load XML file:");
@@ -27,7 +27,7 @@ public class LoadXmlServlet extends HttpServlet {
                 out.println("</div>");
                 out.flush();
             } else {
-                System.out.println("Customer");
+
                 out.println("<div id=\"loadXml\"></div>");
             }
         }

@@ -33,25 +33,7 @@ public class Engine {
         this.myUsers = new MyUsers();
         this.mySupermarkets = new MySuperMarkets() ;
         this.validationForBuild = new SimpleBooleanProperty(false);
-
     }
-
-//    public synchronized String loadFileFromOwner(String ownerName, InputStream inputStream) {
-//        try {
-//            JAXBContext jc = JAXBContext.newInstance("SDM_CLASS");
-//            Unmarshaller u = jc.createUnmarshaller();
-//            SuperDuperMarketDescriptor sdmJAXB = (SuperDuperMarketDescriptor) u.unmarshal(inputStream);
-//            String msg = buildSuperMarket(sdmJAXB);
-//            if(validationForBuild)
-//                createSDMSuperMarket(ownerName , inputStream );
-//
-//        }catch (JAXBException e){e.printStackTrace();}
-//
-//
-//        return new String();
-//    }
-
-
 
     public synchronized String createSDMSuperMarket(String ownerName, InputStream inputStream) {
         String returnString = "";
