@@ -7,13 +7,14 @@ var LOAD_XML_URL = buildUrlWithContextPath("loadXml");
 var UPLOAD_XML_URL = buildUrlWithContextPath("uploadXmlFile");
 var AREAS_TABLE_URL = buildUrlWithContextPath("areasTable");
 var ACCOUNT_ACTIONS_URL = buildUrlWithContextPath("accountTable");
-//************************************************************************************
 var SELECTED_ZONE_URL = buildUrlWithContextPath("zoneSelected");
+var USER_NAME_URL = buildUrlWithContextPath("userName");
 
 //activate the timer calls after the page is loaded
 // The onLoad function...
 $(function() {
      //init:
+    ajaxInsertUserNameGreeting();
     ajaxLoadXml();
     ajaxUsersList();
     ajaxAreasTable();
@@ -212,4 +213,14 @@ function myZoneClickEvent (event) {
     var myform = document.forms['areaSelect'];
     myform.setAttribute("action", SELECTED_ZONE_URL);
     myform.submit();
+}
+
+function ajaxInsertUserNameGreeting() {
+    $("#userName").empty(); //clear old zone name
+     $.ajax({
+        url: USER_NAME_URL,
+        success: function(response) {
+            $("#userName").replaceWith(response);
+        }
+    });
 }

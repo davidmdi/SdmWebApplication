@@ -1,15 +1,7 @@
 body{
     margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-#greeting
-{
-    display:flex;
-    flex-direction:row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    margin: 5px;
+    cursor: default;
 }
 
 .bar
@@ -52,3 +44,85 @@ body{
     background-color: #f9ed69;
     color: black;
 }
+
+.previous {
+    background-color: #471e4b;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    position:absolute;
+    bottom:20px;
+    margin-left: 40px;
+}
+
+.previous:hover{
+    background-color: #8d3a95;
+}
+
+.zone{
+    color: #8d3a95;
+    margin-left:10px;
+    margin-bottom:10px;
+    font-weight: bold;
+}
+
+/* store orders */
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+
+.col{
+    flex: 60%;
+    padding: 70px;
+    padding-top: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+th, td {
+    border-bottom: 1px solid #8d3a95;
+}
+
+td{
+    cursor:pointer;
+}
+
+tbody tr:hover  {
+    background-color:#8d3a95;
+    color:white;
+}
+
+ul{
+    list-style-type: none;
+    margin: 5px;
+    padding: 0px;
+}
+
+li {
+    background: #ddd;/*#8d3a95;*/
+    padding:10px;
+    margin: 5px;
+    text-align: center;
+    width: 100%;
+    color:white;
+}
+
+li:hover{
+    background: #8d3a95;
+
+}
+
+li:active{
+    background: #471e4b;
+}
+
+.store-active{
+    background: #8d3a95;
+}
+/* end store orders */

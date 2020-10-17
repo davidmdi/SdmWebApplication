@@ -43,6 +43,18 @@
         <servlet-name>StoreOrdersServlet</servlet-name>
         <servlet-class>webCode.servlets.storeOwnerOptions.StoreOrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ZoneNameServlet</servlet-name>
+        <servlet-class>webCode.servlets.generalServlets.ZoneNameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserNameServlet</servlet-name>
+        <servlet-class>webCode.servlets.generalServlets.UserNameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ZoneStoresListServlet</servlet-name>
+        <servlet-class>webCode.servlets.generalServlets.ZoneStoresListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -83,9 +95,19 @@
         <servlet-name>StoreOrdersServlet</servlet-name>
         <url-pattern>/storeOrdersPage</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ZoneNameServlet</servlet-name>
+        <url-pattern>/zoneName</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserNameServlet</servlet-name>
+        <url-pattern>/userName</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ZoneStoresListServlet</servlet-name>
+        <url-pattern>/zoneStoresList</url-pattern>
+    </servlet-mapping>
 </web-app>
-
-
 
 <!--<servlet-mapping>-->
 <!--<servlet-name>LoginServlet</servlet-name>-->

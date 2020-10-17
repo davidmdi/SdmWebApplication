@@ -1,9 +1,6 @@
 package logic.Logic.My_CLASS;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MySuperMarkets {
     Map<MyOwner, Set<MySuperMarket>> superMarkets;
@@ -39,4 +36,16 @@ public class MySuperMarkets {
 
         return zoneSuperMarkets;
     }
+
+    public List<MyStore> getAreaStoresList(String areaName) {
+        List<MyStore> areaStores = new ArrayList<>();
+        Set<MySuperMarket> zoneSuperMarkets = getAreaSuperMarketsSet(areaName);
+
+        for(MySuperMarket superMarket : zoneSuperMarkets){
+            areaStores.addAll(superMarket.getStores().getStoreList());
+        }
+
+        return areaStores;
+    }
+
 }
