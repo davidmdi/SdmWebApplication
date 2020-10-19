@@ -207,6 +207,73 @@ function ajaxOpenStore(){
 }
 
 function createNewOrderOnSubmit(){
+    var store = createStoreToAdd(this); //send the form
+    if(store === null){  return false; } // Exit submit function
+    else{
+         $.ajax({
+            method:'POST',
+            data: store,
+            url: ADD_NEW_STORE_URL,
+            contentType: "application/json",
+            timeout: 4000,
+            error: function(e) { alert(e); },
+            success: function(response) {
+                        alert(response);
+                        ajaxOpenStore(); //refresh open store page
+            }
+        });
+
+    }
+
+    return false;
+}
+
+function Item(myCheckBox, index){
+    this.id = myCheckBox.value;
+    this.price = document.getElementsByName("itemPrice")[index].value;
+}
+
+function Store(storeName, X, Y, PPK, itemsList){
+    this.name = storeName;
+    this.x = X;
+    this.y = Y;
+    this.ppk = PPK;
+    this.items = itemsList;
+}
+
+/*
+    Get: form.
+    Do: create json store from the form values.
+    Return: if the store valid return it, else return null.
+*/
+function createStoreToAdd(form){
+    var formItems = document.getElementsByName("item");
+    var checkBoxes = document.getElementsByName("itemCheckBox");
+    var storeItems = [];
+
+    //create items list
+    for (var i=0; i<checkBoxes.length; i++) {
+        if(checkBoxes[i].checked){
+            var item = new Item(checkBoxes[i], i);
+            if(item.price <= 0){ //check for item with out price
+                alert("Item "+item.id+" must have price.");
+                return null;
+            }else{ storeItems.push(item); }
+        }
+    }
+
+    if(storeItems.length == 0){ //check for store with out items
+        alert("Must have at least one item in store.");
+        return null;
+    }
+
+    var storeToAdd = new Store(form[0].value, form[1].value, form[2].value, form[3].value, storeItems);
+
+    return JSON.stringify(storeToAdd);
+}
+
+/*
+function createNewOrderOnSubmit(){
     var formItems = document.getElementsByName("item");
     var checkBoxes = document.getElementsByName("itemCheckBox");
     var storeItems = [];
@@ -222,19 +289,27 @@ function createNewOrderOnSubmit(){
             var item = new Item(checkBoxes[i], i);
             if(item.price <= 0){
                 alert("Item "+item.id+" must have price.");
-                return;
+                return false;
             }else{ storeItems.push(item); }
         }
     }
 
+    if(storeItems.length == 0){
+        alert("Must have at least one item in store.");
+        return false;
+    }
+
     formData.append("items", storeItems);
+
+    var storeToAdd = new Store(this[0].value, this[1].value, this[2].value, this[3].value, storeItems);
+    console.log("Store= "+storeToAdd);
 
      $.ajax({
         method:'POST',
-        data: formData, //{"storeName" : this[0].value, "items" : storeItems},
+        data: JSON.stringify(storeToAdd), //formData,
         url: ADD_NEW_STORE_URL,
-        processData: false, // Don't process the files
-        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        //processData: false, // Don't process the files
+        contentType: "application/json",//false, // Set content type to false as jQuery will tell the server its a query string request
         timeout: 4000,
         error: function(e) { alert(e); },
         success: function(response) {
@@ -246,10 +321,4 @@ function createNewOrderOnSubmit(){
     console.log("New store clicked");
     return false;
 }
-
-function Item(myCheckBox, index){
-    this.id = myCheckBox.value;
-    console.log("this.itemId= "+this.id);
-    this.price = document.getElementsByName("itemPrice")[index].value;
-    console.log("this.price= "+this.price);
-}
+*/
