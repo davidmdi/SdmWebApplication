@@ -48,4 +48,15 @@ public class MySuperMarkets {
         return areaStores;
     }
 
+    public List<MyItem> getAreaItemsList(String areaName) {
+        List<MyItem> areaItems = new ArrayList<>();
+        Set<MySuperMarket> zoneSuperMarkets = getAreaSuperMarketsSet(areaName);
+
+        for(MySuperMarket superMarket : zoneSuperMarkets){
+            areaItems.addAll(superMarket.getItems().getItemList());
+        }
+
+        return areaItems;
+    }
+
 }
