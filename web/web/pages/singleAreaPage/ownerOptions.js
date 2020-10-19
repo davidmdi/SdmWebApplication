@@ -30,7 +30,7 @@ function storeOrdersClicked(){
                 success: function(response) {
                     $("#content").replaceWith(response);
                     ajaxStoresList();
-                    setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds
+                    setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds.
                 }
             });
     return false;

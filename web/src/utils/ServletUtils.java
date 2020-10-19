@@ -20,12 +20,12 @@ public class ServletUtils {
 	private static final Object engineLock = new Object();
 	private static final Object chatManagerLock = new Object();
 
+
 	public static UserManager getUserManager(ServletContext servletContext) {
 
 		synchronized (userManagerLock) {
 			if (servletContext.getAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME) == null) {
 				servletContext.setAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
-
 			}
 		}
 		return (UserManager) servletContext.getAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME);
@@ -36,7 +36,6 @@ public class ServletUtils {
 		synchronized (engineLock) {
 			if (servletContext.getAttribute(Constants.ENGINE_ATTRIBUTE_NAME) == null) {
 				servletContext.setAttribute(Constants.ENGINE_ATTRIBUTE_NAME, new Engine());
-
 			}
 		}
 		return (Engine) servletContext.getAttribute(Constants.ENGINE_ATTRIBUTE_NAME);

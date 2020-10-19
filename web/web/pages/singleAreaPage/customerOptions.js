@@ -15,16 +15,6 @@ function changeSelectedMenuOption(selectedMenuOptionID){
 function makeOrderOnClick(){
     changeSelectedMenuOption("#makeOrder");//changes to ui options
     //$("#content").empty(); //clear old content
-
-
-    /*
-    1. present form on page.
-    2.send the parametrs to servlet.(creating ajax on submit)
-    2.1 gather all parmetrs .
-    2.2 create ajax
-    2.3 present relevnt data on success.
-
-     */
     $("#content").replaceWith(buildFormForOrder());
     $("#initDataForOrder").submit(function () {
         var parametrs = $(this).serialize();
@@ -32,31 +22,21 @@ function makeOrderOnClick(){
             $.ajax({
                 data:parametrs,
                 url: MAKE_ORDER_PAGE_URL,
-                method:'get',
-                processData: false,
-                contentType: "multipart/form-data",
-                headers: {
-                    'cache-control': 'no-store,no-cache',
-                    'test': 'blabla'
-                },
                     success: function(response) {
-                        $("#content").replaceWith(response);
+                       // $("#content").replaceWith(response);
+                        $("#content").append(response);
+                        console.log(response);
                     }
+
             });
 
         }catch (e) {
             console.log("Error invoking the ajax !" + e);
         }
+        return false;
+
     });
 
-
-
-    // $.ajax({
-    //     url: MAKE_ORDER_PAGE_URL,
-    //     success: function(response) {
-    //         $("#content").replaceWith(response);
-    //     }
-    // });
     return false;
 }
 
@@ -72,8 +52,10 @@ function showOrderHistory() {
     return false;
 }
 
+//action= "+ MAKE_ORDER_PAGE_URL + "
     function buildFormForOrder(){
-     var htmlBuilder = "<form id='initDataForOrder' action= "+MAKE_ORDER_PAGE_URL+" >" +
+     var htmlBuilder = "<div id='content'>" +
+         "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
          "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\">" + "<br><br> " +
         "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
         "<label for=\"static\">Static </label>\n" +
@@ -85,7 +67,7 @@ function showOrderHistory() {
         " <input type=\"text\" id=\"yCord\" name=\"yCord\" class=\"\" placeholder=\"y cord-> int range of 1-50\" required/>"+
         "<br><br>" +
         " <input type=\"submit\" value=\"start Shopping\" class = \"login-button\"/>"+
-        "</form>" ;
+        "</form>"  + "</div>";
 
     return htmlBuilder ;
    }

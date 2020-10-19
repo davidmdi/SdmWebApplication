@@ -58,23 +58,18 @@ public class Engine {
         return returnString;
     }
 
-    public boolean isCordValid(String xCord, String yCord, String zoneName) {
-        try {
-            int x = Integer.parseInt(xCord);
-            int y = Integer.parseInt(yCord);
-            if(x<1||x>50||y<1||y>50)
-                return false;
-            MyLocation location = new MyLocation(x,y);
-            List<MyStore> stores =  this.getMySupermarkets().getAreaStoresList(zoneName);
-            for (MyStore store:stores) {
-                MyLocation storeLocation = store.getMyLocation();
-                if(storeLocation.compare(location))
+    public synchronized boolean isCoordinateAreValid(int xCord, int yCord, String zoneName) {
+        if(xCord<1 || xCord > 50 || yCord<1 || yCord>50) // out of range
+            return false;
+        else{
+            List<MyStore> stores = this.mySupermarkets.getAreaStoresList(zoneName);
+            for (MyStore store : stores){ // hit's a store.
+                if(store.getMyLocation().getSdmLocation().getX() == xCord ||
+                store.getMyLocation().getSdmLocation().getY() == yCord)
                     return false;
             }
-        }catch (Exception e){
-            return false;
         }
-        return true;
+        return true ;
     }
 
 
