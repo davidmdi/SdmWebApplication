@@ -14,7 +14,7 @@ public class StoreOrdersServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
 
-            out.println("<div id='content'>");
+            out.println("<div id='content' class='content'>");
             out.println("<div class=\"row\">");
             out.println("<div>");
             out.println("<h3>Stores you own</h3><p>Choose store:</p>");
@@ -38,7 +38,7 @@ public class StoreOrdersServlet extends HttpServlet {
             out.println("</table>");
             out.println("</div>");
             //orderItems:
-            out.println("<div id=\"orderItems\">");
+            out.println("<div id=\"orderItems\" orderID='' style=\"display:none;\">");
             out.println("<h3>Order Items</h3><p>items purchase from selected store<p>");
             out.println("<table id=\"orderItemsTable\">");
             out.println("<thead>");
@@ -49,6 +49,9 @@ public class StoreOrdersServlet extends HttpServlet {
             out.println("</thead>");
             out.println("<tbody></tbody>");
             out.println("</table>");
+            out.println("<form id=\"storeOrderItems\" method=\"POST\" action=\"\">");
+            out.println("<input id=\"selected_order\" type='hidden' name=\"selectedOrder\"/>");
+            out.println("</form>");
             out.println("</div>");
             out.println("</div>");//end 'col'
             out.println("</div>");//end 'row'

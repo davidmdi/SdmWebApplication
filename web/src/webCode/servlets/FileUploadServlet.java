@@ -40,7 +40,6 @@ public class FileUploadServlet extends HttpServlet {
         //out.println("<html><head></head><body><div>");
         out.println(msg);
         //out.println("</div></body></html>");
-
     }
 
 

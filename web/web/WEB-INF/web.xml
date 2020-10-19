@@ -59,8 +59,14 @@
         <servlet-name>makeOrderPage</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.MakeOrderServlet</servlet-class>
     </servlet>
-
-
+    <servlet>
+        <servlet-name>OpenNewStoreServlet</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.OpenNewStoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNewStoreServlet</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.AddNewStoreServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -112,6 +118,14 @@
     <servlet-mapping>
         <servlet-name>ZoneStoresListServlet</servlet-name>
         <url-pattern>/zoneStoresList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OpenNewStoreServlet</servlet-name>
+        <url-pattern>/newStorePage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewStoreServlet</servlet-name>
+        <url-pattern>/addNewStore</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>makeOrderPage</servlet-name>

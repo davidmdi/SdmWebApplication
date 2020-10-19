@@ -6,6 +6,9 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 public class MyItem {
+    public static String QUANTITY = "quantity";
+    public static String WEIGHT = "Weight";
+
     private SDMItem sdmItem;
     private int itemId;
     private String name;
