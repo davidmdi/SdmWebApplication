@@ -20,6 +20,17 @@ public class MyStoreItems {
         this.itemsMap = builedItemsMap();
     }
 
+    public MyStoreItems() {
+        this.itemsList = new ArrayList<>();
+        this.itemsMap = new HashMap<>();
+    }
+
+    public void addStoreItem(MyStoreItem item){
+        this.itemsList.add(item);
+        this.itemsMap.put(item.getMyItem().getItemId(), item);
+    }
+
+
     // only after creating the list.
     private Map<Integer, MyStoreItem> builedItemsMap() {
         Map<Integer, MyStoreItem> map = new HashMap<>();

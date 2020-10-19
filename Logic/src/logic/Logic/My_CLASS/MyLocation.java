@@ -6,7 +6,7 @@ import SDM_CLASS.Location;
 public class MyLocation {
     private Location sdmLocation;
     private int X ;
-    private  int Y;
+    private int Y;
 
     public MyLocation(Location sdmLocation) {
         this.sdmLocation = sdmLocation;
@@ -19,6 +19,14 @@ public class MyLocation {
         this.Y = y;
     }
 
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
+    }
+
     public Location getSdmLocation() {
         return sdmLocation;
     }
@@ -29,8 +37,8 @@ public class MyLocation {
 
     @Override
     public String toString() {
-        return  "(x=" + this.getSdmLocation().getX() +
-                ",y=" + this.getSdmLocation().getY() + ")";
+        return  "(x=" + this.getX() +
+                ",y=" + this.getY() + ")";
 
     }
 

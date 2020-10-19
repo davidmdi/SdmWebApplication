@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 
 public class Engine {
 
@@ -70,6 +71,22 @@ public class Engine {
             }
         }
         return true ;
+    }
+
+    public synchronized boolean isStoreLocationValid(int x, int y){
+        return((isThereACustomerInTheLocation(x,y) == false) &&
+                (this.mySupermarkets.isThereAStoreInTheLocation(x, y) == false));
+    }
+
+    private synchronized boolean isThereACustomerInTheLocation(int x, int y){
+        boolean res = false;
+
+        for(MyCustomer customer : myUsers.getCustomerSet()){
+            if((customer.getLocation().getX() == x) && (customer.getLocation().getY() == y))
+                res = true;
+        }
+
+        return res;
     }
 
 

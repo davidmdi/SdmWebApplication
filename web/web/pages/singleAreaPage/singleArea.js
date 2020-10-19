@@ -87,17 +87,16 @@ function refreshStoresTable(stores) {
                         "</tr>";
 
     $(tableHeaders).appendTo($("#storesTable"));
-
     $.each(stores || [], function(index, store) {
         var itemInfo = "<tr name='item'>" +
-                            "<td>"+store.sdmStore.id+"</td>" +
-                            "<td>"+store.sdmStore.name+"</td>" +
+                            "<td>"+store.id+"</td>" +
+                            "<td>"+store.name+"</td>" +
                             "<td>"+store.ownerName+"</td>" +
                             "<td>("+store.myLocation.X+","+store.myLocation.Y+")</td>" +
                             "<td>"+createStoreItemsTable(store.storeItems.itemsList)+"</td>" +
                             "<td>"+store.storeSingleOrderItemsList.length+"</td>" +
                             "<td>**Need to change the code**</td>" +            //Need to add parameter to MyStore
-                            "<td>"+store.sdmStore.deliveryPpk+"</td>" +
+                            "<td>"+store.PPK+"</td>" +
                             "<td>**Need to change the code**</td>" +            //Need to add parameter to MyStore
                         "</tr>";
         $(itemInfo).appendTo($("#storesTable"));

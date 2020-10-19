@@ -7,7 +7,7 @@ import javafx.scene.control.SpinnerValueFactory;
 
 public class MyItem {
     public static String QUANTITY = "quantity";
-    public static String WEIGHT = "Weight";
+    public static String WEIGHT = "weight";
 
     private SDMItem sdmItem;
     private int itemId;
@@ -20,6 +20,12 @@ public class MyItem {
     private String howManyTimesItemSoldString = "0.0";
 
     //private Spinner<Double> spinner;
+
+    public MyItem(int id, String name, String purchaseCategory) {
+        this.itemId = id;
+        this.name = name;
+        this.purchaseCategory = purchaseCategory;
+    }
 
     public MyItem(SDMItem sdmItem) {
         this.sdmItem = sdmItem;
@@ -119,5 +125,24 @@ public class MyItem {
     public String toString() {
         return String.valueOf(this.itemId)
                 + " :" + this.getName();
+    }
+
+
+    public class ItemJson{
+        public int id;
+        public int price;
+
+        public ItemJson(int id, int price){
+            this.id = id;
+            this.price = price;
+        }
+
+        @Override
+        public String toString() {
+            return "Item{" +
+                    "id=" + id +
+                    ", price=" + price +
+                    '}';
+        }
     }
 }
