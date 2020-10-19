@@ -26,7 +26,7 @@ public class AccountServlet extends HttpServlet {
             List<AccountAction> userAccountActions = user.getAccount().getActionList();
 
             String json = gson.toJson(userAccountActions);
-            System.out.println(json);
+
 
             out.println(json);
             out.flush();

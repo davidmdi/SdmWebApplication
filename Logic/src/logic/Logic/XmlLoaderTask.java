@@ -56,7 +56,7 @@ public class XmlLoaderTask  {
         String tempZoneName = temp.getSDMZone().getName();
         for(Set<MySuperMarket> superMarketSet : mySupermarkets.getSuperMarkets().values()){
             for(MySuperMarket superMarket : superMarketSet ){
-                if(tempZoneName.equals(superMarket.getZoneName()))
+                if(tempZoneName.equalsIgnoreCase(superMarket.getZoneName()))
                     return false;
             }
         }

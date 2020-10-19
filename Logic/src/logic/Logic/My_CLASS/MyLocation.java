@@ -14,6 +14,11 @@ public class MyLocation {
         this.Y = sdmLocation.getY();
     }
 
+    public MyLocation(int x, int y) {
+        this.X = x ;
+        this.Y = y;
+    }
+
     public Location getSdmLocation() {
         return sdmLocation;
     }
@@ -27,5 +32,11 @@ public class MyLocation {
         return  "(x=" + this.getSdmLocation().getX() +
                 ",y=" + this.getSdmLocation().getY() + ")";
 
+    }
+
+    public boolean compare(MyLocation location) {
+        if(this.X == location.getSdmLocation().getX() && this.Y == location.sdmLocation.getY())
+            return true;
+        return false;
     }
 }

@@ -3,15 +3,13 @@ package logic.Logic;
 
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.beans.property.SimpleBooleanProperty;
-import logic.Logic.My_CLASS.MyOwner;
-import logic.Logic.My_CLASS.MySuperMarket;
-import logic.Logic.My_CLASS.MySuperMarkets;
-import logic.Logic.My_CLASS.MyUsers;
+import logic.Logic.My_CLASS.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
+import java.util.List;
 
 public class Engine {
 
@@ -33,25 +31,7 @@ public class Engine {
         this.myUsers = new MyUsers();
         this.mySupermarkets = new MySuperMarkets() ;
         this.validationForBuild = new SimpleBooleanProperty(false);
-
     }
-
-//    public synchronized String loadFileFromOwner(String ownerName, InputStream inputStream) {
-//        try {
-//            JAXBContext jc = JAXBContext.newInstance("SDM_CLASS");
-//            Unmarshaller u = jc.createUnmarshaller();
-//            SuperDuperMarketDescriptor sdmJAXB = (SuperDuperMarketDescriptor) u.unmarshal(inputStream);
-//            String msg = buildSuperMarket(sdmJAXB);
-//            if(validationForBuild)
-//                createSDMSuperMarket(ownerName , inputStream );
-//
-//        }catch (JAXBException e){e.printStackTrace();}
-//
-//
-//        return new String();
-//    }
-
-
 
     public synchronized String createSDMSuperMarket(String ownerName, InputStream inputStream) {
         String returnString = "";
@@ -78,7 +58,19 @@ public class Engine {
         return returnString;
     }
 
-
+    public synchronized boolean isCoordinateAreValid(int xCord, int yCord, String zoneName) {
+        if(xCord<1 || xCord > 50 || yCord<1 || yCord>50) // out of range
+            return false;
+        else{
+            List<MyStore> stores = this.mySupermarkets.getAreaStoresList(zoneName);
+            for (MyStore store : stores){ // hit's a store.
+                if(store.getMyLocation().getSdmLocation().getX() == xCord ||
+                store.getMyLocation().getSdmLocation().getY() == yCord)
+                    return false;
+            }
+        }
+        return true ;
+    }
 
 
 //

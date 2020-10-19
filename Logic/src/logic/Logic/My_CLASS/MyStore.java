@@ -81,6 +81,18 @@ public class MyStore {
         return this.sdmStore.getId();
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public double getTotalOrdersCost() {
+        return totalOrdersCost;
+    }
+
+    public double getTotalDeliveryCosts() {
+        return totalDeliveryCosts;
+    }
+
     @Override
     public String toString() {
         return "Store id: " + getId() +
