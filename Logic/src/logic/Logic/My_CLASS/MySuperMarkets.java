@@ -59,4 +59,73 @@ public class MySuperMarkets {
         return areaItems;
     }
 
+    public synchronized boolean isThereAStoreInTheLocation(int x, int y){
+        boolean res = false;
+
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if((store.getMyLocation().getX() == x) && (store.getMyLocation().getY() == y))
+                        res = true;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public void createNewStore(MyStore.StoreJson store, String zoneName, String ownerName) {
+        int storeId = generateStoreId();
+        List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
+        MyStore storeToAdd = new MyStore(storeId, store, storeItemsToAdd, ownerName);
+        //add store to zone:
+        MySuperMarket superMarket = getSuperMarketByOwnerAndZone(ownerName, zoneName);
+        superMarket.getStores().addStore(storeToAdd);
+    }
+
+    private MySuperMarket getSuperMarketByOwnerAndZone(String ownerName, String zoneName) {
+        MyOwner zoneOwner = null;
+
+        for(MyOwner owner : this.superMarkets.keySet()){
+            if(owner.getUserName().equalsIgnoreCase(ownerName))
+                zoneOwner = owner;
+        }
+
+        for(MySuperMarket superMarket : this.superMarkets.get(zoneOwner)){
+            if(superMarket.getZoneName().equalsIgnoreCase(zoneName))
+                return superMarket;
+        }
+
+        return null;
+    }
+
+    public List<MyItem> createStoreItemsToAddList(MyStore.StoreJson store, String zoneName){
+        List<MyItem> zoneItems = getAreaItemsList(zoneName);
+        List<MyItem> storeItems = new ArrayList<>();
+
+        for(MyItem.ItemJson itemJson : store.items){
+            for(MyItem zoneItem : zoneItems){
+                if(itemJson.id == zoneItem.getItemId())
+                    storeItems.add(zoneItem);
+            }
+        }
+
+        return storeItems;
+    }
+
+    /* find max id and return (maxId+1) */
+    private int generateStoreId() {
+        int maxStoreId = 0;
+
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if(store.getId() > maxStoreId)
+                        maxStoreId = store.getId();
+                }
+            }
+        }
+
+        return (++maxStoreId);
+    }
 }

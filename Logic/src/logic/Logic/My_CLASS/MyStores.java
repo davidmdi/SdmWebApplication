@@ -15,14 +15,16 @@ public class MyStores {
     private Map<Integer, MyStore> storeMap;
 
 
-
-
     public MyStores(SDMStores sdmStores, MyItems items, String ownerName) {
         this.sdmStores = sdmStores;
         this.storeList = buildStoreList(items , ownerName);
         this.storeMap = buildStoreMap();
     }
 
+    public void addStore(MyStore storeToAdd){
+        this.storeList.add(storeToAdd);
+        this.storeMap.put(storeToAdd.getId(), storeToAdd);
+    }
 
     // must creat MyStore List (buildStoreList() function ) before
     private Map<Integer, MyStore> buildStoreMap() {

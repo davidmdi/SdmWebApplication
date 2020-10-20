@@ -47,7 +47,8 @@ public class OpenNewStoreServlet extends HttpServlet {
         out.println("<div class=\"row\">");
         out.println("<div class=\"col-25\"><label for=\"ppk\">PPK</label></div>");
         out.println("<div class=\"col-75\">");
-        out.println("<input type=\"number\" class=\"text-price\" id=\"ppk\" name=\"ppk\" placeholder=\"PPK..\" required step=\"0.01\" inputmode=\"decimal\">");
+        //out.println("<input type=\"number\" class=\"text-price\" id=\"ppk\" name=\"ppk\" placeholder=\"PPK..\" required step=\"0.01\" inputmode=\"decimal\">");
+        out.println("<input type=\"number\" class=\"text-price\" id=\"ppk\" name=\"ppk\" placeholder=\"PPK..\" required>");
         out.println("</div>");
         out.println("</div>");
         out.println("<div class=\"row\"><h2>Store items</h2></div>");
@@ -64,11 +65,16 @@ public class OpenNewStoreServlet extends HttpServlet {
             out.println("<label for="+item.getItemId()+">"+item.getName()+"</label>");
             out.println("<label for="+item.getItemId()+">"+item.getPurchaseCategory()+"</label>");
             out.println("<label for="+item.getItemId()+"> Price:</label>");
-            if(item.getPurchaseCategory().equalsIgnoreCase(MyItem.QUANTITY)){
+            //if(item.getPurchaseCategory().equalsIgnoreCase(MyItem.QUANTITY)){
                 out.println("<input type=\"number\" class=\"text-price\" id=\"itemPrice\" name=\"itemPrice\" placeholder=\"0\" min=\"0\" value=\"0\">");
+
+            /*
+            // price is int. Not relevant:
             }else{ // = MyItem.WEIGHT
                 out.println("<input type=\"number\" class=\"text-price\" id=\"itemPrice\" name=\"itemPrice\" placeholder=\"0.0\" inputmode=\"decimal\" min=\"0.0\" step=\"0.01\"  value=\"0.0\">");
             }
+
+             */
 
             out.println("</div></div>");
         }
