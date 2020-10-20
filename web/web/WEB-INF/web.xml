@@ -67,6 +67,10 @@
         <servlet-name>AddNewStoreServlet</servlet-name>
         <servlet-class>webCode.servlets.storeOwnerOptions.AddNewStoreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>presentSelectedStoreItems</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.getSelectedStoreItemsForStaticOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -130,6 +134,10 @@
     <servlet-mapping>
         <servlet-name>makeOrderPage</servlet-name>
         <url-pattern>/makeOrderPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>presentSelectedStoreItems</servlet-name>
+        <url-pattern>/showSelctedStoreItems</url-pattern>
     </servlet-mapping>
 
 

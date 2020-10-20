@@ -60,16 +60,12 @@ public class Engine {
     }
 
     public synchronized boolean isCoordinateAreValid(int xCord, int yCord, String zoneName) {
-        if(xCord<1 || xCord > 50 || yCord<1 || yCord>50) // out of range
-            return false;
-        else{
             List<MyStore> stores = this.mySupermarkets.getAreaStoresList(zoneName);
             for (MyStore store : stores){ // hit's a store.
                 if(store.getMyLocation().getSdmLocation().getX() == xCord ||
                 store.getMyLocation().getSdmLocation().getY() == yCord)
                     return false;
             }
-        }
         return true ;
     }
 

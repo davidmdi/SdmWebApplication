@@ -1,6 +1,7 @@
 package webCode.servlets.customerOptions;
 
 import logic.Logic.Engine;
+import logic.Logic.My_CLASS.MyStore;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -10,61 +11,53 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import java.util.List;
 
 
 public class MakeOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException , IOException {
-        PrintWriter out = resp.getWriter();
-        try  {
-            //resp.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException {
 
+        try (PrintWriter out = resp.getWriter()) {
+            //resp.setContentType("text/html;charset=UTF-8");
             Engine engine = ServletUtils.getEngine(getServletContext());
             //saving the query parameters as strings // need to save it on the session?
             String dateAsString = req.getParameter("dateFromUser");
             String orderType = req.getParameter("typeofOrder");
             int xCord = Integer.parseInt(req.getParameter("xCord"));
-            int yCord = Integer.parseInt(req.getParameter("yCord")) ;
+            int yCord = Integer.parseInt(req.getParameter("yCord"));
             // getting the zone from session.
             String zoneName = SessionUtils.getAreaName(req);
-            if(engine.isCoordinateAreValid(xCord,yCord,zoneName)){
-                if(orderType.equalsIgnoreCase("static")){
-                    // return comboBox of store selection should be type of form witch
-                    // send it to other servlet :
-                    // if so need to save the query parameters on the session?
-                    // create a Jason of chosen store items.
+            if (!engine.isCoordinateAreValid(xCord, yCord, zoneName)) {
+                out.println("<h6 id=\"errMsg\" style=\"color:red;\">error:hitting store location</h6>");
+            } else {
+                if (orderType.equalsIgnoreCase("static")) {
+                    //create with store list/
+                    out.println(createFormOfStoreLise(engine,zoneName));
 
-                }
-                else{
-                    // return Items Json
+                } else {
+                    //create supers Item List.
                 }
             }
-            else{
-                out.println("illegal coordinates:cord out of range/duplicate with store" +
-                        " , please type integer in rang of 1-50");
-            }
-
-
-            /*
-            * check coords .
-            * create json.
-            * return form->for static dynamic
-            *
-             */
-            out.flush();
-        }catch (NumberFormatException e){
-            out.println("illegal coordinates , please type integer in rang of 1-50");
-            // need write it in html format.
         }
     }
 
-    private Date convertStringDate(String dateAsString) throws ParseException {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
-           return date;
+    private String createFormOfStoreLise(Engine engine, String zoneName) {
+
+        String htmlBuilder = "<div id=\"storeId\">" +
+         "<label for=\"store\">Choose a store:</label>" +
+         "<form id=\"storeSelectForm\" action=\"presentSelectedStoreItems\" method=\"GET\"> "+
+         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\" createAjaxForChosenStore()\">" +
+         "<option  value=\"" + "select store"+ "\">"  + "</option>" ;
+
+        List<MyStore> stores = engine.getMySupermarkets().getAreaStoresList(zoneName);
+        for (MyStore store : stores){
+            htmlBuilder+="<option value=\"" + store.getName()+ "\">" + store.getName() + "</option>" ;
+        }
+        
+        htmlBuilder += "</select></form></div>";
+
+        return htmlBuilder;
     }
 }
