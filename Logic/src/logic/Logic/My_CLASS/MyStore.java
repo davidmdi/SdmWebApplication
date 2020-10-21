@@ -1,16 +1,13 @@
 package logic.Logic.My_CLASS;
 
 
-import SDM_CLASS.*;
+import SDM_CLASS.SDMDiscount;
+import SDM_CLASS.SDMOffer;
+import SDM_CLASS.SDMStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MyStore {
     private SDMStore sdmStore;
@@ -52,23 +49,22 @@ public class MyStore {
         this.storeOrderMap = new HashMap<>();
 
         this.storeItems = new MyStoreItems();
-        createStoreItems(store.items, storeItemsToAdd);
-
+        //createStoreItems(store.items, storeItemsToAdd);
         this.myLocation = new MyLocation(store.x, store.y);
         this.storeSingleOrderItemsList = new ArrayList<>();
 
     }
 
-    private void createStoreItems(List<MyItem.ItemJson> itemsJson, List<MyItem> storeItemsToAdd){
-        MyStoreItem newStoreItem;
-        int index = 0;
-
-        for(MyItem item : storeItemsToAdd){
-            // MyStoreItem.itemKind == "store" ???
-            newStoreItem = new MyStoreItem(item, itemsJson.get(index++).price, this.id, "store");
-            this.storeItems.addStoreItem(newStoreItem);
-        }
-    }
+//    private void createStoreItems(List<MyItem.ItemJson> itemsJson, List<MyItem> storeItemsToAdd){
+//        MyStoreItem newStoreItem;
+//        int index = 0;
+//
+//        for(MyItem item : storeItemsToAdd){
+//            // MyStoreItem.itemKind == "store" ???
+//            newStoreItem = new MyStoreItem(item, itemsJson.get(index++).price, this.id, "store");
+//            this.storeItems.addStoreItem(newStoreItem);
+//        }
+//    }
 
     public SDMStore getSdmStore() {
         return sdmStore;
@@ -220,8 +216,59 @@ public class MyStore {
         itemToUpdate.setPrice(newPrice);
     }
 
+    public synchronized List<MyStoreItem.StoreItemJson> getJsonItemList() {
+        List<MyStoreItem.StoreItemJson> returnList = new ArrayList<>();
+
+        for(MyStoreItem storeItem : this.storeItems.getItemsList()){
+            MyItem.ItemJson itemJson = new MyItem.ItemJson(storeItem.getStoreId(),storeItem.getName(),
+                    storeItem.getMyItem().getPurchaseCategory());
+            returnList.add(new MyStoreItem.StoreItemJson(this.id,itemJson));
+        }
+        return  returnList;
+
+    }
+
+    public StoreJson getStoreJson() {
+        List<MyStoreItem.StoreItemJson> storeItemsJson = new LinkedList<>();
+        for(MyStoreItem storeItem : this.storeItems.getItemsList()){
+            storeItemsJson.add(new MyStoreItem.StoreItemJson(this.id,
+                    new MyItem.ItemJson(storeItem.getMyItem().getItemId() ,
+                            storeItem.getName() , storeItem.getMyItem().getPurchaseCategory())));
+        }
+        return new StoreJson(this.name, this.myLocation.getX(), this.myLocation.getY(), this.PPK, storeItemsJson);
+    }
+
 
     public class StoreJson{
+        public String name;
+        public int x;
+        public int y;
+        public int ppk;
+        public List<MyStoreItem.StoreItemJson> storeItems;
+
+        public StoreJson(String name, int x, int y, int ppk, List<MyStoreItem.StoreItemJson> storeItems){
+            this.name = name;
+            this.x = x;
+            this.y = y;
+            this.ppk = ppk;
+            this.storeItems = storeItems;
+        }
+
+        @Override
+        public String toString() {
+            return "Store{" +
+                    "name='" + name + '\'' +
+                    ", x=" + x +
+                    ", y=" + y +
+                    ", ppk=" + ppk +
+                    ", items=" + storeItems +
+                    '}';
+        }
+    }
+}
+
+/*
+public class StoreJson{
         public String name;
         public int x;
         public int y;
@@ -247,4 +294,4 @@ public class MyStore {
                     '}';
         }
     }
-}
+ */

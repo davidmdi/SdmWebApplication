@@ -75,4 +75,12 @@ public class MyStores {
             list.add("store id: "+store.getId() + ", store name: " + store.getName() + ", location: " + store.getMyLocation());
         return list;
     }
+
+    public MyStore getSelectedStore(String storeName){
+        for(MyStore store : this.storeList){
+            if(store.getName().equalsIgnoreCase(storeName))
+                return store;
+        }
+        return null;
+    }
 }

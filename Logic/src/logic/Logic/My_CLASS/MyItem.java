@@ -128,21 +128,25 @@ public class MyItem {
     }
 
 
-    public class ItemJson{
+    public static class ItemJson {
         public int id;
-        public int price;
+        public String name = "";
+        public String purchaseMethod;
 
-        public ItemJson(int id, int price){
+
+        public ItemJson(int id,String name, String purchaseMethod) {
             this.id = id;
-            this.price = price;
+            this.name = name;
+            this.purchaseMethod = purchaseMethod;
         }
 
         @Override
         public String toString() {
-            return "Item{" +
+            return "ItemJson{" +
                     "id=" + id +
-                    ", price=" + price +
+                    ", name='" + name + '\'' +
                     '}';
         }
+
     }
 }

@@ -2,8 +2,6 @@ package webCode.servlets.storeOwnerOptions;
 
 import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MyItem;
-import logic.Logic.My_CLASS.MyItems;
-import logic.Logic.My_CLASS.MyStore;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -137,6 +135,7 @@ public class OpenNewStoreServlet extends HttpServlet {
                         <input type="number" class="text-price" id="lname" name="lastname" placeholder="PPK.." required step="0.01" inputmode="decimal">
                     </div>
                 </div>
+
                 <div class="row">
                     Store items:
                 </div>
@@ -154,6 +153,8 @@ public class OpenNewStoreServlet extends HttpServlet {
                         <input type="number" class="text-price" id="lname" name="lastname" placeholder="0" min="0" value="0"> -->
                     </div>
                 </div>
+
+
                 <div class="row">
                     <input type="submit" value="New store">
                 </div>

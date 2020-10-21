@@ -37,6 +37,20 @@ public class MySuperMarkets {
         return zoneSuperMarkets;
     }
 
+    public MySuperMarket getAreaSuperMarketByName(String areaName){
+        MySuperMarket zoneSuperMarket =null ;
+
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                if(superMarket.getZoneName().equalsIgnoreCase(areaName))
+                    zoneSuperMarket = (superMarket);
+            }
+        }
+
+        return zoneSuperMarket;
+    }
+
+
     public List<MyStore> getAreaStoresList(String areaName) {
         List<MyStore> areaStores = new ArrayList<>();
         Set<MySuperMarket> zoneSuperMarkets = getAreaSuperMarketsSet(areaName);
@@ -74,14 +88,14 @@ public class MySuperMarkets {
         return res;
     }
 
-    public void createNewStore(MyStore.StoreJson store, String zoneName, String ownerName) {
-        int storeId = generateStoreId();
-        List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
-        MyStore storeToAdd = new MyStore(storeId, store, storeItemsToAdd, ownerName);
-        //add store to zone:
-        MySuperMarket superMarket = getSuperMarketByOwnerAndZone(ownerName, zoneName);
-        superMarket.getStores().addStore(storeToAdd);
-    }
+//    public void createNewStore(MyStore.StoreJson store, String zoneName, String ownerName) {
+//        int storeId = generateStoreId();
+//        List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
+//        MyStore storeToAdd = new MyStore(storeId, store, storeItemsToAdd, ownerName);
+//        //add store to zone:
+//        MySuperMarket superMarket = getSuperMarketByOwnerAndZone(ownerName, zoneName);
+//        superMarket.getStores().addStore(storeToAdd);
+//    }
 
     private MySuperMarket getSuperMarketByOwnerAndZone(String ownerName, String zoneName) {
         MyOwner zoneOwner = null;
@@ -99,19 +113,19 @@ public class MySuperMarkets {
         return null;
     }
 
-    public List<MyItem> createStoreItemsToAddList(MyStore.StoreJson store, String zoneName){
-        List<MyItem> zoneItems = getAreaItemsList(zoneName);
-        List<MyItem> storeItems = new ArrayList<>();
-
-        for(MyItem.ItemJson itemJson : store.items){
-            for(MyItem zoneItem : zoneItems){
-                if(itemJson.id == zoneItem.getItemId())
-                    storeItems.add(zoneItem);
-            }
-        }
-
-        return storeItems;
-    }
+//    public List<MyItem> createStoreItemsToAddList(MyStore.StoreJson store, String zoneName){
+//        List<MyItem> zoneItems = getAreaItemsList(zoneName);
+//        List<MyItem> storeItems = new ArrayList<>();
+//
+//        for(MyItem.ItemJson itemJson : store.items){
+//            for(MyItem zoneItem : zoneItems){
+//                if(itemJson.id == zoneItem.getItemId())
+//                    storeItems.add(zoneItem);
+//            }
+//        }
+//
+//        return storeItems;
+//    }
 
     /* find max id and return (maxId+1) */
     private int generateStoreId() {

@@ -34,7 +34,7 @@ public class AddNewStoreServlet extends HttpServlet {
         if(engine.isStoreLocationValid(store.x, store.y) == false)
             msg = "Location not valid";
         else{ //create store
-            engine.getMySupermarkets().createNewStore(store, zoneName, ownerName);
+            //engine.getMySupermarkets().createNewStore(store, zoneName, ownerName);
             msg = "Store '"+store.name+"' added successfully.";
         }
 

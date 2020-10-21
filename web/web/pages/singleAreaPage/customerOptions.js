@@ -3,6 +3,8 @@ var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var MAKE_ORDER_PAGE_URL = buildUrlWithContextPath("makeOrderPage");
 var SHOW_ORDER_HISTORY_PAGE_URL = buildUrlWithContextPath("showCustomersOrderHistoryPage");
 var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems");
+var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
+var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
 var parametrs;
 // var formData = new FormData();
 
@@ -16,41 +18,64 @@ function changeSelectedMenuOption(selectedMenuOptionID){
 }
 
 function makeOrderOnClick(){
+
     changeSelectedMenuOption("#makeOrder");//changes to ui options
     //$("#content").empty(); //clear old content
     $("#content").replaceWith(buildFormForOrder());
     $("#initDataForOrder").submit(function () {
-        parametrs = $("form").serialize();
-        // formData.append('dateFromUser',$("#dateFromUser").val());
-        // formData.append('typeofOrder',$("#typeofOrder").val());
-        // formData.append('xCord',$("#xCord").val());
-        // formData.append('yCord',$("#yCord").val());
-        try{
-            $.ajax({
-               data:parametrs,
-               //  data:formData,
-               //  processData: false,
-                url: MAKE_ORDER_PAGE_URL,
-                    success: function(response) {
-                       // $("#content").replaceWith(response);
-                        $("h6").hide()
-                        $("#content").append(response);
-                        //$(id).submit(function y{creating ajax  param.append(name, value) });
-                        $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
-                        $("#storeSelectForm").submit(createAjaxForChosenStore);
-                        return false;
-                    }
-
-            });
-
-        }catch (e) {
-            console.log("Error invoking the ajax !" + e);
-        }
+            parametrs = $("form").serialize();
+            try{
+                if(document.querySelector('input[name="typeofOrder"]:checked').value == dynamic)
+                    showZoneItemsList(parametrs);
+                else
+                    showZoneStoresComboBox(parametrs);
+            }catch (e) {
+                console.log("Error invoking the ajax !" + e);
+            }
         return false;
-
     });
 
     return false;
+}
+
+function showZoneStoresComboBox(parametrs){
+    $.ajax({
+        data:parametrs,
+        //  data:formData,
+        //  processData: false,
+        url: MAKE_ORDER_PAGE_URL,
+        success: function(response) {
+            // $("#content").replaceWith(response);
+            $("h6").hide()
+            $("#content").append(response); // returns comboBox of zone's stores
+
+            //$(id).submit(function y{creating ajax  param.append(name, value) });
+            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); //replace form 'action' attribute
+            $("#storeSelectForm").submit(showStoreDiscountsOffers); //override 'submit' function
+            return false;
+        }
+
+    });
+}
+
+
+function showZoneItemsList(parametrs){
+    $.ajax({
+        data:parametrs,
+        //  data:formData,
+        //  processData: false,
+        url: MAKE_ORDER_PAGE_URL,
+        success: function(response) {
+            // $("#content").replaceWith(response);
+            $("h6").hide()
+            $("#content").append(response);
+            //$(id).submit(function y{creating ajax  param.append(name, value) });
+            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
+            $("#storeSelectForm").submit(showSelectedStoreInfo);
+            return false;
+        }
+
+    });
 }
 
 function showOrderHistory() {
@@ -62,20 +87,14 @@ function showOrderHistory() {
         url: SHOW_ORDER_HISTORY_PAGE_URL,
         success: function (response) {
             $("#content").replaceWith(response)}
-            //jqury -> push the wanted data...
+
 
     });
 }
 
-function createAjaxForChosenStore() {
+/* called after store was selected (static order) */
+function showSelectedStoreInfo() {
 
-    //var selectedStore = document.getElementById("store").value;
-    //parametrs += ('&store='+selectedStore);
-    //console.log("parameters= "+parametrs);
-    //parametrs.store = selectedStore;
-    //myData.append("store" , selectedStore);
-
-   // parametrs = $(this).serialize(); ->my try...
     var selectedStoreSerialized = $("form").serialize();
 
     $.ajax({
@@ -83,13 +102,31 @@ function createAjaxForChosenStore() {
         url: PRESENT_SELECTE_SROTE_ITEMS,
         error: function(e) { alert(e); console.log("in error" + e);},
 
-        success: function (response) {
+        success: function (response) { // return form of store items selection.
             $("#content").replaceWith(response);
+            $("#createStaticOrder").attr('action' , STATIC_ORDER)
+            $("#createStaticOrder").submit(showStoreDiscountsOffers);
+
             console.log("in success " + response);
         }
 
+    });
+    return false;
+}
 
-
+function showStoreDiscountsOffers(){
+    var selecetedItemsForStaticOrder = createStaticOrderItemList();
+    $.ajax({
+        method:'POST',
+        data: selecetedItemsForStaticOrder,
+        url: STATIC_ORDER,
+        contentType: "application/json",
+        timeout: 4000,
+        error: function(e) { alert(e); },
+        success: function(response) {
+           $("#content").append(response);
+           //on submit function...
+        }
 
     });
     return false;
@@ -114,4 +151,42 @@ function createAjaxForChosenStore() {
 
     return htmlBuilder ;
    }
+
+function createStaticOrderItemList(){ // whithout discounts.
+    var formItems = document.getElementsByName("item");
+    var checkBoxes = document.getElementsByName("itemCheckBox");
+    var selectedItems = [];
+
+    //create items list
+    for (var i=0; i<checkBoxes.length; i++) {
+        if(checkBoxes[i].checked){
+            var item = new Item(checkBoxes[i], i);
+            if(item.quantity <= 0){ //check for item with out price
+                alert("Item "+item.id+" must have amount.");
+                return null;
+            }else{ selectedItems.push(item); }
+        }
+
+    }
+
+    if(selectedItems.length == 0){ //check for store with out items
+        alert("Must have at least one item in order.");
+        return null;
+    }
+    var itemsListSelected = new storeSelectioItems(document.getElementById('storeNameLabel').textContent
+        ,selectedItems); // (name of store , selecedItemsArray from user)
+    console.log(itemsListSelected);
+
+    return JSON.stringify(itemsListSelected);
+}
+
+function Item(myCheckBox, index){
+    this.itemId = myCheckBox.value;
+    this.quantity = document.getElementsByName("itemAmount")[index].value;
+}
+
+function storeSelectioItems(storeName,selecetdItems){
+    this.storeName = storeName;
+    this.selectedItemsList = selecetdItems;
+}
 

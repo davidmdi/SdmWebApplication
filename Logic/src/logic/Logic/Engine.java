@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Set;
 
 public class Engine {
 
@@ -83,6 +82,20 @@ public class Engine {
         }
 
         return res;
+    }
+
+    public synchronized List<MyStoreItem.StoreItemJson> getStoreItemsJson(String zoneName, String selectedStore) {
+        MySuperMarket superMarket = this.getMySupermarkets().getAreaSuperMarketByName(zoneName);
+        MyStore store = superMarket.getStores().getSelectedStore(selectedStore);
+        List<MyStoreItem.StoreItemJson> jsonList = store.getJsonItemList();
+        return jsonList;
+
+    }
+
+    public MyStore.StoreJson getStoreJson(String zoneName, String selectedStore) {
+        MySuperMarket superMarket = this.getMySupermarkets().getAreaSuperMarketByName(zoneName);
+        MyStore store = superMarket.getStores().getSelectedStore(selectedStore);
+        return store.getStoreJson();
     }
 
 

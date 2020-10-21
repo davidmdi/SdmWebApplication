@@ -67,4 +67,25 @@ public class MyStoreItem {
         return String.valueOf(this.getMyItem().getSdmItem().getId()) +
                 " :" + this.getName();
     }
+
+
+
+    public static class StoreItemJson {
+        public int storeId;
+        public int price;
+        public MyItem.ItemJson jsonItem;
+
+        public StoreItemJson(int storeId,  MyItem.ItemJson jsonItem) {
+            this.storeId = storeId;
+            this.jsonItem = jsonItem;
+        }
+
+        @Override
+        public String toString() {
+            return "StoreItemJson{" +
+                    "storid=" + storeId +
+                    ", jsonItem=" + jsonItem +
+                    '}';
+        }
+    }
 }

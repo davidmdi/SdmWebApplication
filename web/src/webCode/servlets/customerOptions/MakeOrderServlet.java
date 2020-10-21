@@ -48,12 +48,13 @@ public class MakeOrderServlet extends HttpServlet {
         String htmlBuilder = "<div id=\"storeId\">" +
          "<label for=\"store\">Choose a store:</label>" +
          "<form id=\"storeSelectForm\" action=\"presentSelectedStoreItems\" method=\"GET\"> "+
-         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\" createAjaxForChosenStore()\">" +
+         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\" showSelectedStoreInfo()\">" +
          "<option  value=\"" + "select store"+ "\">"  + "</option>" ;
 
         List<MyStore> stores = engine.getMySupermarkets().getAreaStoresList(zoneName);
         for (MyStore store : stores){
-            htmlBuilder+="<option value=\"" + store.getName()+ "\">" + store.getName() + "</option>" ;
+            htmlBuilder+="<option value=\"" + store.getName()+ "\">" + +store.getId() + "," +
+                    store.getName() + "," + store.getPPK() + "</option>" ;
         }
         
         htmlBuilder += "</select></form></div>";
