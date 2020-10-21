@@ -201,33 +201,121 @@ function ajaxOpenStore(){
         success: function(response) {
             $("#content").replaceWith(response);
             //override submit of '#createNewOrderForm' form
-            $("#createNewOrderForm").submit(createNewOrderOnSubmit);
+            $("#createNewOrderForm").submit(createNewStoreOnSubmit);
         }
     });
 }
 
-function createNewOrderOnSubmit(){
+function createNewStoreOnSubmit(){
     var store = createStoreToAdd(this); //send the form
-    if(store === null){  return false; } // Exit submit function
-    else{
+
+    if(store === null){ // Exit submit function
+        return false;
+    }else{
          $.ajax({
             method:'POST',
             data: store,
             url: ADD_NEW_STORE_URL,
             contentType: "application/json",
             timeout: 4000,
-            error: function(e) { alert(e); },
+            error: function(e) { alert("An error occurred!"); },
             success: function(response) {
                         alert(response);
                         ajaxOpenStore(); //refresh open store page
             }
         });
-
     }
 
     return false;
 }
+/*
+StoreJson:
+    ----------
+        public String name;
+public int x;
+public int y;
+public int ppk;
+public List<MyStoreItem.StoreItemJson> storeItems;
 
+StoreItemJson:
+    --------------
+        public int storeId;
+public int price;
+public MyItem.ItemJson jsonItem;
+
+ItemJson:
+    --------
+        public int id;
+public String name = "";
+public String purchaseMethod;
+*/
+
+function ItemJson(itemId, itemName, itemPurchaseMethod){
+    this.id = itemId;
+    this.name = itemName;
+    this.purchaseMethod = itemPurchaseMethod;
+}
+
+function StoreItemJson(itemPrice, itemJson){
+    this.price = itemPrice;//document.getElementsByName("itemPrice")[index].value;
+    this.jsonItem = itemJson;
+    this.storeId = 1; // NEED TO CHANGE
+    //public int storeId;
+
+}
+
+function StoreJson(storeName, X, Y, PPK, itemsList){
+    this.name = storeName;
+    this.x = X;
+    this.y = Y;
+    this.ppk = PPK;
+    this.storeItems = itemsList;
+}
+
+/*
+    Get: form.
+    Do: create json store from the form values.
+    Return: if the store valid return it, else return null.
+*/
+function createStoreToAdd(form){
+    //var formItems = document.getElementsByName("item");
+    var checkBoxes = document.getElementsByName("itemCheckBox");
+    var itemsIds = document.getElementsByName('itemId'); //.textContent
+    var itemsNames = document.getElementsByName('itemName');
+    var itemsPurchaseCategory = document.getElementsByName('itemPurchaseCategory');
+
+    var arrStoreItems = [];
+
+    //create items list
+    for (var i=0; i<checkBoxes.length; i++) {
+        if(checkBoxes[i].checked){
+            var itemPrice = document.getElementsByName("itemPrice")[i].value;
+
+            if(itemPrice <= 0){ //check for item with out price
+                alert("Item "+itemsIds[i].textContent+" must have price.");
+                return null;
+            }else{
+                var item = new ItemJson(itemsIds[i].textContent, itemsNames[i].textContent,
+                    itemsPurchaseCategory[i].textContent);
+                var storeItem = new StoreItemJson(itemPrice, item);
+                arrStoreItems.push(storeItem);
+            }
+        }
+    }
+
+    if(arrStoreItems.length == 0){ //check for store with out items
+        alert("Must have at least one item in store.");
+        return null;
+    }
+
+    var storeToAdd = new StoreJson(form[0].value, form[1].value, form[2].value, form[3].value, arrStoreItems);
+
+    return JSON.stringify(storeToAdd);
+}
+
+/*
+    OLD:
+    ----
 function Item(myCheckBox, index){
     this.id = myCheckBox.value;
     this.price = document.getElementsByName("itemPrice")[index].value;
@@ -241,17 +329,12 @@ function Store(storeName, X, Y, PPK, itemsList){
     this.items = itemsList;
 }
 
-/*
-    Get: form.
-    Do: create json store from the form values.
-    Return: if the store valid return it, else return null.
-*/
 function createStoreToAdd(form){
     var formItems = document.getElementsByName("item");
     var checkBoxes = document.getElementsByName("itemCheckBox");
     var storeItems = [];
 
-    //create items list
+    create items list
     for (var i=0; i<checkBoxes.length; i++) {
         if(checkBoxes[i].checked){
             var item = new Item(checkBoxes[i], i);
@@ -271,54 +354,4 @@ function createStoreToAdd(form){
 
     return JSON.stringify(storeToAdd);
 }
-
-/*
-function createNewOrderOnSubmit(){
-    var formItems = document.getElementsByName("item");
-    var checkBoxes = document.getElementsByName("itemCheckBox");
-    var storeItems = [];
-    var formData = new FormData();
-
-    formData.append("storeName", this[0].value);
-    formData.append("storeLocationX", this[1].value);
-    formData.append("storeLocationY", this[2].value);
-    formData.append("ppk", this[3].value);
-
-    for (var i=0; i<checkBoxes.length; i++) {
-        if(checkBoxes[i].checked){
-            var item = new Item(checkBoxes[i], i);
-            if(item.price <= 0){
-                alert("Item "+item.id+" must have price.");
-                return false;
-            }else{ storeItems.push(item); }
-        }
-    }
-
-    if(storeItems.length == 0){
-        alert("Must have at least one item in store.");
-        return false;
-    }
-
-    formData.append("items", storeItems);
-
-    var storeToAdd = new Store(this[0].value, this[1].value, this[2].value, this[3].value, storeItems);
-    console.log("Store= "+storeToAdd);
-
-     $.ajax({
-        method:'POST',
-        data: JSON.stringify(storeToAdd), //formData,
-        url: ADD_NEW_STORE_URL,
-        //processData: false, // Don't process the files
-        contentType: "application/json",//false, // Set content type to false as jQuery will tell the server its a query string request
-        timeout: 4000,
-        error: function(e) { alert(e); },
-        success: function(response) {
-                    //ajaxOpenStore(); //refresh open store page
-                    alert(response);
-        }
-    });
-
-    console.log("New store clicked");
-    return false;
-}
-*/
+ */

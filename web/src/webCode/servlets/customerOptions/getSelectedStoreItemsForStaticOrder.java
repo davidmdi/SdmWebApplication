@@ -113,3 +113,80 @@ Item: id name purchase method price amount
         }
     }
 }
+/*
+        <div id=\"content\">
+                        <div class='row'>
+                            <div class ='col'>
+                                <div class='row'>
+                                    <h3>Make static order</h3>
+                                </div>
+                                <form id ='createStaticOrder' method='POST' action=''>
+                                    <div class=\"row\">
+                                        <div class=\"col-25\">
+                                            <label for=\"fname\">Store Name</label>
+                                        </div>
+                                        <div class=\"col-75\">
+                                            <label id='storeNameLabel' >"+store.name+"</label >
+                                        </div>
+                                    </div>
+                                    <div class=\"row\">
+                                        <div class=\"col-25\">
+                                            <label for=\"fname\">Store PPK</label>
+                                        </div>
+                                        <div class=\"col-75\">
+                                            <label >"+store.ppk+"</label >
+                                        </div>
+                                    </div>
+                                    <div class=\"row\">
+                                       <div class=\"col-25\">
+                                            <label for=\"lname\">Store locaton</label>
+                                        </div>
+                                        <div class=\"col-75\">
+                                            <label>("+store.x+","+store.y+")</label>
+                                        </div>
+                                    </div>
+                                    <div class=\"row\">
+                                       <div class=\"col-25\">
+                                            <label for=\"lname\">Delivery price</label>
+                                        </div>
+                                        <div class=\"col-75\">
+                                            <label >"+deliveryPrice+"</label >
+                                        </div>
+                                    </div>
+                                <div class=\"row\">
+                           <div class=\"item\" name='item'>
+                                    <input type = \"checkbox\" name='itemCheckBox' value='id' class=\"regular-checkbox\">
+                                    <label >id</label >
+                                    <label >name</label >
+                                    <label >purchaseMethod</label >
+                                    <label >price</label >
+                                    <label >amount</label>
+                                    <input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>
+                            </div>
+                           <div class=\"item\" name='item'>
+                                    <input type = \"checkbox\" name='itemCheckBox' value='id' class=\"regular-checkbox\">
+                                    <label >id</label >
+                                    <label >name</label >
+                                    <label >purchaseMethod</label >
+                                    <label >price</label >
+                                    <label >amount</label>
+                                    <input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>
+                            </div>
+                           <div class=\"item\" name='item'>
+                                    <input type = \"checkbox\" name='itemCheckBox' value='id' class=\"regular-checkbox\">
+                                    <label >id</label >
+                                    <label >name</label >
+                                    <label >purchaseMethod</label >
+                                    <label >price</label >
+                                    <label >amount</label>
+                                    <input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.01\" value = \"0.0\" >";
+                           </div>
+                        </div>
+                            <div class=\"row\">
+                    <input type=\"submit\" value='Make order'>
+                </div>
+            </form>
+        </div>
+   </div>
+</div>
+ */
