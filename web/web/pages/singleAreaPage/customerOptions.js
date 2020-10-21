@@ -6,7 +6,13 @@ var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
 var parametrs;
+var ORDER_DATE;
+var ORDER_TYPE;
+var ORDER_X;
+var ORDER_Y;
 // var formData = new FormData();
+
+
 
 function changeSelectedMenuOption(selectedMenuOptionID){
 //find current selectedOption:
@@ -18,12 +24,12 @@ function changeSelectedMenuOption(selectedMenuOptionID){
 }
 
 function makeOrderOnClick(){
-
     changeSelectedMenuOption("#makeOrder");//changes to ui options
     //$("#content").empty(); //clear old content
     $("#content").replaceWith(buildFormForOrder());
     $("#initDataForOrder").submit(function () {
             parametrs = $("form").serialize();
+
             try{
                 if(document.querySelector('input[name="typeofOrder"]:checked').value == dynamic)
                     showZoneItemsList(parametrs);
@@ -96,6 +102,10 @@ function showOrderHistory() {
 function showSelectedStoreInfo() {
 
     var selectedStoreSerialized = $("form").serialize();
+    ORDER_DATE = this[0];
+    ORDER_TYPE = this[1];
+    ORDER_X  = this[2];
+    ORDER_Y  = this[3];
 
     $.ajax({
         data:  selectedStoreSerialized ,
@@ -187,6 +197,9 @@ function Item(myCheckBox, index){
 
 function storeSelectioItems(storeName,selecetdItems){
     this.storeName = storeName;
+
     this.selectedItemsList = selecetdItems;
 }
+
+
 
