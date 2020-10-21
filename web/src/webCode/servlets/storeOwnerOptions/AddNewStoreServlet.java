@@ -29,16 +29,17 @@ public class AddNewStoreServlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         MyStore.StoreJson store = gson.fromJson(reader, MyStore.StoreJson.class);
-
-
-        if(engine.isStoreLocationValid(store.x, store.y) == false)
-            msg = "Location not valid";
-        else{ //create store
-            //engine.getMySupermarkets().createNewStore(store, zoneName, ownerName);
-            msg = "Store '"+store.name+"' added successfully.";
-        }
+        System.out.println(store);
 
         try (PrintWriter out = response.getWriter()) {
+
+            if(engine.isStoreLocationValid(store.x, store.y) == false)
+                msg = "Location not valid";
+            else{ //create store
+                engine.getMySupermarkets().createNewStore(store, zoneName, ownerName);
+                msg = "Store '"+store.name+"' added successfully.";
+            }
+
             out.println(msg.toString());
             out.flush();
         }

@@ -41,7 +41,7 @@ public class MyStore {
         this.storeSingleOrderItemsList = new ArrayList<>();
     }
 
-    public MyStore(int id, StoreJson store, List<MyItem> storeItemsToAdd, String ownerName) {
+    public MyStore(int id, StoreJson store, String ownerName) {
         this.id = id;
         this.name = store.name;
         this.PPK = store.ppk;
@@ -49,9 +49,21 @@ public class MyStore {
         this.storeOrderMap = new HashMap<>();
 
         this.storeItems = new MyStoreItems();
-        //createStoreItems(store.items, storeItemsToAdd);
+        createStoreItemsFromJson(store.storeItems);
         this.myLocation = new MyLocation(store.x, store.y);
         this.storeSingleOrderItemsList = new ArrayList<>();
+
+    }
+
+    private void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems) {
+        MyStoreItem newStoreItem;
+        MyItem item;
+        int index = 0;
+
+        for(MyStoreItem.StoreItemJson storeItemJson : storeItems){
+            item = new MyItem(storeItemJson.jsonItem.id, storeItemJson.jsonItem.name, storeItemJson.jsonItem.purchaseMethod);
+            this.storeItems.addStoreItem(new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store"));
+        }
 
     }
 

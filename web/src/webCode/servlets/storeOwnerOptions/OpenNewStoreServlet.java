@@ -59,13 +59,12 @@ public class OpenNewStoreServlet extends HttpServlet {
         for(MyItem item : zoneItems){
             out.println("<div class=\"row\"><div name='item' class=\"item\">");
             out.println("<input type=\"checkbox\" class=\"regular-checkbox\" name='itemCheckBox' value="+item.getItemId()+">");
-            out.println("<label for="+item.getItemId()+">"+item.getItemId()+"</label>");
-            out.println("<label for="+item.getItemId()+">"+item.getName()+"</label>");
-            out.println("<label for="+item.getItemId()+">"+item.getPurchaseCategory()+"</label>");
+            out.println("<label name='itemId' for="+item.getItemId()+">"+item.getItemId()+"</label>");
+            out.println("<label name='itemName' for="+item.getItemId()+">"+item.getName()+"</label>");
+            out.println("<label name='itemPurchaseCategory' for="+item.getItemId()+">"+item.getPurchaseCategory()+"</label>");
             out.println("<label for="+item.getItemId()+"> Price:</label>");
             //if(item.getPurchaseCategory().equalsIgnoreCase(MyItem.QUANTITY)){
                 out.println("<input type=\"number\" class=\"text-price\" id=\"itemPrice\" name=\"itemPrice\" placeholder=\"0\" min=\"0\" value=\"0\">");
-
             /*
             // price is int. Not relevant:
             }else{ // = MyItem.WEIGHT
