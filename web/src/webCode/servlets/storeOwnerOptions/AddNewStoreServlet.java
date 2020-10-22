@@ -24,25 +24,26 @@ public class AddNewStoreServlet extends HttpServlet {
         Engine engine = ServletUtils.getEngine(getServletContext());
         String zoneName =  SessionUtils.getAreaName(request);
         String ownerName =  SessionUtils.getUsername(request);
-        String msg;
 
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-        MyStore.StoreJson store = gson.fromJson(reader, MyStore.StoreJson.class);
-        System.out.println(store);
 
-        try (PrintWriter out = response.getWriter()) {
+        try(PrintWriter out = response.getWriter()) {
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            MyStore.StoreJson store = gson.fromJson(reader, MyStore.StoreJson.class);
+            System.out.println(store);
 
-            if(engine.isStoreLocationValid(store.x, store.y) == false)
-                msg = "Location not valid";
-            else{ //create store
+            if (engine.isStoreLocationValid(store.x, store.y) == false)
+                out.println("Location not valid");
+            else { //create store
                 engine.getMySupermarkets().createNewStore(store, zoneName, ownerName);
-                msg = "Store '"+store.name+"' added successfully.";
+                out.println("Store '" + store.name + "' added successfully.");
             }
-
-            out.println(msg.toString());
             out.flush();
         }
+       /* }catch (Exception e){
+            out.println(e.getMessage().toString());
+        } */
+
     }
 
     @Override

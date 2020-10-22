@@ -62,13 +62,6 @@ public class MyStoreItem {
         this.howManyTimeSold = howManyTimeSold;
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(this.getMyItem().getSdmItem().getId()) +
-                " :" + this.getName();
-    }
-
-
 
     public static class StoreItemJson {
         public int storeId;

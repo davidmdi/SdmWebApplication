@@ -58,11 +58,13 @@ public class MyStore {
     private void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems) {
         MyStoreItem newStoreItem;
         MyItem item;
+        MyStoreItem storeItem;
         int index = 0;
 
         for(MyStoreItem.StoreItemJson storeItemJson : storeItems){
             item = new MyItem(storeItemJson.jsonItem.id, storeItemJson.jsonItem.name, storeItemJson.jsonItem.purchaseMethod);
-            this.storeItems.addStoreItem(new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store"));
+            storeItem = new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store");
+            this.storeItems.addStoreItem(storeItem);
         }
 
     }

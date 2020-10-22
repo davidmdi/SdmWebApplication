@@ -217,8 +217,6 @@ function createNewStoreOnSubmit(){
             data: store,
             url: ADD_NEW_STORE_URL,
             contentType: "application/json",
-            timeout: 4000,
-            error: function(e) { alert("An error occurred!"); },
             success: function(response) {
                         alert(response);
                         ajaxOpenStore(); //refresh open store page
@@ -229,26 +227,29 @@ function createNewStoreOnSubmit(){
     return false;
 }
 /*
-StoreJson:
-    ----------
-        public String name;
-public int x;
-public int y;
-public int ppk;
-public List<MyStoreItem.StoreItemJson> storeItems;
+function createNewStoreOnSubmit(){
+    var store = createStoreToAdd(this); //send the form
 
-StoreItemJson:
-    --------------
-        public int storeId;
-public int price;
-public MyItem.ItemJson jsonItem;
+    if(store === null){ // Exit submit function
+        return false;
+    }else{
+         $.ajax({
+            method:'POST',
+            data: store,
+            url: ADD_NEW_STORE_URL,
+            contentType: "application/json",
+            timeout: 4000,
+            error: function(e) { alert("An error occurred!"); },
+            success: function(response) {
+                alert(response);
+                ajaxOpenStore(); //refresh open store page
+            }
+            });
+    }
 
-ItemJson:
-    --------
-        public int id;
-public String name = "";
-public String purchaseMethod;
-*/
+    return false;
+}
+ */
 
 function ItemJson(itemId, itemName, itemPurchaseMethod){
     this.id = itemId;

@@ -77,8 +77,9 @@ public class Engine {
         boolean res = false;
 
         for(MyCustomer customer : myUsers.getCustomerSet()){
-            if((customer.getLocation().getX() == x) && (customer.getLocation().getY() == y))
-                res = true;
+            if(customer.getLocation() != null)
+                if((customer.getLocation().getX() == x) && (customer.getLocation().getY() == y))
+                    res = true;
         }
 
         return res;
