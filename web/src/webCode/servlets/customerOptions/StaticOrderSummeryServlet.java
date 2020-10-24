@@ -37,7 +37,7 @@ public class StaticOrderSummeryServlet extends HttpServlet {
         BufferedReader reader = req.getReader();
         Gson gson = new Gson();
         Order staticOrderFromJs =  gson.fromJson(reader, Order.class);
-        System.out.println(staticOrderFromJs);
+
 
         try (PrintWriter out = resp.getWriter()) {
             out.println(buildOrderSemmeryForm(staticOrderFromJs,req));

@@ -6,6 +6,7 @@ var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
 var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
+var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var parametrs;
 var ORDER_DATE;
 var ORDER_TYPE;
@@ -364,7 +365,16 @@ function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
 }
 
 function acceptOrderButton(){
-    alert("acceptOrderButton");
+    // alert("acceptOrderButton");
+    $.ajax({
+        method:'POST',
+        url: STATIC_ORDER_SUMMERY,
+        error: function(e) { alert(e); },
+        success: function(response) {
+            alert(response);
+        }
+
+    });
 
 
 }
