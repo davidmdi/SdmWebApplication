@@ -277,6 +277,19 @@ public class MySuperMarket {
         return false;
     }
 
+    /* return Map<StoreId, StoreName>*/
+    public Map<Integer, String> createStoresInfoMap(Set<Integer> orderStoresIdSet) {
+        Map<Integer, String> storesInfo = new HashMap<>();
+        MyStore currStore;
+
+        for(Integer storeId : orderStoresIdSet){
+            currStore = this.getStores().getStoreMap().get(storeId);
+            storesInfo.put(storeId, currStore.getName());
+        }
+
+        return storesInfo;
+    }
+
 //    public int getMaxRows() {
 //        List<MyStore> storeList = stores.getStoreList();
 //        //List<MyCustomer> customerList = customers.getCustomerList();

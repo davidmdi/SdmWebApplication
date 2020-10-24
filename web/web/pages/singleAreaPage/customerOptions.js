@@ -366,6 +366,7 @@ function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
 function acceptOrderButton(){
     alert("acceptOrderButton");
 
+
 }
 
 function declineOrderButton(){
