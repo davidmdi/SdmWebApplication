@@ -47,7 +47,7 @@ public class SessionUtils {
     public static Map<Integer, MyStoreSingleOrderItems> getStoreSingleOrderItemsMap(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Map<Integer, MyStoreSingleOrderItems> sessionAttribute = session != null ?
-            (Map<Integer, MyStoreSingleOrderItems>)session.getAttribute(Constants.CUSTOMER_ORDER) : null;
+            (Map<Integer, MyStoreSingleOrderItems>)session.getAttribute(Constants.CUSTOMER_STORE_SINGLE_ORDER_MAP) : null;
         return sessionAttribute != null ? sessionAttribute : null;
     }
     /*

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 public class UpdateOrderInSystemServlet extends HttpServlet {
@@ -33,16 +32,15 @@ public class UpdateOrderInSystemServlet extends HttpServlet {
         MySuperMarket superMarket = engine.getMySupermarkets()
                 .getAreaSuperMarketByName(areaName);
 
-        superMarket.updateOrder(order,storeSingleOrderItemsMap);
+      superMarket.updateOrder(order,storeSingleOrderItemsMap);
 
 
         // send notification to store owners...
         // handle money transfer...
         //throw alert -> update success...
 
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("Order sent successfully , thank you for buying :) ");
-        }
+       getServletContext()
+               .getRequestDispatcher("/showFeedbacksForm").forward(req,resp);
     }
 
     @Override

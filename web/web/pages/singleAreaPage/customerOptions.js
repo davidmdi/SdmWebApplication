@@ -368,7 +368,7 @@ function acceptOrderButton(){
     // alert("acceptOrderButton");
     $.ajax({
         method:'POST',
-        url: STATIC_ORDER_SUMMERY,
+        url: UPDATE_ORDER,
         error: function(e) { alert(e); },
         success: function(response) {
             alert(response);
