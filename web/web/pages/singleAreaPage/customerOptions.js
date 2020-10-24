@@ -376,6 +376,7 @@ function acceptOrderButton(){
 
     });
 
+
 }
 
 function declineOrderButton(){

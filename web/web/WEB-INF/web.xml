@@ -89,6 +89,10 @@
         <servlet-class>webCode.servlets.customerOptions.StaticOrderSummeryServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ShowFeedbacksFormServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowFeedbacksFormServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>updateOrder</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.UpdateOrderInSystemServlet</servlet-class>
     </servlet>
@@ -177,9 +181,14 @@
         <url-pattern>/staticOrderSummery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ShowFeedbacksFormServlet</servlet-name>
+        <url-pattern>/showFeedbacksForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>updateOrder</servlet-name>
         <url-pattern>/updateOrder</url-pattern>
     </servlet-mapping>
+
 
 
 
