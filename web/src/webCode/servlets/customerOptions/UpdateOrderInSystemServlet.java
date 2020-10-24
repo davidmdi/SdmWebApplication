@@ -15,7 +15,7 @@ public class UpdateOrderInSystemServlet extends HttpServlet {
     private void processes(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // dont forget casting session attribute to MyOrder & storeSingleOrderItemsMap....
         //from the request i get the order
-        // call to a function witch updates the data base (including money management + throw alert and fidback option)
+        // call to a function witch updates the data base (including money management + throw alert and feedback option)
         // deleteOrderFromSession.
 
     }
