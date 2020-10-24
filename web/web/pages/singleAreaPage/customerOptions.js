@@ -362,3 +362,12 @@ function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
 
     return new Order(ORDER_DATE, "static", ORDER_X, ORDER_Y, selectedStoreItemsList, selectedDiscountsOffers);
 }
+
+function acceptOrderButton(){
+    alert("acceptOrderButton");
+
+}
+
+function declineOrderButton(){
+    alert("declineOrderButton");
+}

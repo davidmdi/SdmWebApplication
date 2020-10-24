@@ -81,7 +81,8 @@
     </servlet>
     <servlet>
         <servlet-name>CreateStoresFeedBacksServlet</servlet-name>
-        <servlet-class>webCode.servlets.customerOptions.CreateStoresFeedBacksServlet</servlet-class>
+        <servlet-class>
+            webCode.servlets.customerOptions.CreateStoresFeedBacksServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>staticOrderSummery</servlet-name>
