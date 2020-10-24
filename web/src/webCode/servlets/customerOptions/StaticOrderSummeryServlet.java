@@ -219,14 +219,14 @@ public class StaticOrderSummeryServlet extends HttpServlet {
 
             }
             res+= " </table>" +
-                    "</div>" +
                     "<div class=\"row\">" +
-                    "<form id=\"\" method=\"POST\" action=\"\">" +
-                    "<input id=\"accept\" type='button' name=\"\" value='Accept'/>" +
-                    "<input id=\"declain\" type='button' name=\"\" value='Declain'/>" +
+                    "<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
+                    "<input id=\"accept\" type='submit' name=\"\" value='Approve order'/>" +
+                    "<input id=\"declain\" type='submit' name=\"\" value='Abort'/>" +
                     "</form>" +
                     "</div>" +
-                    "<div class='leaveFeedback'>" +
+                    "</div>" +
+                    "<div class='leaveFeedbacks'>" +
                     "</div>" +
                     "</div>" +
                     "</div>" +
