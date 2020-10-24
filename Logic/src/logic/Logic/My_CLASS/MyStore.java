@@ -19,6 +19,7 @@ public class MyStore {
     private double totalOrdersCost = 0 ;
     private double totalDeliveryCosts = 0 ;
 
+    private MyFeedbacks storeFeedbacks;
     private String name;
     private int PPK;
     private int id;
@@ -39,6 +40,8 @@ public class MyStore {
         this.storeItems = new MyStoreItems(sdmStore,items);
         this.myLocation = new MyLocation(this.getSdmStore().getLocation());
         this.storeSingleOrderItemsList = new ArrayList<>();
+
+        this.storeFeedbacks = new MyFeedbacks();
     }
 
     public MyStore(int id, StoreJson store, String ownerName) {
@@ -79,6 +82,11 @@ public class MyStore {
 //            this.storeItems.addStoreItem(newStoreItem);
 //        }
 //    }
+
+
+    public MyFeedbacks getStoreFeedbacks() {
+        return storeFeedbacks;
+    }
 
     public SDMStore getSdmStore() {
         return sdmStore;
