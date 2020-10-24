@@ -39,12 +39,14 @@ public class ShowFeedbacksFormServlet extends HttpServlet {
          */
         Engine engine = ServletUtils.getEngine(getServletContext());
         String zoneName =  SessionUtils.getAreaName(request);
-        Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = null;  // = from session
+        Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = SessionUtils.getStoreSingleOrderItemsMap(request);
+        System.out.println(storeSingleOrderItemsMap);
+
         MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(zoneName);
 
         //Map<StoreId, StoreName>
         Map<Integer, String> orderStoresInfo = superMarket.createStoresInfoMap(storeSingleOrderItemsMap.keySet());
-
+        System.out.println(orderStoresInfo);
         try (PrintWriter out = response.getWriter()) {
             out.println(buildFeedbacksDiv(orderStoresInfo));
         }

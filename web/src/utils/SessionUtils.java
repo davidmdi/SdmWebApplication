@@ -39,7 +39,7 @@ public class SessionUtils {
         return sessionAttribute != null ? sessionAttribute.toString() : null;
     }
 
-    public static MyOrder getOrder (HttpServletRequest request) {
+    public static MyOrder getOrder(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         MyOrder sessionAttribute = session != null ? (MyOrder)session.getAttribute(Constants.CUSTOMER_ORDER) : null;
         return sessionAttribute != null ? sessionAttribute : null;

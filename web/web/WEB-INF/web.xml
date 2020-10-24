@@ -88,6 +88,10 @@
         <servlet-name>staticOrderSummery</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.StaticOrderSummeryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowFeedbacksFormServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowFeedbacksFormServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>staticOrderSummery</servlet-name>
         <url-pattern>/staticOrderSummery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowFeedbacksFormServlet</servlet-name>
+        <url-pattern>/showFeedbacksForm</url-pattern>
     </servlet-mapping>
 
 
