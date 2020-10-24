@@ -96,7 +96,7 @@ public class MyUsers {
         return null; // should not come to this return ever
     }
 
-    public MyCustomer findCustomerByName(String customerName){
+    public synchronized MyCustomer findCustomerByName(String customerName){
         for(MyCustomer customer : this.getCustomerSet()){
             if(customer.getUserName().equals(customerName))
                 return customer;

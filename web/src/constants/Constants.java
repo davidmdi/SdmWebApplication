@@ -4,6 +4,8 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String USERKIND = "typeofuser";
     public static final String USER_NAME_ERROR = "username_error";
+    public static final String CUSTOMER_ORDER = "customerOrder";
+    public static final String CUSTOMER_STORE_SINGLE_ORDER_MAP = "storeSingleOrderItemsMap";
 
     public static final String CHAT_PARAMETER = "userstring";
     public static final String CHAT_VERSION_PARAMETER = "chatversion";

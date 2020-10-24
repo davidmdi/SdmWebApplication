@@ -19,7 +19,6 @@ public class MyCustomer {
         this.avgDeliveryPrice = 0 ;
         this.avgDeliveryPriceString = "0.0";
         this.avgOrderPriceString = "0.0";
-
         this.customerOrders = new MyOrders();
     }
 
@@ -35,7 +34,7 @@ public class MyCustomer {
         return location;
     }
 
-    public void setLocation(MyLocation location) {
+    public synchronized void setLocation(MyLocation location) {
         this.location = location;
     }
 

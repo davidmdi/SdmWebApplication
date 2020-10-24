@@ -48,7 +48,7 @@ public class MakeOrderServlet extends HttpServlet {
         String htmlBuilder = "<div id=\"storeId\">" +
          "<label for=\"store\">Choose a store:</label>" +
          "<form id=\"storeSelectForm\" action=\"presentSelectedStoreItems\" method=\"GET\"> "+
-         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\" showSelectedStoreInfo()\">" +
+         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\"showSelectedStoreInfo()\">" +
          "<option  value=\"" + "select store"+ "\">"  + "</option>" ;
 
         List<MyStore> stores = engine.getMySupermarkets().getAreaStoresList(zoneName);

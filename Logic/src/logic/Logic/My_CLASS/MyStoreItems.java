@@ -58,7 +58,7 @@ public class MyStoreItems {
         this.itemsList = itemsList;
     }
 
-    public Map<Integer, MyStoreItem> getItemsMap() {
+    public synchronized Map<Integer, MyStoreItem> getItemsMap() {
         return itemsMap;
     }
 
