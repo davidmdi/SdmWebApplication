@@ -76,6 +76,15 @@
         <servlet-class>webCode.servlets.customerOptions.StaticOrderHandlerServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>StoreFeedbacksServlet</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.StoreFeedbacksServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateStoresFeedBacksServlet</servlet-name>
+        <servlet-class>
+            webCode.servlets.customerOptions.CreateStoresFeedBacksServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>staticOrderSummery</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.StaticOrderSummeryServlet</servlet-class>
     </servlet>
@@ -150,6 +159,14 @@
     <servlet-mapping>
         <servlet-name>staticOrder</servlet-name>
         <url-pattern>/staticOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreFeedbacksServlet</servlet-name>
+        <url-pattern>/showStoreFeedbacks</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateStoresFeedBacksServlet</servlet-name>
+        <url-pattern>/createStoreFeedbacks</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>staticOrderSummery</servlet-name>

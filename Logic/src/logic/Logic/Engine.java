@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -78,8 +79,9 @@ public class Engine {
         boolean res = false;
 
         for(MyCustomer customer : myUsers.getCustomerSet()){
-            if((customer.getLocation().getX() == x) && (customer.getLocation().getY() == y))
-                res = true;
+            if(customer.getLocation() != null)
+                if((customer.getLocation().getX() == x) && (customer.getLocation().getY() == y))
+                    res = true;
         }
 
         return res;
@@ -97,6 +99,13 @@ public class Engine {
         MySuperMarket superMarket = this.getMySupermarkets().getAreaSuperMarketByName(zoneName);
         MyStore store = superMarket.getStores().getSelectedStore(selectedStore);
         return store.getStoreJson();
+    }
+
+    public void addFeedBack(String zoneName, String customerName, MyFeedback.FeedbackJson feedbackJson) throws  ParseException{
+        MySuperMarket superMarket = mySupermarkets.getAreaSuperMarketByName(zoneName);
+        MyStore store = superMarket.getStores().getSelectedStore(feedbackJson.storeName);
+        store.getStoreFeedbacks().addFeedback(new MyFeedback(customerName, feedbackJson));
+        // ADD FEEDBACKS ALERT FOR OWNERS !!
     }
 
 

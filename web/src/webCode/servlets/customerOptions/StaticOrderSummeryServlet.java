@@ -110,11 +110,13 @@ public class StaticOrderSummeryServlet extends HttpServlet {
             MyStoreItem storeItemToAdd = store.getStoreItems().getItemsMap().get(storeItemJson.itemId);
             quantityMap.put(storeItemToAdd,storeItemJson.quantity);
         }
-        for(OfferItem offerItem : selectedOfferItemsList){ // adding offer items to map.
-            MyStore store = superMarket.getStores().getStoreMap().get(offerItem.storeId);
-            MyItem myItem = superMarket.getItems().getItemsMap().get(offerItem.itemId);
-            MyStoreItem offerItemToAdd = new MyStoreItem(myItem,offerItem.price,offerItem.storeId,"offer");
-            quantityMap.put(offerItemToAdd,offerItem.quantity);
+        if(selectedOfferItemsList.get(0).itemId != -1 ) { // if it is not a dummy offer object
+            for (OfferItem offerItem : selectedOfferItemsList) { // adding offer items to map.
+                MyStore store = superMarket.getStores().getStoreMap().get(offerItem.storeId);
+                MyItem myItem = superMarket.getItems().getItemsMap().get(offerItem.itemId);
+                MyStoreItem offerItemToAdd = new MyStoreItem(myItem, offerItem.price, offerItem.storeId, "offer");
+                quantityMap.put(offerItemToAdd, offerItem.quantity);
+            }
         }
 
         return quantityMap;
@@ -219,14 +221,14 @@ public class StaticOrderSummeryServlet extends HttpServlet {
 
             }
             res+= " </table>" +
-                    "</div>" +
                     "<div class=\"row\">" +
-                    "<form id=\"\" method=\"POST\" action=\"\">" +
-                    "<input id=\"accept\" type='button' name=\"\" value='Accept'/>" +
-                    "<input id=\"declain\" type='button' name=\"\" value='Declain'/>" +
+                    "<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
+                    "<input id=\"accept\" type='button' onclick='return acceptOrderButton()' name=\"\" value='Approve order'/>" +
+                    "<input id=\"decline\" type='button' onclick='return declineOrderButton()' name=\"\" value='Abort'/>" +
                     "</form>" +
                     "</div>" +
-                    "<div class='leaveFeedback'>" +
+                    "</div>" +
+                    "<div class='leaveFeedbacks'>" +
                     "</div>" +
                     "</div>" +
                     "</div>" +

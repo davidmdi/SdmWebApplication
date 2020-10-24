@@ -19,6 +19,7 @@ public class MyStore {
     private double totalOrdersCost = 0 ;
     private double totalDeliveryCosts = 0 ;
 
+    private MyFeedbacks storeFeedbacks;
     private String name;
     private int PPK;
     private int id;
@@ -39,6 +40,8 @@ public class MyStore {
         this.storeItems = new MyStoreItems(sdmStore,items);
         this.myLocation = new MyLocation(this.getSdmStore().getLocation());
         this.storeSingleOrderItemsList = new ArrayList<>();
+
+        this.storeFeedbacks = new MyFeedbacks();
     }
 
     public MyStore(int id, StoreJson store, String ownerName) {
@@ -58,11 +61,13 @@ public class MyStore {
     private void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems) {
         MyStoreItem newStoreItem;
         MyItem item;
+        MyStoreItem storeItem;
         int index = 0;
 
         for(MyStoreItem.StoreItemJson storeItemJson : storeItems){
             item = new MyItem(storeItemJson.jsonItem.id, storeItemJson.jsonItem.name, storeItemJson.jsonItem.purchaseMethod);
-            this.storeItems.addStoreItem(new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store"));
+            storeItem = new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store");
+            this.storeItems.addStoreItem(storeItem);
         }
 
     }
@@ -77,6 +82,11 @@ public class MyStore {
 //            this.storeItems.addStoreItem(newStoreItem);
 //        }
 //    }
+
+
+    public MyFeedbacks getStoreFeedbacks() {
+        return storeFeedbacks;
+    }
 
     public SDMStore getSdmStore() {
         return sdmStore;

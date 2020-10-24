@@ -177,7 +177,7 @@ input[type=submit]:hover {
     background-color: #ae4ab8;
 }
 
-.item{
+.item, .discount, .feedback{
     margin: 2px;
     display:flex;
     flex-wrap: nowrap;
@@ -191,12 +191,12 @@ input[type=submit]:hover {
 
 }
 
-.item:hover{
+.item:hover, .discount:hover, .feedback:hover{
     /*background-color: #ae4ab8;*/
     border: 1px solid #ae4ab8;
 }
 
-.item label{
+.item label, .discount label, .feedback label{
     cursor: pointer;
 }
 
@@ -240,4 +240,83 @@ h3{
 .content{
     padding-left: 150px;
     padding-right: 150px;
+}
+
+/* Feedbacks */
+.feedback-label{
+    vertical-align: middle;
+    padding: 12px;
+}
+
+.storeName-label{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.col-15 {
+    display:flex;
+    float: left;
+    width: 20%;
+    vertical-align: middle;
+}
+
+.col-85 {
+    display:flex;
+    float: left;
+    width: 80%;
+    /* margin-top: 6px;
+    vertical-align: middle;*/
+    padding: 5px;
+    margin: 5px;
+}
+
+#sendOrder {
+    margin: 2px;
+    display:flex;
+    flex-wrap: nowrap;
+    flex-direction:row;
+    justify-content: space-around;	 /* CHANGED	*/
+    align-content: flex-start;
+    align-items:normal;
+    width: 90%;
+    margin-top: 6px;
+}
+
+#accept{
+    background-color: #009900;
+    margin: 5px;
+}
+
+#accept:hover{
+    background-color: #32AD32;
+}
+
+
+#decline{
+    background-color: #cd170d;
+    margin: 5px;
+}
+
+#decline:hover{
+    background-color: #d22e25;
+}
+
+.col-1 {
+    display:flex;
+    flex-direction:column;
+    float: left;
+    width: 20%;
+    vertical-align: middle;
+}
+
+.col-2 {
+    display:flex;
+    flex-direction:column;
+    float: left;
+    width: 80%;
+    vertical-align: middle;
+    /* margin-top: 6px;
+    vertical-align: middle;*/
+    padding: 5px;
+    margin: 5px;
 }

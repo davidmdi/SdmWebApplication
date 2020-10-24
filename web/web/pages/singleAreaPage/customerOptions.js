@@ -143,7 +143,8 @@ function showStoreDiscountsOffers(){
                //OVERRIDE ACTION ATTRIBUTE !!!!!
                 //$("#selectSpecialOffers").attr('action' ,'');
             console.log("before Summery function");
-           $("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
+            $("#selectSpecialOffers").attr('action', STATIC_ORDER_SUMMERY);
+            $("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
         }
 
     });
@@ -220,14 +221,15 @@ function showStaticOrderSummeryOnSubmitClicked(){
     var staticOrder = createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers);
     console.log(staticOrder);
     console.log(staticOrder.selectedOfferItemsList[0].quantity);
-    staticOrder = JSON.stringify(staticOrder);
+    //staticOrder = JSON.stringify(staticOrder);
     console.log(staticOrder);
 
     $.ajax({
         method:'POST',
-        data: staticOrder,
         url: STATIC_ORDER_SUMMERY,
-
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(staticOrder),
         error: function(e) { alert(e); },
         success: function(response) { //response is order summery and approve button
             $("#content").replaceWith(response);
@@ -295,6 +297,7 @@ function createSelectedDiscountsOffersList(){
     var selectedAllOrNotOffers = createAllOrNothingSelectedOffersList();
     console.log("selectedAllOrNotOffers" + selectedAllOrNotOffers);
     var concatArray = selectedOneOfOffers.concat(selectedAllOrNotOffers);
+
     console.log(concatArray);
 
     //return JSON.stringify(concatArray);
@@ -354,5 +357,17 @@ function createSelectedStoreItemsList(storeName, selecetedItemsForStaticOrder){
 }
 
 function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
+    if(selectedDiscountsOffers.length == 0) //create dummy obj if array of offers empty !
+        selectedDiscountsOffers.push(new OfferItem(-1, -1, -1, -1));
+
     return new Order(ORDER_DATE, "static", ORDER_X, ORDER_Y, selectedStoreItemsList, selectedDiscountsOffers);
+}
+
+function acceptOrderButton(){
+    alert("acceptOrderButton");
+
+}
+
+function declineOrderButton(){
+    alert("declineOrderButton");
 }
