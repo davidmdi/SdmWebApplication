@@ -86,7 +86,7 @@ public class MyStore {
         this.sdmStore = sdmStore;
     }
 
-    public MyStoreItems getStoreItems() {
+    public synchronized MyStoreItems getStoreItems() {
         return storeItems;
     }
 

@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class Engine {
 
@@ -140,31 +141,33 @@ public class Engine {
 //        return getMySupermarket().getCustomers().getCustomerNames();
 //    }
 //
-//    public void createStoreSingleOrderInstance(MyOrder order,
-//                                               Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap){
-//        Map<MyStoreItem, Double> ordersQuantityMap = order.getQuantityMap();
-//
-//        for (MyStoreItem storeItem: ordersQuantityMap.keySet()) {
-//            //initialize
-//            int storeId= storeItem.getStoreId();
-//            MyStore store = this.mySupermarket.getStores().getStoreMap().get(storeId);
-//            double deliveryDistance = this.mySupermarket.caculateDeliveryDistance(store,order.getCustomer().getLocation(),
-//                    store.getMyLocation());
-//            double deliveryCost = order.getDeliveryCostMap().get(storeId);
-//
-//            //creat instance
-//            if(!storeSingleOrderItemsMap.containsKey(storeId)){
-//                MyStoreSingleOrderItems storeSingleOrderItems = new MyStoreSingleOrderItems(order.getOrderId(),
-//                        order.getDate(),storeId,order.getCustomer(),order.getOrderKind() ,deliveryDistance , deliveryCost );
-//                //saving the instance in map.
-//                storeSingleOrderItemsMap.put(storeId,storeSingleOrderItems);
-//            }
-//
-//            // adding item to sub quantity map
-//            storeSingleOrderItemsMap.get(storeId).addToQuantityMap(storeItem,ordersQuantityMap.get(storeItem));
-//
-//    }
-//
-//  }
+    public void createStoreSingleOrderInstance(MyOrder order,MySuperMarket mySuperMarket,
+         Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap){
+        Map<MyStoreItem, Double> ordersQuantityMap = order.getQuantityMap();
+
+        for (MyStoreItem storeItem: ordersQuantityMap.keySet()) {
+            //initialize
+            int storeId= storeItem.getStoreId();
+            MyStore store = mySuperMarket.getStores().getStoreMap().get(storeId);
+            double deliveryDistance = mySuperMarket.caculateDeliveryDistance(store,order.getCustomer().getLocation(),
+                    store.getMyLocation());
+            double deliveryCost = order.getDeliveryCostMap().get(storeId);
+
+            //creat instance
+            if(!storeSingleOrderItemsMap.containsKey(storeId)){
+                MyStoreSingleOrderItems storeSingleOrderItems = new MyStoreSingleOrderItems(order.getOrderId(),
+                        order.getDate(),storeId,order.getCustomer(),order.getOrderKind() ,deliveryDistance , deliveryCost );
+                //saving the instance in map.
+                storeSingleOrderItemsMap.put(storeId,storeSingleOrderItems);
+            }
+
+            // adding item to sub quantity map
+            storeSingleOrderItemsMap.get(storeId).addToQuantityMap(storeItem,ordersQuantityMap.get(storeItem));
+
+    }
+  }
+
+
+
 }
 

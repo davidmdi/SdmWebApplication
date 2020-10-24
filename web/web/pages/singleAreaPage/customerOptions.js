@@ -5,11 +5,14 @@ var SHOW_ORDER_HISTORY_PAGE_URL = buildUrlWithContextPath("showCustomersOrderHis
 var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems");
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
+var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var parametrs;
 var ORDER_DATE;
 var ORDER_TYPE;
 var ORDER_X;
 var ORDER_Y;
+var STORE_NAME;
+var saveSelecetedItemsForStaticOrder;
 // var formData = new FormData();
 
 
@@ -102,16 +105,16 @@ function showOrderHistory() {
 function showSelectedStoreInfo() {
 
     var selectedStoreSerialized = $("form").serialize();
-    ORDER_DATE = this[0];
-    ORDER_TYPE = this[1];
-    ORDER_X  = this[2];
-    ORDER_Y  = this[3];
+    var selectedStoreSerializedArray = $('form').serializeArray();
+    ORDER_DATE = selectedStoreSerializedArray[0].value;
+    ORDER_TYPE = selectedStoreSerializedArray[1].value;
+    ORDER_X  = selectedStoreSerializedArray[2].value;
+    ORDER_Y  = selectedStoreSerializedArray[3].value;
 
     $.ajax({
         data:  selectedStoreSerialized ,
         url: PRESENT_SELECTE_SROTE_ITEMS,
         error: function(e) { alert(e); console.log("in error" + e);},
-
         success: function (response) { // return form of store items selection.
             $("#content").replaceWith(response);
             $("#createStaticOrder").attr('action' , STATIC_ORDER)
@@ -125,7 +128,9 @@ function showSelectedStoreInfo() {
 }
 
 function showStoreDiscountsOffers(){
-    var selecetedItemsForStaticOrder = createStaticOrderItemList();
+    //var selecetedItemsForStaticOrder = createStaticOrderItemList();
+    selecetedItemsForStaticOrder = createStaticOrderItemList(); // bug !!!!!!1
+    // it return: JSON.stringify(itemsListSelected);  ->>>>>> 196
     $.ajax({
         method:'POST',
         data: selecetedItemsForStaticOrder,
@@ -134,8 +139,11 @@ function showStoreDiscountsOffers(){
         timeout: 4000,
         error: function(e) { alert(e); },
         success: function(response) {
-           $("#content").append(response);
-           //on submit function...
+           $("#content").append(response); // offers form
+               //OVERRIDE ACTION ATTRIBUTE !!!!!
+                //$("#selectSpecialOffers").attr('action' ,'');
+            console.log("before Summery function");
+           $("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
         }
 
     });
@@ -183,8 +191,11 @@ function createStaticOrderItemList(){ // whithout discounts.
         alert("Must have at least one item in order.");
         return null;
     }
-    var itemsListSelected = new storeSelectioItems(document.getElementById('storeNameLabel').textContent
-        ,selectedItems); // (name of store , selecedItemsArray from user)
+
+    saveSelecetedItemsForStaticOrder = selectedItems;
+
+    STORE_NAME = document.getElementById('storeNameLabel').textContent;
+    var itemsListSelected = new storeSelectioItems(STORE_NAME, selectedItems); // (name of store , selecedItemsArray from user)
     console.log(itemsListSelected);
 
     return JSON.stringify(itemsListSelected);
@@ -197,9 +208,151 @@ function Item(myCheckBox, index){
 
 function storeSelectioItems(storeName,selecetdItems){
     this.storeName = storeName;
-
     this.selectedItemsList = selecetdItems;
 }
 
+                    /* STATIC ORDER */
 
+function showStaticOrderSummeryOnSubmitClicked(){
+    var selectedDiscountsOffers = createSelectedDiscountsOffersList();
+    var selectedStoreItemsList = createSelectedStoreItemsList(STORE_NAME, saveSelecetedItemsForStaticOrder);
+    console.log(selectedStoreItemsList[0]);
+    var staticOrder = createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers);
+    console.log(staticOrder);
+    console.log(staticOrder.selectedOfferItemsList[0].quantity);
+    staticOrder = JSON.stringify(staticOrder);
+    console.log(staticOrder);
 
+    $.ajax({
+        method:'POST',
+        data: staticOrder,
+        url: STATIC_ORDER_SUMMERY,
+
+        error: function(e) { alert(e); },
+        success: function(response) { //response is order summery and approve button
+            $("#content").replaceWith(response);
+            //approve order button ovveride:
+            //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);
+        }
+
+    });
+
+    return false;
+}
+
+function createAllOrNothingSelectedOffersList() {
+    var checkboxes =  $("#selectSpecialOffers input[type=checkbox][value='ALL-NOTHING']");
+    var arrOfferItemId = $("#selectSpecialOffers input:hidden[name='offerItemId']");
+    var arrOfferItemPrice = $("#selectSpecialOffers input:hidden[name='offerItemPrice']");
+    var arrOfferItemStoreId = $("#selectSpecialOffers input:hidden[name='offerItemStoreId']");
+    var arrOfferItemQuantity = $("#selectSpecialOffers input:hidden[name='offerItemQuantity']");
+    var selectedOffersItems = [];
+
+    //create items list
+    for (var i=0; i<checkboxes.length; i++) {
+        if(checkboxes[i].checked) {
+            var offerItem = new OfferItem(arrOfferItemStoreId[i].value, arrOfferItemId[i].value,
+            arrOfferItemQuantity[i].value, arrOfferItemPrice[i].value);
+            selectedOffersItems.push(offerItem);
+        }
+    }
+
+    return selectedOffersItems;
+}
+
+function createOneOfSelectedOffersList() {
+
+    console.log($("#selectSpecialOffers input[type=checkbox][value='ONE-OF']"));
+    console.log($("#selectSpecialOffers #oneOfOfferSelect"));
+    var checkboxes =  $("#selectSpecialOffers input[type=checkbox][value='ONE-OF']");
+    var selections =  $("#selectSpecialOffers #oneOfOfferSelect");
+    //var arrSelectedOffersOptions = $("#discount input:checked").$("#oneOfOfferSelect option:selected");
+    var selectedOffersItems = [];
+
+    //create items list
+    for (var i=0; i<checkboxes.length; i++) {
+        if(checkboxes[i].checked){
+            var selectedOption = selections[i].options[selections[i].selectedIndex];
+
+            var offerItemId = selectedOption.getAttribute("offerItemId");
+            var offerItemPrice =selectedOption.getAttribute("offerItemPrice");
+            var offerItemQuantity = selectedOption.getAttribute("offerItemQuantity");
+            var offerItemStoreId = selectedOption.getAttribute("offerItemStoreId");
+
+            var offerItem = new OfferItem(offerItemStoreId, offerItemId,
+                offerItemQuantity,offerItemPrice);
+
+            selectedOffersItems.push(offerItem);
+        }
+    }
+
+    return selectedOffersItems;
+}
+
+function createSelectedDiscountsOffersList(){
+    var selectedOneOfOffers = createOneOfSelectedOffersList();
+    console.log("selectedOneOfOffers" + selectedOneOfOffers);
+    var selectedAllOrNotOffers = createAllOrNothingSelectedOffersList();
+    console.log("selectedAllOrNotOffers" + selectedAllOrNotOffers);
+    var concatArray = selectedOneOfOffers.concat(selectedAllOrNotOffers);
+    console.log(concatArray);
+
+    //return JSON.stringify(concatArray);
+    return concatArray;
+}
+
+// function ItemInOrder(itemId, itemName, itemPurchaseMethod, itemPrice, itemQuantity, itemType, storeId){
+//     this.id = itemId;
+//     this.name = itemName; //null
+//     this.purchaseMethod = itemPurchaseMethod;
+//     this.price = itemPrice;
+//     this.quantity = itemQuantity;
+//     this.type = itemType;
+//     this.storeId = storeId;
+// }
+
+function Order(date, orderKind, x, y, selectedStoreItemsList, selectedOfferItemsList){
+    this.date = date;
+    this.type = orderKind;
+    this.customerX = x;
+    this.customerY = y;
+    this.selectedStoreItemsList = selectedStoreItemsList;
+    this.selectedOfferItemsList = selectedOfferItemsList;
+}
+
+function StoreItem(storeName, itemId, itemQuantity){
+    this.storeName = storeName;
+    this.itemId = itemId;
+    this.type = "store";
+    this.quantity = itemQuantity;
+    /*
+    * store id
+    * item id
+    *  itemKind = "store"
+    * quantity
+    * */
+}
+
+function OfferItem(storeId, itemId, itemQuantity, itemPrice) {
+    this.storeId = storeId;
+    this.itemId = itemId;
+    this.type = "offer";
+    this.quantity = itemQuantity;
+    this.price = itemPrice;
+}
+
+function createSelectedStoreItemsList(storeName, selecetedItemsForStaticOrder){
+
+    var selectedItemsList = [];
+
+    for(var i=0; i< selecetedItemsForStaticOrder.length; i++){
+        var storeItem = new StoreItem(storeName, selecetedItemsForStaticOrder[i].itemId, selecetedItemsForStaticOrder[i].quantity);
+        selectedItemsList.push(storeItem);
+    }
+
+    return selectedItemsList;
+}
+
+function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
+    return new Order(ORDER_DATE, "static", ORDER_X, ORDER_Y, selectedStoreItemsList, selectedDiscountsOffers);
+}

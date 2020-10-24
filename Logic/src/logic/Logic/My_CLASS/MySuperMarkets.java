@@ -37,7 +37,7 @@ public class MySuperMarkets {
         return zoneSuperMarkets;
     }
 
-    public MySuperMarket getAreaSuperMarketByName(String areaName){
+    public synchronized MySuperMarket getAreaSuperMarketByName(String areaName){
         MySuperMarket zoneSuperMarket =null ;
 
         for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {

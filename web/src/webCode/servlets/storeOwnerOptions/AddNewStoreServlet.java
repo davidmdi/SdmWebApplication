@@ -30,8 +30,8 @@ public class AddNewStoreServlet extends HttpServlet {
         Gson gson = new Gson();
         MyStore.StoreJson store = gson.fromJson(reader, MyStore.StoreJson.class);
         System.out.println(store);
-
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
+        try{
 
             if(engine.isStoreLocationValid(store.x, store.y) == false)
                 msg = "Location not valid";
@@ -41,8 +41,11 @@ public class AddNewStoreServlet extends HttpServlet {
             }
 
             out.println(msg.toString());
-            out.flush();
+
+        }catch (Exception e){
+            out.println(e.getMessage().toString());
         }
+        out.flush();
     }
 
     @Override

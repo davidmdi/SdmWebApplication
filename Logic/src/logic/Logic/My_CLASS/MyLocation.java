@@ -14,7 +14,7 @@ public class MyLocation {
         this.Y = sdmLocation.getY();
     }
 
-    public MyLocation(int x, int y) {
+    public  MyLocation(int x, int y) {
         this.X = x ;
         this.Y = y;
     }

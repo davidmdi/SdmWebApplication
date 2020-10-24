@@ -60,7 +60,7 @@ public class MyStores {
         this.storeList = storeList;
     }
 
-    public Map<Integer, MyStore> getStoreMap() {
+    public synchronized Map<Integer, MyStore> getStoreMap() {
         return storeMap;
     }
 
@@ -82,5 +82,13 @@ public class MyStores {
                 return store;
         }
         return null;
+    }
+
+    public synchronized MyStore findStoreByName(String storeName) {
+        for (MyStore store : this.getStoreList()){
+            if(store.getName().equals(storeName));
+            return store;
+        }
+        return null ; // if store not found by it name
     }
 }

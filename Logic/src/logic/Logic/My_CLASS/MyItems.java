@@ -45,7 +45,7 @@ public class MyItems {
         this.sdmItems = sdmItems;
     }
 
-    public Map<Integer, MyItem> getItemsMap() {
+    public synchronized Map<Integer, MyItem> getItemsMap() {
         return itemsMap;
     }
 

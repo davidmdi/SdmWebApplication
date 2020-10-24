@@ -2,7 +2,6 @@ package logic.Logic.My_CLASS;
 
 
 import SDM_CLASS.SDMDiscount;
-import SDM_CLASS.SDMItem;
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.scene.control.DatePicker;
 
@@ -66,11 +65,11 @@ public class MySuperMarket {
         this.sdmSuper = sdmSuper;
     }
 
-    public MyStores getStores() {
+    public synchronized MyStores getStores() {
         return stores;
     }
 
-    public void setStores(MyStores stores) {
+    public synchronized void setStores(MyStores stores) {
         this.stores = stores;
     }
 
@@ -117,10 +116,10 @@ public class MySuperMarket {
 //    }
 
     public Double caculateDeliveryDistance(MyStore store, MyLocation M, MyLocation N) {
-        int Mx = M.getSdmLocation().getX();
-        int My = M.getSdmLocation().getY();
-        int Nx = N.getSdmLocation().getX();
-        int Ny = N.getSdmLocation().getY();
+        int Mx = M.getX();
+        int My = M.getY();
+        int Nx = N.getX();
+        int Ny = N.getY();
         int dx = Mx-Nx;
         int dy = My-Ny;
         return (Math.sqrt(dx*dx + dy*dy));

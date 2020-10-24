@@ -43,7 +43,7 @@ public class StaticOrderHandlerServlet extends HttpServlet {
 
     private void showOffersToUser(PrintWriter out, Map<MyStoreItem, Double> selectedItemsMap, MySuperMarket superMarket) {
 
-        out.println("<form id ='selectSpecialOffers' method='POST' action=''>" +
+        out.println("<form id ='selectSpecialOffers' method='POST' action='/createStaticOrder'>" +
                 "<div class='row'>" +
                 "<h3>Special offers</h3>" +
                 "</div>");
@@ -65,7 +65,7 @@ public class StaticOrderHandlerServlet extends HttpServlet {
         }
 
         out.println("<div class=\"row\">");
-             out.println("<input type=\"submit\" value='Make order'>");
+             out.println("<input type=\"submit\" value='Make order' >");
         out.println("</div>");
         out.println("</form>");
 
@@ -90,10 +90,10 @@ public class StaticOrderHandlerServlet extends HttpServlet {
         double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
         String allItemNames = "";
         Double itemTotalPrice = 0.0;
-
+        int index = 0;
         String res = "<div class='row'>" +
                 "<div class=\"discount\" name='discount'>" +
-                "<input type = \"checkbox\" name='itemCheckBox' value='id' class=\"regular-checkbox\">" +
+                "<input type = \"checkbox\" name='discountCheckBox' value='ALL-NOTHING' class=\"regular-checkbox\">" +
                 "<label class='discount-header' >"+discount.getName()+"</label >" +
                 "<label > for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName+" "+"</label >";
         for (SDMOffer offer:thenYouGet.getSDMOffer()) {
@@ -102,9 +102,11 @@ public class StaticOrderHandlerServlet extends HttpServlet {
                      " for " + offer.getForAdditional() + " NIS ;";
             itemTotalPrice = itemTotalPrice +offer.getForAdditional();
             allItemNames = allItemNames + "\n";
-            res += "<input type=\"hidden\" id=\"offerItemId\" name=\"offerItemId\" value='"+offer.getItemId()+"'>" +
-                    "<input type=\"hidden\" id=\"offerItemPrice\" name=\"offerItemPrice\" value='"+offer.getForAdditional()+"'>" +
-                    "<input type=\"hidden\" id=\"offerItemStoreId\" name=\"offerItemStoreId\" value='"+store.getId()+"'>";
+            res += "<input type=\"hidden\" id='"+index+"' name=\"offerItemId\" value='"+offer.getItemId()+"'>" +
+                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemPrice\" value='"+offer.getForAdditional()+"'>" +
+                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemQuantity\" value='"+offer.getQuantity()+"'>" +
+                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemStoreId\" value='"+store.getId()+"'>";
+            index++;
         }
         allItemNames = allItemNames + "Total of " + itemTotalPrice + "NIS ";
         res+="<label >you can choose all or nothing: </label >" +
@@ -124,23 +126,25 @@ public class StaticOrderHandlerServlet extends HttpServlet {
         double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
         String res =  "<div class='row'>" +
                 "<div class=\"discount\" name='discount'>" +
-                "<input type = \"checkbox\" name='itemCheckBox' value='id' class=\"regular-checkbox\">" +
+                "<input type = \"checkbox\" name='discountCheckBox' value='ONE-OF' class=\"regular-checkbox\">" +
                 "<label class='discount-header' >"+discount.getName() +"</label >" +
                 "<label >for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName  +"</label >" +
                 "<label >you can choose one of:</label >" +
-                "<select name=\"products\" id=\"one-of\" class='discount-one-of'>" ;
+                "<select name=\"products\" id=\"oneOfOfferSelect\" class='discount-one-of'>" ;
         for (SDMOffer offer: thenYouGet.getSDMOffer()) {
             String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
             double itemQuantity = offer.getQuantity();
             int forAddition = offer.getForAdditional();
             res += "<option value=\"volvo\" offerItemId='"+offer.getItemId()+"' " +
-                    "offerItemPrice='"+offer.getForAdditional()+"' offerItemStoreId='"+store.getId()+"'>"
-                    +itemQuantity + " of "+itemName + " for " +forAddition +
+                    "offerItemPrice='"+offer.getForAdditional()+"' offerItemStoreId='"+store.getId()+"' " +
+                    "offerItemQuantity='"+offer.getQuantity()+"'>" +
+                    itemQuantity + " of "+itemName + " for " +forAddition +
                     "NIS for each</option>";
 
         }
              res += "<input type=\"hidden\" id=\"selectedOfferItemId\" name=\"selectedOfferItemId\" value=''>" +
                 "<input type=\"hidden\" id=\"selectedOfferItemPrice\" name=\"selectedOfferItemPrice\" value=''>" +
+                "<input type=\"hidden\" id=\"selectedOfferItemQuantity\" name=\"selectedOfferItemQuantity\" value=''>" +
                 "<input type=\"hidden\" id=\"selectedOfferItemStoreId\" name=\"selectedOfferItemStoreId\" value=''>";
               res+=  "</select>" +
                    "</div>" +
