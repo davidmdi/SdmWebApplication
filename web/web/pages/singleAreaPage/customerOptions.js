@@ -294,9 +294,7 @@ function createSelectedDiscountsOffersList(){
     console.log("selectedOneOfOffers" + selectedOneOfOffers);
     var selectedAllOrNotOffers = createAllOrNothingSelectedOffersList();
     console.log("selectedAllOrNotOffers" + selectedAllOrNotOffers);
-    var concatArray = selectedAllOrNotOffers;
-    if(selectedOneOfOffers !== [])
-        concatArray = selectedOneOfOffers.concat(selectedAllOrNotOffers);
+    var concatArray = selectedOneOfOffers.concat(selectedAllOrNotOffers);
 
     console.log(concatArray);
 

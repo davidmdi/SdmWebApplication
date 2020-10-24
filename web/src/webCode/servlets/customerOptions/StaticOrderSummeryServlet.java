@@ -110,11 +110,13 @@ public class StaticOrderSummeryServlet extends HttpServlet {
             MyStoreItem storeItemToAdd = store.getStoreItems().getItemsMap().get(storeItemJson.itemId);
             quantityMap.put(storeItemToAdd,storeItemJson.quantity);
         }
-        for(OfferItem offerItem : selectedOfferItemsList){ // adding offer items to map.
-            MyStore store = superMarket.getStores().getStoreMap().get(offerItem.storeId);
-            MyItem myItem = superMarket.getItems().getItemsMap().get(offerItem.itemId);
-            MyStoreItem offerItemToAdd = new MyStoreItem(myItem,offerItem.price,offerItem.storeId,"offer");
-            quantityMap.put(offerItemToAdd,offerItem.quantity);
+        if(selectedOfferItemsList !=null) {
+            for (OfferItem offerItem : selectedOfferItemsList) { // adding offer items to map.
+                MyStore store = superMarket.getStores().getStoreMap().get(offerItem.storeId);
+                MyItem myItem = superMarket.getItems().getItemsMap().get(offerItem.itemId);
+                MyStoreItem offerItemToAdd = new MyStoreItem(myItem, offerItem.price, offerItem.storeId, "offer");
+                quantityMap.put(offerItemToAdd, offerItem.quantity);
+            }
         }
 
         return quantityMap;
