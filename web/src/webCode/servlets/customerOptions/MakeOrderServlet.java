@@ -1,6 +1,7 @@
 package webCode.servlets.customerOptions;
 
 import logic.Logic.Engine;
+import logic.Logic.My_CLASS.MyItem;
 import logic.Logic.My_CLASS.MyStore;
 import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
@@ -45,16 +46,36 @@ public class MakeOrderServlet extends HttpServlet {
     }
 
     private String createFormOfAreasItemsList(Engine engine, String zoneName) {
-        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(zoneName);
-        String res = "<div id=\"storeId\">" +
-                "<div class='row'>" +
-                "<div class ='col'>" +
-                "<div class=\"row\"><h2>Choose your items:</h2></div>" +
-                "<form id='itemsListForm' action='' enctype=\"multipart/form-data\">" +
-                "<div class=\"row\">" +
-                "<div class=\"col-25\"><label for=\"storeName\">Store Name</label></div>" +
-                ""+
-                "</form>";
+
+        List<MyItem> zoneItems = engine.getMySupermarkets().getAreaItemsList(zoneName);
+
+        String res = //"<div class=\"row\">" +
+                       // "<div class=\"col\">" +
+                            "<form id='dynamicOrderItems' action='' enctype=\"multipart/form-data\">" +
+                                "<div class=\"row\"><h2>Choose items</h2></div>";
+
+        for(MyItem item : zoneItems){
+            res += "<div class=\"row\"><div name='item' class=\"item\">" +
+                        "<input type=\"checkbox\" class=\"regular-checkbox\" name='itemCheckBox' value="+item.getItemId()+">" +
+                        "<label name='itemId' for="+item.getItemId()+">"+item.getItemId()+"</label>" +
+                        "<label name='itemName' for="+item.getItemId()+">"+item.getName()+"</label>" +
+                        "<label name='itemPurchaseCategory' for="+item.getItemId()+">"+item.getPurchaseCategory()+"</label>" +
+                        "<label for="+item.getItemId()+"> Amount:</label>";
+                        //"<input type=\"number\" class=\"text-price\" id=\"itemPrice\" name=\"itemPrice\" placeholder=\"0\" min=\"0\" value=\"0\">" +
+                        if(item.getPurchaseCategory().equalsIgnoreCase(MyItem.QUANTITY)){
+                            res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>";
+                        }else{
+                            res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.1\" value = \"0.0\" >";
+                        }
+            res += "</div></div>";
+        }
+
+        res += "<div class=\"row\">" +
+                    "<input type=\"submit\" value=\"Shop\">" +
+                "</div>" +
+            "</form>";
+        //"</div>" +
+   // "</div>";
 
         return res;
     }

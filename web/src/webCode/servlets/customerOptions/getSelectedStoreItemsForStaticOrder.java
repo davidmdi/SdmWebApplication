@@ -85,7 +85,7 @@ Item: id name purchase method price amount
                                    if(item.jsonItem.purchaseMethod.equalsIgnoreCase(MyItem.QUANTITY)){
                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>";
                                    }else{
-                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.01\" value = \"0.0\" >";
+                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.1\" value = \"0.0\" >";
                                    }
                             res += "</div>";
                         }
