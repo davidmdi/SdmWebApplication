@@ -5,7 +5,6 @@ var SHOW_ORDER_HISTORY_PAGE_URL = buildUrlWithContextPath("showCustomersOrderHis
 var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems");
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
-var DYNAMIC_PRESENT_ITEMS_LIST =  buildUrlWithContextPath("showOffersForDynamicOrder");
 var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
@@ -36,6 +35,11 @@ function makeOrderOnClick(){
     $("#content").replaceWith(buildFormForOrder());
     $("#initDataForOrder").submit(function () {
             parametrs = $("form").serialize();
+            var selectedStoreSerializedArray = $('form').serializeArray();
+            ORDER_DATE = selectedStoreSerializedArray[0].value;
+            ORDER_TYPE = selectedStoreSerializedArray[1].value;
+            ORDER_X  = selectedStoreSerializedArray[2].value;
+            ORDER_Y  = selectedStoreSerializedArray[3].value;
 
             try{
                 if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
@@ -71,6 +75,7 @@ function showZoneStoresComboBox(parametrs){
 
 
 function showZoneItemsList(parametrs){
+
     $.ajax({
         data:parametrs,
         url: MAKE_ORDER_PAGE_URL,
@@ -78,14 +83,74 @@ function showZoneItemsList(parametrs){
             // $("#content").replaceWith(response);
             $("h6").hide()
             $("#content").append(response);
-            //$(id).submit(function y{creating ajax  param.append(name, value) });
-            $("#storeSelectForm").attr("action", DYNAMIC_PRESENT_ITEMS_LIST); // change name of form
-            $("#storeSelectForm").submit(showSelectedStoreInfo);// change name of form + function
+            $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
+            $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
             return false;
         }
 
     });
 }
+
+/*  HERE   */
+
+function createDynamicOrderItemsList(){
+    //var formItems = document.getElementsByName("item");
+    var checkBoxes = document.getElementsByName("itemCheckBox");
+    var selectedStoreItems = [];
+
+    //create items list
+    for (var i=0; i<checkBoxes.length; i++) {
+        if(checkBoxes[i].checked){
+            var id = checkBoxes[i].value;
+            var quantity = document.getElementsByName("itemAmount")[i].value;
+
+            if(quantity <= 0) { //check for item with out price
+                alert("Item " + id + " must have amount.");
+                return null;
+            }
+
+            selectedStoreItems.push(new StoreItem("", id, quantity));
+        }
+    }
+
+    if(selectedStoreItems.length == 0){
+        alert("Must have at least one item in order.");
+        return null;
+    }
+
+    return selectedStoreItems;
+}
+
+
+function sendDynamicOrderItems(){
+    var discountsOffersList = [];
+    discountsOffersList.push(new OfferItem(-1, -1, -1, -1));
+    var selectedStoreItemsList = createDynamicOrderItemsList();
+
+    if(selectedStoreItemsList !== null){
+        var dynamicOrder = new Order(ORDER_DATE, "dynamic", ORDER_X, ORDER_Y, selectedStoreItemsList, discountsOffersList);
+        console.log(dynamicOrder);
+
+        $.ajax({
+            method:'POST',
+            data: JSON.stringify(dynamicOrder),
+            url: STATIC_ORDER, // CHANGE THE URL !!
+            contentType: "application/json",
+            timeout: 4000,
+            error: function(e) { alert(e); },
+            success: function(response) {
+                $("#content").replaceWith(response); // show store summery
+                //$("#selectSpecialOffers").attr('action', STATIC_ORDER_SUMMERY);
+                //$("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
+            }
+
+        });
+    }
+
+    return false;
+}
+
+
 
 function showOrderHistory() {
     changeSelectedMenuOption("#orderHistory");//changes to ui options
@@ -103,11 +168,13 @@ function showOrderHistory() {
 function showSelectedStoreInfo() {
 
     var selectedStoreSerialized = $("form").serialize();
+    /*
     var selectedStoreSerializedArray = $('form').serializeArray();
     ORDER_DATE = selectedStoreSerializedArray[0].value;
     ORDER_TYPE = selectedStoreSerializedArray[1].value;
     ORDER_X  = selectedStoreSerializedArray[2].value;
     ORDER_Y  = selectedStoreSerializedArray[3].value;
+    */
 
     $.ajax({
         data:  selectedStoreSerialized ,
