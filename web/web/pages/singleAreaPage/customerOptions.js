@@ -5,6 +5,7 @@ var SHOW_ORDER_HISTORY_PAGE_URL = buildUrlWithContextPath("showCustomersOrderHis
 var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems");
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
+var DYNAMIC_PRESENT_ITEMS_LIST =  buildUrlWithContextPath("showOffersForDynamicOrder");
 var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
@@ -78,7 +79,7 @@ function showZoneItemsList(parametrs){
             $("h6").hide()
             $("#content").append(response);
             //$(id).submit(function y{creating ajax  param.append(name, value) });
-            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
+            $("#storeSelectForm").attr("action", DYNAMIC_PRESENT_ITEMS_LIST); // change name of form
             $("#storeSelectForm").submit(showSelectedStoreInfo);// change name of form + function
             return false;
         }
