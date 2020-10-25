@@ -11,7 +11,7 @@ public class MyFeedback {
     private int rate;
     private String comments;
 
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     public MyFeedback(String storeName, String customerName, Date orderDate, int rate, String comments){
         this.storeName = storeName;

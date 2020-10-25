@@ -96,6 +96,10 @@
         <servlet-name>updateOrder</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.UpdateOrderInSystemServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EndOfOrderServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.EndOfOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -187,6 +191,10 @@
     <servlet-mapping>
         <servlet-name>updateOrder</servlet-name>
         <url-pattern>/updateOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EndOfOrderServlet</servlet-name>
+        <url-pattern>/endOrder</url-pattern>
     </servlet-mapping>
 
 

@@ -55,10 +55,12 @@ public class ShowFeedbacksFormServlet extends HttpServlet {
     private String buildFeedbacksDiv(Map<Integer, String> orderStoresInfo){
 
         String div = "<div class=\"leaveFeedbacks\">" +
-                        "<form id ='storesFeedBacks' method='POST' action='storesFeedBack'>" +
-                            "<div class='row'>" +
-                                "<h3>Feedbacks</h3>" +
-                            "</div>";
+                        "<div class='row'>" +
+                        "<div class='col'>" +
+                            "<form id ='storesFeedBacks' method='POST' action='storesFeedBack'>" +
+                                "<div class='row'>" +
+                                    "<h3>Feedbacks</h3>" +
+                                "</div>";
 
         for(Integer storeId : orderStoresInfo.keySet()){
             div += buildFeedback(storeId, orderStoresInfo.get(storeId));
@@ -69,6 +71,8 @@ public class ShowFeedbacksFormServlet extends HttpServlet {
                     "<input type=\"submit\" value='Send feedbacks'>" +
                 "</div>" +
             "</form>" +
+        "</div>"+
+        "</div>"+
         "</div>";
 
         return div;
@@ -87,7 +91,7 @@ public class ShowFeedbacksFormServlet extends HttpServlet {
                                         "<label class='feedback-label'>Comments:</label>" +
                                     "</div>" +
                                     "<div class='col-2'>" +
-                                        "<input type = \"number\" name='feedbackRate' value='id' class=\"text-price\" placeholder ='1-5' min='1' max='5'>" +
+                                        "<input type = \"number\" name='feedbackRate' class=\"text-price\" placeholder ='1-5' min='1' max='5'>" +
                                         "<input type = \"text\" name='feedbackComment' class=\"text-text\">" +
                                     "</div>" +
                                 "</div>" +
