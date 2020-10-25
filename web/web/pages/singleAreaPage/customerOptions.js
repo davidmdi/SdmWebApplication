@@ -35,7 +35,7 @@ function makeOrderOnClick(){
             parametrs = $("form").serialize();
 
             try{
-                if(document.querySelector('input[name="typeofOrder"]:checked').value == dynamic)
+                if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
                     showZoneItemsList(parametrs);
                 else
                     showZoneStoresComboBox(parametrs);
@@ -51,8 +51,6 @@ function makeOrderOnClick(){
 function showZoneStoresComboBox(parametrs){
     $.ajax({
         data:parametrs,
-        //  data:formData,
-        //  processData: false,
         url: MAKE_ORDER_PAGE_URL,
         success: function(response) {
             // $("#content").replaceWith(response);
@@ -72,16 +70,14 @@ function showZoneStoresComboBox(parametrs){
 function showZoneItemsList(parametrs){
     $.ajax({
         data:parametrs,
-        //  data:formData,
-        //  processData: false,
         url: MAKE_ORDER_PAGE_URL,
         success: function(response) {
             // $("#content").replaceWith(response);
             $("h6").hide()
             $("#content").append(response);
             //$(id).submit(function y{creating ajax  param.append(name, value) });
-            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
-            $("#storeSelectForm").submit(showSelectedStoreInfo);
+            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
+            $("#storeSelectForm").submit(showSelectedStoreInfo);// change name of form + function
             return false;
         }
 
@@ -90,8 +86,6 @@ function showZoneItemsList(parametrs){
 
 function showOrderHistory() {
     changeSelectedMenuOption("#orderHistory");//changes to ui options
-
-
     $.ajax({
 
         url: SHOW_ORDER_HISTORY_PAGE_URL,
@@ -129,9 +123,7 @@ function showSelectedStoreInfo() {
 }
 
 function showStoreDiscountsOffers(){
-    //var selecetedItemsForStaticOrder = createStaticOrderItemList();
-    selecetedItemsForStaticOrder = createStaticOrderItemList(); // bug !!!!!!1
-    // it return: JSON.stringify(itemsListSelected);  ->>>>>> 196
+    selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
         data: selecetedItemsForStaticOrder,
@@ -234,8 +226,8 @@ function showStaticOrderSummeryOnSubmitClicked(){
         error: function(e) { alert(e); },
         success: function(response) { //response is order summery and approve button
             $("#content").replaceWith(response);
-            //approve order button ovveride:
-            //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);
+            //approve order button overide
+            //             //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
         }
 
     });

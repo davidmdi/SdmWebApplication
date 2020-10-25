@@ -2,6 +2,7 @@ package webCode.servlets.customerOptions;
 
 import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MyStore;
+import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -34,16 +35,31 @@ public class MakeOrderServlet extends HttpServlet {
             } else {
                 if (orderType.equalsIgnoreCase("static")) {
                     //create with store list/
-                    out.println(createFormOfStoreLise(engine,zoneName));
+                    out.println(createFormOfStoreList(engine,zoneName));
 
                 } else {
-                    //create supers Item List.
+                    out.println(createFormOfAreasItemsList(engine,zoneName));
                 }
             }
         }
     }
 
-    private String createFormOfStoreLise(Engine engine, String zoneName) {
+    private String createFormOfAreasItemsList(Engine engine, String zoneName) {
+        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(zoneName);
+        String res = "<div id=\"storeId\">" +
+                "<div class='row'>" +
+                "<div class ='col'>" +
+                "<div class=\"row\"><h2>Choose your items:</h2></div>" +
+                "<form id='itemsListForm' action='' enctype=\"multipart/form-data\">" +
+                "<div class=\"row\">" +
+                "<div class=\"col-25\"><label for=\"storeName\">Store Name</label></div>" +
+                ""+
+                "</form>";
+
+        return res;
+    }
+
+    private String createFormOfStoreList(Engine engine, String zoneName) {
 
         String htmlBuilder = "<div id=\"storeId\">" +
          "<label for=\"store\">Choose a store:</label>" +
