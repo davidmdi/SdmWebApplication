@@ -57,7 +57,104 @@ public class MinimaltemsBasketServlet extends HttpServlet {
             req.getSession(true).setAttribute(Constants.CUSTOMER_STORE_SINGLE_ORDER_MAP,storeSingleOrderItemsMap);
         }
 
-        return buildHtmlForm(order,storeSingleOrderItemsMap,engine,req);
+        return buildStoreSummeryForm(order,storeSingleOrderItemsMap,engine,req);
+    }
+
+    private String buildStoreSummeryForm(MyOrder order, Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap, Engine engine, HttpServletRequest req) {
+        String res = "<div id='content'>" +
+                            "<div class='row'>" +
+                                "<div class ='col'>" +
+                                    "<div class='row'>" +
+                                        "<h3>Dynamic Order</h3>" +
+                                    "</div>" +
+                                    "<form id ='createStaticOrder' method='POST' action=''>";
+
+        // for each Store:
+        res += buildStoreSummery();
+
+
+        res +=	"</form>" +
+            "</div>" +
+        "</div>" +
+    "</div>";
+
+
+
+    }
+
+    private String buildStoreSummery() {
+        /*
+        String res = "<div class='storeSummery'>" +
+                        "<div class="row">" +
+						    "<div class="col-25">" +
+							    "<label for=\"fname\">Store ID</label>" +
+                            "</div>" +
+						"<div class="col-75">" +
+							"<label id='storeNameLabel' >store.id</label >" +
+						"</div>" +
+					"</div>" +
+					"<div class="row"> "
+						<div class="col-25">
+							<label for=\"fname\">Store Name</label>
+                </div>
+						<div class="col-75">
+							<label id='storeNameLabel' >store.name</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Location</label>
+                </div>
+						<div class="col-75">
+							<label id='storeNameLabel' >(store.LocationX,store.LocationX)</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for="fname">Store PPK</label>
+						</div>
+						<div class="col-75">
+							<label >store.ppk</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Distance from customer</label>
+						</div>
+						<div class="col-75">
+							<label >distance</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Delivery cost</label>
+						</div>
+						<div class="col-75">
+							<label >20</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items types</label>
+						</div>
+						<div class="col-75">
+							<label >3</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items cost</label>
+						</div>
+						<div class="col-75">
+							<label >150</label >
+						</div>
+					</div>
+				</div>
+				<hr>
+
+        return res;
+
+         */
     }
 
     private Map<MyStoreItem, Double> createQuantityMapFromEngineFindBusket(Engine engine
@@ -85,3 +182,153 @@ public class MinimaltemsBasketServlet extends HttpServlet {
     }
 
 }
+/*
+    <div id="content">
+		<div class='row'>
+			<div class ='col'>
+				<div class='row'>
+					<h3>Dynamic Order</h3>
+				</div>
+
+				<form id ='createStaticOrder' method='POST' action=''>
+
+				<div class='storeSummery'>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Store ID</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >store.id</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Store Name</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >store.name</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Location</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >(store.LocationX,store.LocationX)</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for="fname">Store PPK</label>
+						</div>
+						<div class="col-75">
+							<label >store.ppk</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Distance from customer</label>
+						</div>
+						<div class="col-75">
+							<label >distance</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Delivery cost</label>
+						</div>
+						<div class="col-75">
+							<label >20</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items types</label>
+						</div>
+						<div class="col-75">
+							<label >3</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items cost</label>
+						</div>
+						<div class="col-75">
+							<label >150</label >
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class='storeSummery'>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Store ID</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >store.id</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Store Name</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >store.name</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for=\"fname\">Location</label>
+						</div>
+						<div class="col-75">
+							<label id='storeNameLabel' >(store.LocationX,store.LocationX)</label >
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-25">
+							<label for="fname">Store PPK</label>
+						</div>
+						<div class="col-75">
+							<label >store.ppk</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Distance from customer</label>
+						</div>
+						<div class="col-75">
+							<label >distance</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Delivery cost</label>
+						</div>
+						<div class="col-75">
+							<label >20</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items types</label>
+						</div>
+						<div class="col-75">
+							<label >3</label >
+						</div>
+					</div>
+					<div class="row">
+					   <div class="col-25">
+							<label for="lname">Total items cost</label>
+						</div>
+						<div class="col-75">
+							<label >150</label >
+						</div>
+					</div>
+				</div>
+				<hr>
+			</form>
+
+        </div>
+    </div>
+</div>
+*/
