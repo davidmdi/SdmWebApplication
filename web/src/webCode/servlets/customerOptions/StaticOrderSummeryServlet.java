@@ -15,11 +15,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static utils.ServletUtils.updateCustomerLocatin;
 
 public class StaticOrderSummeryServlet extends HttpServlet {
     @Override
@@ -50,19 +51,19 @@ public class StaticOrderSummeryServlet extends HttpServlet {
         // Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = new HashMap<>();
 
         //initialize data:
-        Date date = buildDate(staticOrderFromJs.date);
+        Date date = ServletUtils.buildDate(staticOrderFromJs.date);
         MyCustomer  customer = updateCustomerLocatin(engine,req , staticOrderFromJs.customerX ,
                 staticOrderFromJs.customerY);
         String orderKind = staticOrderFromJs.type;
         Map<MyStoreItem,Double> quantityMap = createQuantityMap( engine,req,
           staticOrderFromJs.selectedStoreItemsList, staticOrderFromJs.selectedOfferItemsList);
-        Map<Integer,Double> deliveryCostMap = createDeliveryCostMap(engine,req , customer ,quantityMap) ;
+        Map<Integer,Double> deliveryCostMap = ServletUtils.createDeliveryCostMap(engine,req , customer ,quantityMap) ;
 
         //creating order :
         MyOrder order = new MyOrder(date,customer,quantityMap,orderKind,deliveryCostMap);
 
         //creating StoreSingleOrderMap
-       Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = createSingleOrderItemsMap(order,req , engine);
+       Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = ServletUtils.createSingleOrderItemsMap(order,req , engine);
 
         //need to save the order and StoreSingleOrderMap on session..
         synchronized (this) {
@@ -73,31 +74,31 @@ public class StaticOrderSummeryServlet extends HttpServlet {
         return buildHtmlForm(order,storeSingleOrderItemsMap,engine,req);
     }
 
-    private Date buildDate(String date) throws ParseException {
-        Date date1=new SimpleDateFormat("YYYY-MM-dd").parse(date);
-        return date1;
-    }
+//    private Date buildDate(String date) throws ParseException {
+//        Date date1=new SimpleDateFormat("YYYY-MM-dd").parse(date);
+//        return date1;
+//    }
 
 
-    private Map<Integer, MyStoreSingleOrderItems> createSingleOrderItemsMap(MyOrder order
-            , HttpServletRequest req, Engine engine) {
-        Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = new HashMap<>();
-        String areaName = SessionUtils.getAreaName(req);
-        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
-        engine.createStoreSingleOrderInstance(order,superMarket,storeSingleOrderItemsMap);
-        return storeSingleOrderItemsMap;
-    }
+//    private Map<Integer, MyStoreSingleOrderItems> createSingleOrderItemsMap(MyOrder order
+//            , HttpServletRequest req, Engine engine) {
+//        Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = new HashMap<>();
+//        String areaName = SessionUtils.getAreaName(req);
+//        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
+//        engine.createStoreSingleOrderInstance(order,superMarket,storeSingleOrderItemsMap);
+//        return storeSingleOrderItemsMap;
+//    }
 
-    private Map<Integer, Double> createDeliveryCostMap(Engine engine, HttpServletRequest req
-            , MyCustomer customer, Map<MyStoreItem, Double> quantityMap) {
-
-        Map<Integer, Double> deliveryCostMap = new HashMap<>();
-        String areaName = SessionUtils.getAreaName(req);
-        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
-        superMarket.calculateDeliveryCostMap(quantityMap,deliveryCostMap,customer);
-
-        return deliveryCostMap;
-    }
+//    private Map<Integer, Double> createDeliveryCostMap(Engine engine, HttpServletRequest req
+//            , MyCustomer customer, Map<MyStoreItem, Double> quantityMap) {
+//
+//        Map<Integer, Double> deliveryCostMap = new HashMap<>();
+//        String areaName = SessionUtils.getAreaName(req);
+//        MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
+//        superMarket.calculateDeliveryCostMap(quantityMap,deliveryCostMap,customer);
+//
+//        return deliveryCostMap;
+//    }
 
     private Map<MyStoreItem, Double> createQuantityMap(Engine engine, HttpServletRequest req,
                 List<StoreItem> selectedStoreItemsList,List<OfferItem> selectedOfferItemsList) {
@@ -122,13 +123,13 @@ public class StaticOrderSummeryServlet extends HttpServlet {
         return quantityMap;
     }
 
-    private MyCustomer updateCustomerLocatin(Engine engine, HttpServletRequest req, int customerX, int customerY) {
-        String customerName = SessionUtils.getUsername(req);
-        MyCustomer customer = engine.getMyUsers().findCustomerByName(customerName);
-        MyLocation customerLocation = new MyLocation(customerX,customerY);
-        customer.setLocation(customerLocation);
-        return customer;
-    }
+//    private MyCustomer updateCustomerLocatin(Engine engine, HttpServletRequest req, int customerX, int customerY) {
+//        String customerName = SessionUtils.getUsername(req);
+//        MyCustomer customer = engine.getMyUsers().findCustomerByName(customerName);
+//        MyLocation customerLocation = new MyLocation(customerX,customerY);
+//        customer.setLocation(customerLocation);
+//        return customer;
+//    }
 
     private String buildHtmlForm(MyOrder order, Map<Integer
             , MyStoreSingleOrderItems> storeSingleOrderItemsMap, Engine engine, HttpServletRequest req) {

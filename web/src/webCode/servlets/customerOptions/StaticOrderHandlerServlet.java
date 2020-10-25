@@ -1,12 +1,7 @@
 package webCode.servlets.customerOptions;
 
-import SDM_CLASS.IfYouBuy;
-import SDM_CLASS.SDMDiscount;
-import SDM_CLASS.SDMOffer;
-import SDM_CLASS.ThenYouGet;
 import com.google.gson.Gson;
 import logic.Logic.Engine;
-import logic.Logic.My_CLASS.MyStore;
 import logic.Logic.My_CLASS.MyStoreItem;
 import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
@@ -22,7 +17,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 
@@ -35,122 +29,93 @@ public class StaticOrderHandlerServlet extends HttpServlet {
             String zoneName = SessionUtils.getAreaName(req);
             MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(zoneName);
             Map<MyStoreItem, Double> selectedItemsMap = buildDeliveryItemsMap(req, superMarket);
-            showOffersToUser(out,selectedItemsMap,superMarket);
+            ServletUtils.showOffersToUser(out,selectedItemsMap,superMarket);
         }
 
     }
 
 
-    private void showOffersToUser(PrintWriter out, Map<MyStoreItem, Double> selectedItemsMap, MySuperMarket superMarket) {
-
-        out.println("<form id ='selectSpecialOffers' method='POST' action='/createStaticOrder'>" +
-                "<div class='row'>" +
-                "<h3>Special offers</h3>" +
-                "</div>");
-
-        Set<MyStoreItem> storeItemSet =selectedItemsMap.keySet() ;
-        for (MyStoreItem storeItem:storeItemSet) {
-            MyStore store = superMarket.getStores().getStoreMap().get(storeItem.getStoreId());
-            if(store.getSdmStore().getSDMDiscounts() != null) { // if the store has discounters.
-                for (SDMDiscount discount : store.getSdmStore().getSDMDiscounts().getSDMDiscount()) {
-                    IfYouBuy ifYouBuy = discount.getIfYouBuy();
-                    if(storeItem.getMyItem().getSdmItem().getId() == ifYouBuy.getItemId() &&
-                            selectedItemsMap.get(storeItem) >= ifYouBuy.getQuantity())
-                        for (double i=0;
-                             i<Math.floor(selectedItemsMap.get(storeItem)/ifYouBuy.getQuantity());i++){
-                            out.println(createSellTile(discount,superMarket,store)); // need to build single offer html
-                        }
-                }
-            }
-        }
-
-        out.println("<div class=\"row\">");
-             out.println("<input type=\"submit\" value='Make order' >");
-        out.println("</div>");
-        out.println("</form>");
 
 
-    }
-
-    private String createSellTile(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
-        String res = "";
-        ThenYouGet thenYouGet = discount.getThenYouGet();
-        if(thenYouGet.getOperator().equals("ONE-OF"))
-            res = oneOfHtml(discount, superMarket,store);
-        else
-            res = takeAllOrNothingHtml(discount, superMarket,store);
-
-        return res;
-    }
-
-    private String takeAllOrNothingHtml(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
-        ThenYouGet thenYouGet = discount.getThenYouGet();
-        String ifYouBuyItemName = superMarket.getItems().getItemsMap().
-                get(discount.getIfYouBuy().getItemId()).getName();
-        double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
-        String allItemNames = "";
-        Double itemTotalPrice = 0.0;
-        int index = 0;
-        String res = "<div class='row'>" +
-                "<div class=\"discount\" name='discount'>" +
-                "<input type = \"checkbox\" name='discountCheckBox' value='ALL-NOTHING' class=\"regular-checkbox\">" +
-                "<label class='discount-header' >"+discount.getName()+"</label >" +
-                "<label > for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName+" "+"</label >";
-        for (SDMOffer offer:thenYouGet.getSDMOffer()) {
-            String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
-            allItemNames = allItemNames + " " + offer.getQuantity() + " " + itemName +
-                     " for " + offer.getForAdditional() + " NIS ;";
-            itemTotalPrice = itemTotalPrice +offer.getForAdditional();
-            allItemNames = allItemNames + "\n";
-            res += "<input type=\"hidden\" id='"+index+"' name=\"offerItemId\" value='"+offer.getItemId()+"'>" +
-                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemPrice\" value='"+offer.getForAdditional()+"'>" +
-                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemQuantity\" value='"+offer.getQuantity()+"'>" +
-                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemStoreId\" value='"+store.getId()+"'>";
-            index++;
-        }
-        allItemNames = allItemNames + "Total of " + itemTotalPrice + "NIS ";
-        res+="<label >you can choose all or nothing: </label >" +
-                "<label >"+ allItemNames +"</label >" +
-                "</div>" +
-                "</div>";
-
-        return res;
-    }
-
-    //need have:::::::::    itemId,price,storeId
-
-    private String oneOfHtml(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
-        ThenYouGet thenYouGet = discount.getThenYouGet();
-        String ifYouBuyItemName = superMarket.getItems().getItemsMap().
-                get(discount.getIfYouBuy().getItemId()).getName();
-        double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
-        String res =  "<div class='row'>" +
-                "<div class=\"discount\" name='discount'>" +
-                "<input type = \"checkbox\" name='discountCheckBox' value='ONE-OF' class=\"regular-checkbox\">" +
-                "<label class='discount-header' >"+discount.getName() +"</label >" +
-                "<label >for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName  +"</label >" +
-                "<label >you can choose one of:</label >" +
-                "<select name=\"products\" id=\"oneOfOfferSelect\" class='discount-one-of'>" ;
-        for (SDMOffer offer: thenYouGet.getSDMOffer()) {
-            String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
-            double itemQuantity = offer.getQuantity();
-            int forAddition = offer.getForAdditional();
-            res += "<option value=\"volvo\" offerItemId='"+offer.getItemId()+"' " +
-                    "offerItemPrice='"+offer.getForAdditional()+"' offerItemStoreId='"+store.getId()+"' " +
-                    "offerItemQuantity='"+offer.getQuantity()+"'>" +
-                    itemQuantity + " of "+itemName + " for " +forAddition +
-                    "NIS for each</option>";
-
-        }
-             res += "<input type=\"hidden\" id=\"selectedOfferItemId\" name=\"selectedOfferItemId\" value=''>" +
-                "<input type=\"hidden\" id=\"selectedOfferItemPrice\" name=\"selectedOfferItemPrice\" value=''>" +
-                "<input type=\"hidden\" id=\"selectedOfferItemQuantity\" name=\"selectedOfferItemQuantity\" value=''>" +
-                "<input type=\"hidden\" id=\"selectedOfferItemStoreId\" name=\"selectedOfferItemStoreId\" value=''>";
-              res+=  "</select>" +
-                   "</div>" +
-                "</div>";
-        return res;
-    }
+//    private String createSellTile(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
+//        String res = "";
+//        ThenYouGet thenYouGet = discount.getThenYouGet();
+//        if(thenYouGet.getOperator().equals("ONE-OF"))
+//            res = oneOfHtml(discount, superMarket,store);
+//        else
+//            res = takeAllOrNothingHtml(discount, superMarket,store);
+//
+//        return res;
+//    }
+//
+//    private String takeAllOrNothingHtml(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
+//        ThenYouGet thenYouGet = discount.getThenYouGet();
+//        String ifYouBuyItemName = superMarket.getItems().getItemsMap().
+//                get(discount.getIfYouBuy().getItemId()).getName();
+//        double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
+//        String allItemNames = "";
+//        Double itemTotalPrice = 0.0;
+//        int index = 0;
+//        String res = "<div class='row'>" +
+//                "<div class=\"discount\" name='discount'>" +
+//                "<input type = \"checkbox\" name='discountCheckBox' value='ALL-NOTHING' class=\"regular-checkbox\">" +
+//                "<label class='discount-header' >"+discount.getName()+"</label >" +
+//                "<label > for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName+" "+"</label >";
+//        for (SDMOffer offer:thenYouGet.getSDMOffer()) {
+//            String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
+//            allItemNames = allItemNames + " " + offer.getQuantity() + " " + itemName +
+//                     " for " + offer.getForAdditional() + " NIS ;";
+//            itemTotalPrice = itemTotalPrice +offer.getForAdditional();
+//            allItemNames = allItemNames + "\n";
+//            res += "<input type=\"hidden\" id='"+index+"' name=\"offerItemId\" value='"+offer.getItemId()+"'>" +
+//                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemPrice\" value='"+offer.getForAdditional()+"'>" +
+//                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemQuantity\" value='"+offer.getQuantity()+"'>" +
+//                    "<input type=\"hidden\" id='"+index+"' name=\"offerItemStoreId\" value='"+store.getId()+"'>";
+//            index++;
+//        }
+//        allItemNames = allItemNames + "Total of " + itemTotalPrice + "NIS ";
+//        res+="<label >you can choose all or nothing: </label >" +
+//                "<label >"+ allItemNames +"</label >" +
+//                "</div>" +
+//                "</div>";
+//
+//        return res;
+//    }
+//
+//    //need have:::::::::    itemId,price,storeId
+//
+//    private String oneOfHtml(SDMDiscount discount, MySuperMarket superMarket, MyStore store) {
+//        ThenYouGet thenYouGet = discount.getThenYouGet();
+//        String ifYouBuyItemName = superMarket.getItems().getItemsMap().
+//                get(discount.getIfYouBuy().getItemId()).getName();
+//        double ifYouBuyQuantityString = discount.getIfYouBuy().getQuantity();
+//        String res =  "<div class='row'>" +
+//                "<div class=\"discount\" name='discount'>" +
+//                "<input type = \"checkbox\" name='discountCheckBox' value='ONE-OF' class=\"regular-checkbox\">" +
+//                "<label class='discount-header' >"+discount.getName() +"</label >" +
+//                "<label >for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName  +"</label >" +
+//                "<label >you can choose one of:</label >" +
+//                "<select name=\"products\" id=\"oneOfOfferSelect\" class='discount-one-of'>" ;
+//        for (SDMOffer offer: thenYouGet.getSDMOffer()) {
+//            String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
+//            double itemQuantity = offer.getQuantity();
+//            int forAddition = offer.getForAdditional();
+//            res += "<option value=\"volvo\" offerItemId='"+offer.getItemId()+"' " +
+//                    "offerItemPrice='"+offer.getForAdditional()+"' offerItemStoreId='"+store.getId()+"' " +
+//                    "offerItemQuantity='"+offer.getQuantity()+"'>" +
+//                    itemQuantity + " of "+itemName + " for " +forAddition +
+//                    "NIS for each</option>";
+//
+//        }
+//             res += "<input type=\"hidden\" id=\"selectedOfferItemId\" name=\"selectedOfferItemId\" value=''>" +
+//                "<input type=\"hidden\" id=\"selectedOfferItemPrice\" name=\"selectedOfferItemPrice\" value=''>" +
+//                "<input type=\"hidden\" id=\"selectedOfferItemQuantity\" name=\"selectedOfferItemQuantity\" value=''>" +
+//                "<input type=\"hidden\" id=\"selectedOfferItemStoreId\" name=\"selectedOfferItemStoreId\" value=''>";
+//              res+=  "</select>" +
+//                   "</div>" +
+//                "</div>";
+//        return res;
+//    }
 
 
     private Map<MyStoreItem, Double> buildDeliveryItemsMap(HttpServletRequest req, MySuperMarket superMarket) throws IOException {
