@@ -47,7 +47,6 @@ public class CreateStoresFeedBacksServlet extends HttpServlet {
             Gson gson = new Gson();
             FeedBackList feedbackList = gson.fromJson(reader, FeedBackList.class);
             System.out.println(feedbackList);
-
             try {
                 for (MyFeedback.FeedbackJson feedbackJson : feedbackList.feedbacksList)
                     engine.addFeedBack(zoneName, customerName, feedbackJson);

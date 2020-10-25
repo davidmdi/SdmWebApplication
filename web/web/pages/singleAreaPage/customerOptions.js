@@ -7,6 +7,8 @@ var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
 var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
+var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
+var END_ORDER = buildUrlWithContextPath("endOrder");
 var parametrs;
 var ORDER_DATE;
 var ORDER_TYPE;
@@ -357,20 +359,93 @@ function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
 }
 
 function acceptOrderButton(){
-    // alert("acceptOrderButton");
+
     $.ajax({
         method:'POST',
         url: UPDATE_ORDER,
-        error: function(e) { alert(e); },
+        error: function(e) { alert("Error!"); },
         success: function(response) {
-            alert(response);
+            $("#content").append(response);
+            $("#storesFeedBacks").attr('action', CREATE_STORES_FEEDBACKS);
+            $("#storesFeedBacks").submit(ajaxSendStoresFeedbacks);
         }
 
     });
 
-
 }
 
 function declineOrderButton(){
-    alert("declineOrderButton");
+    console.log("end !")
+    $.ajax({
+        method:'POST',
+        url: END_ORDER,
+    });
+
+    makeOrderOnClick(); //return to make order page
+}
+
+function ajaxSendStoresFeedbacks(){
+    var feedBacksList = createFeedBacksList(this);
+
+    if(feedBacksList !== null){
+        $.ajax({
+            method:'POST',
+            url: CREATE_STORES_FEEDBACKS,
+            contentType: "application/json",
+            data: JSON.stringify(feedBacksList),
+            error: function(e) { alert(e); },
+            success: function(response) {
+                alert(response); // show 'feedback accepted' msg
+            }
+        });
+    }else{
+        alert("No Feedback was received.");
+    }
+
+    declineOrderButton(); // remove Order from session + goto home page
+    //check sending no feedback!
+
+    return false;
+}
+
+function createFeedBacksList(form){
+   // var formItems = document.getElementsByName("item");
+    var checkBoxes = document.getElementsByName("feedbackCheckBox");
+    var rates = document.getElementsByName("feedbackRate");
+    var comments = document.getElementsByName("feedbackComment");
+    var storesNames = document.getElementsByName("storeNameFeedback");
+    var selectedStoreFeedbacks = [];
+
+    for (var i=0; i<checkBoxes.length; i++) {
+        if(checkBoxes[i].checked){
+            console.log(rates[i].value);
+            if(rates[i].value == '' || rates[i].value == undefined){
+                alert("Must fill rate for chosen store feedback.");
+                return null;
+            }else{
+                var feedback = new Feedback(storesNames[i].textContent, ORDER_DATE,
+                    rates[i].value, comments[i].value);
+                selectedStoreFeedbacks.push(feedback);
+            }
+        }
+    }
+
+    console.log(selectedStoreFeedbacks);
+    if(selectedStoreFeedbacks.length == 0)
+        return null;
+    else
+        var feedbacksList = new FeedbackList(selectedStoreFeedbacks);
+
+    return feedbacksList;
+}
+
+function FeedbackList(feedbacksList){
+    this.feedbacksList = feedbacksList;
+}
+
+function Feedback(storeName, orderDate, rate, comments){
+    this.storeName = storeName;
+    this.orderDate = orderDate; // = String od date value!
+    this.rate = rate;
+    this.comments = comments;
 }
