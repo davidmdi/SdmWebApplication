@@ -87,9 +87,7 @@ public class MinimaltemsBasketServlet extends HttpServlet {
 
         try (PrintWriter out = resp.getWriter()) {
             out.println(res);
-            out.println("<div>");
             ServletUtils.showOffersToUser(out,order.getQuantityMap(),superMarket);
-            out.println("</div>");
             out.println("</div>");
             out.println("</div>");
             out.println("</div>");

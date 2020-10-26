@@ -4,6 +4,7 @@ var STORE_ORDERS_PAGE_URL = buildUrlWithContextPath("storeOrdersPage");
 var STORES_LIST_URL = buildUrlWithContextPath("zoneStoresList");
 var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
+var STORE_FEEDBACKS_URL = buildUrlWithContextPath("createStoreFeedbacks");
 var arrStores;
 
 // OnLoad function
@@ -65,12 +66,17 @@ function storeClickEvent (event) {
     var storeId = event.currentTarget.attributes['storeId'].value;
     const selectedStore = arrStores.find( ( store ) => store.sdmStore.id == storeId );
     refreshStoreOrdersHistory(selectedStore); //refresh store orders table
+    refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
 
     //change UI for the selected store
     var listItems = $("#storesList").children("li");
     listItems.removeAttr("class");
     var clickedListItem = event.currentTarget;
     clickedListItem.setAttribute("class", "store-active");
+}
+
+function refreshStoreFeedbacksTable(selectedStore){
+    console.log("inside refreshStoreFeedbacksTable");
 }
 
 
@@ -176,15 +182,17 @@ console.log("refreshOrderItemsTable");
 
 
 function feedbacksClicked(){
-            changeSelectedMenuOption("#feedbacks");
-            /*
-             $.ajax({
-                url: STORE_ORDERS_PAGE_URL,
-                success: function(response) {
-                    $("#content").replaceWith(response);
-                }
-            });
-            */
+    changeSelectedMenuOption("#storeOrders");//changes to ui options
+    //$("#content").empty(); //clear old content
+
+    $.ajax({
+        url: STORE_FEEDBACKS_URL,
+        success: function(response) {
+            $("#content").replaceWith(response);
+            ajaxStoresList();
+            setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds.
+        }
+    });
     return false;
 }
 

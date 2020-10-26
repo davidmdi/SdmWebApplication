@@ -19,26 +19,32 @@ import java.util.Map;
 
 public class DynamicOrderSummeryServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){ //throws ServletException, IOException {
+       // try {
             processes(req, resp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //} catch (ParseException e) {
+       //     e.printStackTrace();
+        //}
     }
 
-    private void processes(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException {
+    private void processes(HttpServletRequest req, HttpServletResponse resp) {//throws ServletException, IOException, ParseException {
+        try {
+            resp.setContentType("text/html;charset=UTF-8");
+            BufferedReader reader = req.getReader();
+            Gson gson = new Gson();
+            StaticOrderSummeryServlet.Order staticOrderFromJs = gson.fromJson(reader
+                    , StaticOrderSummeryServlet.Order.class);
+            System.out.println(staticOrderFromJs);
 
-        BufferedReader reader = req.getReader();
-        Gson gson = new Gson();
-        StaticOrderSummeryServlet.Order staticOrderFromJs =  gson.fromJson(reader
-                , StaticOrderSummeryServlet.Order.class);
-        System.out.println(staticOrderFromJs);
 
+            try (PrintWriter out = resp.getWriter()) {
+                String res = buildDynamicOrderSemmeryForm(staticOrderFromJs, req);
+                out.println(res);
+                out.flush();
+            }
 
-        try (PrintWriter out = resp.getWriter()) {
-            out.println(buildDynamicOrderSemmeryForm(staticOrderFromJs,req));
-            out.flush();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
 
     }
@@ -89,11 +95,11 @@ public class DynamicOrderSummeryServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            processes(req, resp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        //try {
+         processes(req, resp);
+       // } catch (ParseException e) {
+        //    e.printStackTrace();
+        //}
     }
 }

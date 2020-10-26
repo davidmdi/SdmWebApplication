@@ -57,6 +57,7 @@ public class ServletUtils {
 	public static void showOffersToUser(PrintWriter out, Map<MyStoreItem, Double> selectedItemsMap, MySuperMarket superMarket) {
 
 		out.println("<form id ='selectSpecialOffers' method='POST' action='/createStaticOrder'>" +
+		//out.println("<form id ='selectSpecialOffers' method='POST' action=''>" +
 				"<div class='row'>" +
 				"<h3>Special offers</h3>" +
 				"</div>");
@@ -217,62 +218,62 @@ public class ServletUtils {
 			MyStore store = superMarket.getStores().getStoreMap().get(storeId);
 			res+= "<div class='store'>" +
 					"<div class=\"row\">" +
-					"<div class=\"col-25\">" +
-					"<label for=\"fname\">Store Id</label>" +
-					"</div>" +
-					"<div class=\"col-75\">" +
-					"<label id='storeNameLabel' > "+store.getId() +"</label >" +
-					"</div>" +
-					"</div>" +
-					"<div class=\"row\">" +
-					"<div class=\"col-25\">" +
-					"<label for=\"fname\">Store Name</label>" +
-					"</div>" +
-					"<div class=\"col-75\">" +
-					"<label id='storeNameLabel' > "+store.getName() +"</label >" +
-					"</div>" +
+						"<div class=\"col-25\">" +
+						"<label for=\"fname\">Store Id</label>" +
+						"</div>" +
+						"<div class=\"col-75\">" +
+						"<label id='storeNameLabel' > "+store.getId() +"</label >" +
+						"</div>" +
 					"</div>" +
 					"<div class=\"row\">" +
-					"<div class=\"col-25\">" +
-					"<label for=\"fname\">Store PPK</label>" +
+						"<div class=\"col-25\">" +
+						"<label for=\"fname\">Store Name</label>" +
+						"</div>" +
+						"<div class=\"col-75\">" +
+						"<label id='storeNameLabel' > "+store.getName() +"</label >" +
+						"</div>" +
 					"</div>" +
-					"<div class=\"col-75\">" +
-					"<label >"+store.getPPK()+"</label >" +
-					"</div>" +
+					"<div class=\"row\">" +
+						"<div class=\"col-25\">" +
+						"<label for=\"fname\">Store PPK</label>" +
+						"</div>" +
+						"<div class=\"col-75\">" +
+						"<label >"+store.getPPK()+"</label >" +
+						"</div>" +
 					"</div>" +
 
 					"<div class=\"row\">" +
-					"<div class=\"col-25\">" +
-					"<label for=\"fname\">Distance from customer</label>" +
-					"</div>" +
-					"<div class=\"col-75\">" +
-					"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDistanceFromCustomer())+"</label >" +
-					"</div>" +
+						"<div class=\"col-25\">" +
+						"<label for=\"fname\">Distance from customer</label>" +
+						"</div>" +
+						"<div class=\"col-75\">" +
+						"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDistanceFromCustomer())+"</label >" +
+						"</div>" +
 					"</div>" +
 
 					"<div class=\"row\">" +
-					"<div class=\"col-25\">" +
-					"<label for=\"fname\">Delivery Cost</label>" +
-					"</div>" +
-					"<div class=\"col-75\">" +
-					"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDeliveryCost())+"</label >" +
-					"</div>" +
+						"<div class=\"col-25\">" +
+						"<label for=\"fname\">Delivery Cost</label>" +
+						"</div>" +
+						"<div class=\"col-75\">" +
+						"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDeliveryCost())+"</label >" +
+						"</div>" +
 					"</div>" +
 
 					"<div id=\"orderItems\">" +
-					"<div class=\"row\">" +
-					"<h4>Order Items:</h4>" +
-					"</div>" +
-					"<table id=\"orderItemsTable\">" +
-					"<tr>" +
-					"<th>Item Id</th>" +
-					"<th>Item Name</th>" +
-					"<th>Purchase Category</th>" +
-					"<th>Quantity</th>" +
-					"<th>Single item price</th>" +
-					"<th>Total Price</th>" +
-					"<th>Store/Offer</th>" +
-					"</tr>";
+						"<div class=\"row\">" +
+						"<h4>Order Items:</h4>" +
+						"</div>" +
+						"<table id=\"orderItemsTable\">" +
+							"<tr>" +
+							"<th>Item Id</th>" +
+							"<th>Item Name</th>" +
+							"<th>Purchase Category</th>" +
+							"<th>Quantity</th>" +
+							"<th>Single item price</th>" +
+							"<th>Total Price</th>" +
+							"<th>Store/Offer</th>" +
+							"</tr>";
 
 			for(MyStoreItem storeItem :
 					storeSingleOrderItemsMap.get(storeId).getThisStoreQuantityMapFromOrder().keySet()){
@@ -291,19 +292,30 @@ public class ServletUtils {
 
 			}
 			res+= " </table>" +
-					"<div class=\"row\">" +
-					"<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
-					"<input id=\"accept\" type='button' onclick='return acceptOrderButton()' name=\"\" value='Approve order'/>" +
-					"<input id=\"decline\" type='button' onclick='return declineOrderButton()' name=\"\" value='Abort'/>" +
+					" </div>" +
+					" </div>";
+					//"<div class=\"row\">" +
+					//"<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
+					//"<input id=\"accept\" type='button' onclick='return acceptOrderButton()' name=\"\" value='Approve order'/>" +
+					//"<input id=\"decline\" type='button' onclick='return declineOrderButton()' name=\"\" value='Abort'/>" +
+					//"</form>" +
+					//"</div>";
+
+		}
+
+		res+= 	"<div class=\"row\">" +
+					"<form id=\"sendOrder\" method=\"POST\" action=\"\">" +
+					//"<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
+					"<input id=\"accept\" type='button' onclick='return acceptOrderButton()' value='Approve order'/>" +
+					"<input id=\"decline\" type='button' onclick='return declineOrderButton()'value='Abort'/>" +
 					"</form>" +
-					"</div>" +
-					"</div>" +
-					"<div class='leaveFeedbacks'>" +
+				"</div>"+
+					"<div id='feedbacksForm' class='leaveFeedbacks'>" +
 					"</div>" +
 					"</div>" +
 					"</div>" +
 					"</div>";
-		}
+
 
 		return res;
 	}
