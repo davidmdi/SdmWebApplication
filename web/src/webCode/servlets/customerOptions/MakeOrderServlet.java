@@ -3,7 +3,6 @@ package webCode.servlets.customerOptions;
 import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MyItem;
 import logic.Logic.My_CLASS.MyStore;
-import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -31,7 +30,7 @@ public class MakeOrderServlet extends HttpServlet {
             int yCord = Integer.parseInt(req.getParameter("yCord"));
             // getting the zone from session.
             String zoneName = SessionUtils.getAreaName(req);
-            if (!engine.isCoordinateAreValid(xCord, yCord, zoneName)) {
+            if (!engine.isStoreLocationValid(xCord, yCord)) {
                 out.println("<h6 id=\"errMsg\" style=\"color:red;\">error:hitting store location</h6>");
             } else {
                 if (orderType.equalsIgnoreCase("static")) {
