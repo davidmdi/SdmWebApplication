@@ -108,6 +108,10 @@
         <servlet-name>dynamicOrderSummery</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.DynamicOrderSummeryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadMoneyFormServlet</servlet-name>
+        <servlet-class>webCode.servlets.LoadMoneyFormServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -208,10 +212,13 @@
         <servlet-name>findMinItemsBasket</servlet-name>
         <url-pattern>/findMinItemsBasket</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>dynamicOrderSummery</servlet-name>
         <url-pattern>/dynamicOrderSummery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadMoneyFormServlet</servlet-name>
+        <url-pattern>/loadMoneyForm</url-pattern>
     </servlet-mapping>
 
 

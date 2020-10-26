@@ -4,7 +4,7 @@ var STORE_ORDERS_PAGE_URL = buildUrlWithContextPath("storeOrdersPage");
 var STORES_LIST_URL = buildUrlWithContextPath("zoneStoresList");
 var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
-var STORE_FEEDBACKS_URL = buildUrlWithContextPath("createStoreFeedbacks");
+var STORE_FEEDBACKS_URL = buildUrlWithContextPath("showStoreFeedbacks");
 var arrStores;
 var timer_ajax_call;
 var isStoreOrdersPage = false;
@@ -18,8 +18,8 @@ $(function() {
 
 });
 
-function stopIntervalFunction() {
-    clearInterval(timer_ajax_call);
+function stopIntervalFunction(timer) {
+    clearInterval(timer);
 }
 
 function changeSelectedMenuOption(selectedMenuOptionID){
@@ -40,7 +40,7 @@ function storeOrdersClicked(){
                 success: function(response) {
                     $("#content").replaceWith(response);
                     ajaxStoresList();
-                    stopIntervalFunction();
+                    stopIntervalFunction(timer_ajax_call);
                     timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
                     isStoreOrdersPage =true;
                     isStoreFeedbacksPage = false;
@@ -197,7 +197,7 @@ console.log("refreshOrderItemsTable");
 
 
 function feedbacksClicked(){
-    changeSelectedMenuOption("#storeOrders");//changes to ui options
+    changeSelectedMenuOption("#feedbacks");//changes to ui options
     //$("#content").empty(); //clear old content
 
     $.ajax({
@@ -205,7 +205,7 @@ function feedbacksClicked(){
         success: function(response) {
             $("#content").replaceWith(response);
             ajaxStoresList();
-            stopIntervalFunction();
+            stopIntervalFunction(timer_ajax_call);
             timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
             isStoreOrdersPage =false;
             isStoreFeedbacksPage = true;

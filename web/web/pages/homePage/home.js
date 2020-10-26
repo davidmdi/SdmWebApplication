@@ -9,6 +9,7 @@ var AREAS_TABLE_URL = buildUrlWithContextPath("areasTable");
 var ACCOUNT_ACTIONS_URL = buildUrlWithContextPath("accountTable");
 var SELECTED_ZONE_URL = buildUrlWithContextPath("zoneSelected");
 var USER_NAME_URL = buildUrlWithContextPath("userName");
+var LOAD_MONEY_FORM = buildUrlWithContextPath("loadMoneyForm");
 
 //activate the timer calls after the page is loaded
 // The onLoad function...
@@ -16,6 +17,7 @@ $(function() {
      //init:
     ajaxInsertUserNameGreeting();
     ajaxLoadXml();
+    ajaxShowLoadMoneyForm();
     ajaxUsersList();
     ajaxAreasTable();
     ajaxAccountActionsTable();
@@ -223,4 +225,20 @@ function ajaxInsertUserNameGreeting() {
             $("#userName").replaceWith(response);
         }
     });
+}
+
+function ajaxShowLoadMoneyForm(){
+    $("#loadingMoneyToAccount").empty();
+
+    $.ajax({
+        url: LOAD_MONEY_FORM,
+        success: function(response) {//if customer: load money form. else: empty div
+            //refreshUsersList(users);
+            $("#loadingMoneyToAccount").replaceWith(response);
+        }
+    });
+}
+
+function ajaxLoadMoney(){
+    alert("load moneyyyyy");
 }
