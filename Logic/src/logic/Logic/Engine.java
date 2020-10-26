@@ -61,7 +61,8 @@ public class Engine {
     }
 
     public synchronized boolean isCoordinateAreValid(int xCord, int yCord, String zoneName) {
-            List<MyStore> stores = this.mySupermarkets.getAreaStoresList(zoneName);
+            MySuperMarket superMarket = this.getMySupermarkets().getAreaSuperMarketByName(zoneName);
+            List<MyStore> stores = superMarket.getStores().getStoreList();
             for (MyStore store : stores){ // hit's a store.
                 if(store.getMyLocation().getSdmLocation().getX() == xCord ||
                 store.getMyLocation().getSdmLocation().getY() == yCord)
