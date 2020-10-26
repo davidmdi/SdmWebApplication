@@ -292,7 +292,6 @@ function showDynamicOrderFinalSummeryOnSubmitClicked() {
         data: JSON.stringify(dynamicOrder),
         error: function(e) { alert(e); },
         success: function(response) { //response is order summery and approve button
-            alert("summery");
             $("#content").replaceWith(response);
             //approve order button overide
             //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
