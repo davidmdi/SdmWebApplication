@@ -286,17 +286,21 @@ function showDynamicOrderFinalSummeryOnSubmitClicked() {
     var dynamicOrder = createDynamicOrder(selectedStoreItemsList, selectedDiscountsOffers);
 
     $.ajax({
-        data: JSON.stringify(dynamicOrder),
         method:'POST',
         url: DYNAMIC_ORDER_FINAL_SUMMERY,
         contentType: "application/json",
+        data: JSON.stringify(dynamicOrder),
         error: function(e) { alert(e); },
         success: function(response) { //response is order summery and approve button
+            alert("summery");
             $("#content").replaceWith(response);
             //approve order button overide
             //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
         }
     });
+
+    return false;
+
 }
 
 function creatDummyStoreItemsList() {
@@ -470,7 +474,7 @@ function acceptOrderButton(){
         url: UPDATE_ORDER,
         error: function(e) { alert("Error!"); },
         success: function(response) {
-            $("#content").append(response);
+            $("#feedbacksForm").replaceWith(response);
             $("#storesFeedBacks").attr('action', CREATE_STORES_FEEDBACKS);
             $("#storesFeedBacks").submit(ajaxSendStoresFeedbacks);
         }
