@@ -91,8 +91,6 @@ function showZoneItemsList(parametrs){
     });
 }
 
-/*  HERE   */
-
 function createDynamicOrderItemsList(){
     //var formItems = document.getElementsByName("item");
     var checkBoxes = document.getElementsByName("itemCheckBox");

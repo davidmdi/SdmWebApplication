@@ -37,7 +37,7 @@ public class MinimaltemsBasketServlet extends HttpServlet {
 
     private String buildTempSummery(StaticOrderSummeryServlet.Order staticOrderFromJs, HttpServletRequest req) {
         Engine engine = ServletUtils.getEngine(getServletContext());
-        Date date = ServletUtils.buildDate(staticOrderFromJs.date);
+        Date date = null;//ServletUtils.buildDate(staticOrderFromJs.date);
         MyCustomer customer = ServletUtils.updateCustomerLocatin(engine,req , staticOrderFromJs.customerX ,
                 staticOrderFromJs.customerY);
         String orderKind = staticOrderFromJs.type;
@@ -78,7 +78,7 @@ public class MinimaltemsBasketServlet extends HttpServlet {
         "</div>" +
     "</div>";
 
-
+    return res;
 
     }
 
@@ -155,6 +155,7 @@ public class MinimaltemsBasketServlet extends HttpServlet {
         return res;
 
          */
+        return null;
     }
 
     private Map<MyStoreItem, Double> createQuantityMapFromEngineFindBusket(Engine engine
