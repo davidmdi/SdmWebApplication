@@ -107,7 +107,7 @@ public class ServletUtils {
 		String res = "<div class='row'>" +
 				"<div class=\"discount\" name='discount'>" +
 				"<input type = \"checkbox\" name='discountCheckBox' value='ALL-NOTHING' class=\"regular-checkbox\">" +
-				"<label class='discount-header' >"+discount.getName()+"</label >" +
+				"<label class='discount-header' >"+discount.getName()+ " Provided by: " + store.getName()+"</label >"+
 				"<label > for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName+" "+"</label >";
 		for (SDMOffer offer:thenYouGet.getSDMOffer()) {
 			String itemName = superMarket.getItems().getItemsMap().get(offer.getItemId()).getName();
@@ -140,7 +140,7 @@ public class ServletUtils {
 		String res =  "<div class='row'>" +
 				"<div class=\"discount\" name='discount'>" +
 				"<input type = \"checkbox\" name='discountCheckBox' value='ONE-OF' class=\"regular-checkbox\">" +
-				"<label class='discount-header' >"+discount.getName() +"</label >" +
+				"<label class='discount-header' >"+discount.getName() +" Provided by: " + store.getName() +"</label >" +
 				"<label >for buying "+ ifYouBuyQuantityString +" " + ifYouBuyItemName  +"</label >" +
 				"<label >you can choose one of:</label >" +
 				"<select name=\"products\" id=\"oneOfOfferSelect\" class='discount-one-of'>" ;
@@ -195,10 +195,116 @@ public class ServletUtils {
 		Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap = new HashMap<>();
 		String areaName = SessionUtils.getAreaName(req);
 		MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
+
 		engine.createStoreSingleOrderInstance(order,superMarket,storeSingleOrderItemsMap);
 		return storeSingleOrderItemsMap;
 	}
 
+	public static String buildHtmlFormForOrrderSummery(MyOrder order, Map<Integer
+			, MyStoreSingleOrderItems> storeSingleOrderItemsMap, Engine engine, HttpServletRequest req) {
 
+		String areaName = SessionUtils.getAreaName(req);
+		MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(areaName);
+		String res = "";
 
+		res+="<div id=\"content\">" +
+				"<div class='row'>" +
+				"<div class ='col'>" +
+				"<div class='row'>" +
+				"<h3>Order summery</h3>" +
+				"</div>";
+		for(Integer storeId : storeSingleOrderItemsMap.keySet()){
+			MyStore store = superMarket.getStores().getStoreMap().get(storeId);
+			res+= "<div class='store'>" +
+					"<div class=\"row\">" +
+					"<div class=\"col-25\">" +
+					"<label for=\"fname\">Store Id</label>" +
+					"</div>" +
+					"<div class=\"col-75\">" +
+					"<label id='storeNameLabel' > "+store.getId() +"</label >" +
+					"</div>" +
+					"</div>" +
+					"<div class=\"row\">" +
+					"<div class=\"col-25\">" +
+					"<label for=\"fname\">Store Name</label>" +
+					"</div>" +
+					"<div class=\"col-75\">" +
+					"<label id='storeNameLabel' > "+store.getName() +"</label >" +
+					"</div>" +
+					"</div>" +
+					"<div class=\"row\">" +
+					"<div class=\"col-25\">" +
+					"<label for=\"fname\">Store PPK</label>" +
+					"</div>" +
+					"<div class=\"col-75\">" +
+					"<label >"+store.getPPK()+"</label >" +
+					"</div>" +
+					"</div>" +
+
+					"<div class=\"row\">" +
+					"<div class=\"col-25\">" +
+					"<label for=\"fname\">Distance from customer</label>" +
+					"</div>" +
+					"<div class=\"col-75\">" +
+					"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDistanceFromCustomer())+"</label >" +
+					"</div>" +
+					"</div>" +
+
+					"<div class=\"row\">" +
+					"<div class=\"col-25\">" +
+					"<label for=\"fname\">Delivery Cost</label>" +
+					"</div>" +
+					"<div class=\"col-75\">" +
+					"<label >"+String.format("%.2f",storeSingleOrderItemsMap.get(storeId).getDeliveryCost())+"</label >" +
+					"</div>" +
+					"</div>" +
+
+					"<div id=\"orderItems\">" +
+					"<div class=\"row\">" +
+					"<h4>Order Items:</h4>" +
+					"</div>" +
+					"<table id=\"orderItemsTable\">" +
+					"<tr>" +
+					"<th>Item Id</th>" +
+					"<th>Item Name</th>" +
+					"<th>Purchase Category</th>" +
+					"<th>Quantity</th>" +
+					"<th>Single item price</th>" +
+					"<th>Total Price</th>" +
+					"<th>Store/Offer</th>" +
+					"</tr>";
+
+			for(MyStoreItem storeItem :
+					storeSingleOrderItemsMap.get(storeId).getThisStoreQuantityMapFromOrder().keySet()){
+				double quantity = storeSingleOrderItemsMap.get(storeId)
+						.getThisStoreQuantityMapFromOrder().get(storeItem);
+
+				res+="<tr>" +
+						"<td>"+storeItem.getMyItem().getItemId()+"</td>" +
+						"<td>"+storeItem.getName()+"</td>" +
+						"<td>"+storeItem.getMyItem().getPurchaseCategory()+"</td>" +
+						"<td>"+quantity+"</td>" +
+						"<td>"+storeItem.getPrice()+"</td>" +
+						"<td>"+String.format("%.2f",quantity * storeItem.getPrice())+"</td>" +
+						"<td>"+storeItem.getItemKind()+"</td>" +
+						"</tr>";
+
+			}
+			res+= " </table>" +
+					"<div class=\"row\">" +
+					"<form id=\"sendOrder\" method=\"POST\" action=\"openFeedbackOption\">" +
+					"<input id=\"accept\" type='button' onclick='return acceptOrderButton()' name=\"\" value='Approve order'/>" +
+					"<input id=\"decline\" type='button' onclick='return declineOrderButton()' name=\"\" value='Abort'/>" +
+					"</form>" +
+					"</div>" +
+					"</div>" +
+					"<div class='leaveFeedbacks'>" +
+					"</div>" +
+					"</div>" +
+					"</div>" +
+					"</div>";
+		}
+
+		return res;
+	}
 }

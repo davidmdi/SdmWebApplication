@@ -151,7 +151,8 @@ public class Engine {
 //    }
 //
     public void createStoreSingleOrderInstance(MyOrder order,MySuperMarket mySuperMarket,
-         Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap){
+                                                     Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap){
+
         Map<MyStoreItem, Double> ordersQuantityMap = order.getQuantityMap();
 
         for (MyStoreItem storeItem: ordersQuantityMap.keySet()) {

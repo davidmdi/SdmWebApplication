@@ -82,4 +82,9 @@ public class SessionUtils {
     public static void clearSession (HttpServletRequest request) {
         request.getSession().invalidate();
     }
+
+    public static void saveOrderDataOnSession(MyOrder order, Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap, HttpServletRequest req) {
+        req.getSession(true).setAttribute(Constants.CUSTOMER_ORDER,order);
+        req.getSession(true).setAttribute(Constants.CUSTOMER_STORE_SINGLE_ORDER_MAP,storeSingleOrderItemsMap);
+    }
 }
