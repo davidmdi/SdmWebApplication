@@ -4,8 +4,11 @@ var STORE_ORDERS_PAGE_URL = buildUrlWithContextPath("storeOrdersPage");
 var STORES_LIST_URL = buildUrlWithContextPath("zoneStoresList");
 var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
-var STORE_FEEDBACKS_URL = buildUrlWithContextPath("createStoreFeedbacks");
+var STORE_FEEDBACKS_URL = buildUrlWithContextPath("showStoreFeedbacks");
 var arrStores;
+var timer_ajax_call;
+var isStoreOrdersPage = false;
+var isStoreFeedbacksPage= false;
 
 // OnLoad function
 $(function() {
@@ -15,6 +18,9 @@ $(function() {
 
 });
 
+function stopIntervalFunction(timer) {
+    clearInterval(timer);
+}
 
 function changeSelectedMenuOption(selectedMenuOptionID){
 //find current selectedOption:
@@ -34,7 +40,14 @@ function storeOrdersClicked(){
                 success: function(response) {
                     $("#content").replaceWith(response);
                     ajaxStoresList();
+                    stopIntervalFunction(timer_ajax_call);
+                    timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
+                    isStoreOrdersPage =true;
+                    isStoreFeedbacksPage = false;
+                    /*
+                    ajaxStoresList();
                     setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds.
+                     */
                 }
             });
     return false;
@@ -65,8 +78,10 @@ function refreshStoresList(stores) {
 function storeClickEvent (event) {
     var storeId = event.currentTarget.attributes['storeId'].value;
     const selectedStore = arrStores.find( ( store ) => store.sdmStore.id == storeId );
-    refreshStoreOrdersHistory(selectedStore); //refresh store orders table
-    refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
+    if(isStoreOrdersPage == true)
+        refreshStoreOrdersHistory(selectedStore); //refresh store orders table
+    else if(isStoreFeedbacksPage == true)
+        refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
 
     //change UI for the selected store
     var listItems = $("#storesList").children("li");
@@ -182,7 +197,7 @@ console.log("refreshOrderItemsTable");
 
 
 function feedbacksClicked(){
-    changeSelectedMenuOption("#storeOrders");//changes to ui options
+    changeSelectedMenuOption("#feedbacks");//changes to ui options
     //$("#content").empty(); //clear old content
 
     $.ajax({
@@ -190,7 +205,10 @@ function feedbacksClicked(){
         success: function(response) {
             $("#content").replaceWith(response);
             ajaxStoresList();
-            setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds.
+            stopIntervalFunction(timer_ajax_call);
+            timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
+            isStoreOrdersPage =false;
+            isStoreFeedbacksPage = true;
         }
     });
     return false;
