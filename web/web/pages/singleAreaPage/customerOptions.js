@@ -5,6 +5,8 @@ var SHOW_ORDER_HISTORY_PAGE_URL = buildUrlWithContextPath("showCustomersOrderHis
 var PRESENT_SELECTE_SROTE_ITEMS = buildUrlWithContextPath("showSelctedStoreItems");
 var STATIC_ORDER = buildUrlWithContextPath("staticOrder");
 var DYNAMIC_ORDER = buildUrlWithContextPath("dynamicOrder");
+var DYNAMIC_ORDER_FIND_ITEMS = buildUrlWithContextPath("findMinItemsBasket");
+var DYNAMIC_ORDER_FINAL_SUMMERY = buildUrlWithContextPath("dynamicOrderSummery");
 var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
@@ -134,14 +136,16 @@ function sendDynamicOrderItems(){
         $.ajax({
             method:'POST',
             data: JSON.stringify(dynamicOrder),
-            url: STATIC_ORDER, // CHANGE THE URL !!
+            url: DYNAMIC_ORDER_FIND_ITEMS, // CHANGE THE URL !!
             contentType: "application/json",
             timeout: 4000,
             error: function(e) { alert(e); },
             success: function(response) {
                 $("#content").replaceWith(response); // show store summery
-                //$("#selectSpecialOffers").attr('action', STATIC_ORDER_SUMMERY);
-                //$("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
+                $("#selectSpecialOffers").attr('action', DYNAMIC_ORDER_FINAL_SUMMERY);
+                $("#selectSpecialOffers").submit(showDynamicOrderFinalSummeryOnSubmitClicked);
+
+                //CALL AJAX FOR DISCOUNTS AND APPEND TO CONTENT
             }
 
         });
@@ -275,6 +279,41 @@ function storeSelectioItems(storeName,selecetdItems){
     this.selectedItemsList = selecetdItems;
 }
 
+
+
+                       /*Dynamic Orde*/
+function showDynamicOrderFinalSummeryOnSubmitClicked() {
+    var selectedDiscountsOffers = createSelectedDiscountsOffersList();
+    var selectedStoreItemsList = creatDummyStoreItemsList();
+    var dynamicOrder = createDynamicOrder(selectedStoreItemsList, selectedDiscountsOffers);
+
+    $.ajax({
+        data: JSON.stringify(dynamicOrder),
+        method:'POST',
+        url: DYNAMIC_ORDER_FINAL_SUMMERY,
+        contentType: "application/json",
+        error: function(e) { alert(e); },
+        success: function(response) { //response is order summery and approve button
+            $("#content").replaceWith(response);
+            //approve order button overide
+            //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
+        }
+    });
+}
+
+function creatDummyStoreItemsList() {
+    var dummyList = [];
+    var storeItem = new StoreItem("-1", -1, -1);
+    dummyList.push(storeItem);
+    return dummyList;
+}
+function createDynamicOrder(selectedStoreItemsList, selectedDiscountsOffers) {
+    if(selectedDiscountsOffers.length == 0) //create dummy obj if array of offers empty !
+        selectedDiscountsOffers.push(new OfferItem(-1, -1, -1, -1));
+
+    return new Order(ORDER_DATE, "dynamic", ORDER_X, ORDER_Y, selectedStoreItemsList, selectedDiscountsOffers);
+}
+
                     /* STATIC ORDER */
 
 function showStaticOrderSummeryOnSubmitClicked(){
@@ -297,7 +336,7 @@ function showStaticOrderSummeryOnSubmitClicked(){
         success: function(response) { //response is order summery and approve button
             $("#content").replaceWith(response);
             //approve order button overide
-            //             //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
+            // $("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
         }
 
     });

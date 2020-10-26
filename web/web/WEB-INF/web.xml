@@ -100,6 +100,14 @@
         <servlet-name>EndOfOrderServlet</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.EndOfOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>findMinItemsBasket</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.MinimaltemsBasketServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>dynamicOrderSummery</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.DynamicOrderSummeryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -195,6 +203,15 @@
     <servlet-mapping>
         <servlet-name>EndOfOrderServlet</servlet-name>
         <url-pattern>/endOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>findMinItemsBasket</servlet-name>
+        <url-pattern>/findMinItemsBasket</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dynamicOrderSummery</servlet-name>
+        <url-pattern>/dynamicOrderSummery</url-pattern>
     </servlet-mapping>
 
 
