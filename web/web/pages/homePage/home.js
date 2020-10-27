@@ -1,7 +1,7 @@
 
 var refreshRate = 2000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
-var refreshRateForAccount = 10000; //milli seconds
+var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
 var LOAD_XML_URL = buildUrlWithContextPath("loadXml");
 var UPLOAD_XML_URL = buildUrlWithContextPath("uploadXmlFile");
@@ -170,7 +170,7 @@ function refreshAccountTable(accountActions) {
         "<th>Date</th>" +
         "<th>Sum</th>" +
         "<th>Balance before action</th>" +
-        "<th>Balance before action</th>" +
+        "<th>Balance after action</th>" +
         "</tr>";
 
     $(tableHeaders).appendTo($("#accountActionsTable"));

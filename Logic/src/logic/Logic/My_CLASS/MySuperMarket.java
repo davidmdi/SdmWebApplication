@@ -185,11 +185,18 @@ public class MySuperMarket {
 
         }
 
-
         // update MyItems how many times item sold.
         updatMyItemsHowManyTimeSold(order);
+        updateMoneyTransfer(order);
 
+    }
 
+    private void updateMoneyTransfer(MyOrder order) {
+        double before = order.getCustomer().user.account.getBalance();
+        double amountTotransfer = order.getTotalCost();
+        AccountAction actionForCustomer = new AccountAction("transfer",order.getDate(),amountTotransfer,before
+        ,before-amountTotransfer);
+        order.getCustomer().getUser().getAccount().addAction(actionForCustomer);
     }
 
     private void updatMyItemsHowManyTimeSold(MyOrder order) {

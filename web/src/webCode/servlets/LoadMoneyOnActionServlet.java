@@ -38,7 +38,7 @@ public class LoadMoneyOnActionServlet extends HttpServlet {
                 double before = customer.getUser().getAccount().getBalance();
                 double after = before + moneyAmount;
                 AccountAction action = new AccountAction("load", date, moneyAmount, before, after);
-                customer.getUser().getAccount().getActionList().add(action);
+                customer.getUser().getAccount().addAction(action);
                 out.println("Load money successfully");
             }
         } catch (IOException e) {
