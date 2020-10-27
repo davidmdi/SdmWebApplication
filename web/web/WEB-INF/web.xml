@@ -112,6 +112,10 @@
         <servlet-name>LoadMoneyFormServlet</servlet-name>
         <servlet-class>webCode.servlets.LoadMoneyFormServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadMoneyOnAction</servlet-name>
+        <servlet-class>webCode.servlets.LoadMoneyOnActionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -220,9 +224,13 @@
         <servlet-name>LoadMoneyFormServlet</servlet-name>
         <url-pattern>/loadMoneyForm</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadMoneyOnAction</servlet-name>
+        <url-pattern>/loadMoneyOnAction</url-pattern>
+    </servlet-mapping>
 
 
-
+    loadMoneyOnAction
 
 </web-app>
 

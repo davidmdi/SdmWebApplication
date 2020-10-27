@@ -112,7 +112,10 @@ public class MyCustomer {
         this.setAvgDeatails(); // calculate customer cost and delivery ave
     }
 
-    /*
+    public User getUser() {
+        return user;
+    }
+/*
     @Override
     public String toString() {
         return "Customer id: " + this.getUserId() + " ,Customer name: " + getName();

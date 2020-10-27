@@ -22,7 +22,7 @@ public class LoadMoneyFormServlet extends HttpServlet {
             if (currUser.getType().equalsIgnoreCase(User.CUSTOMER)) {
                 out.println("<div id=\"loadingMoneyToAccount\">");
                     out.println("<h2>Load money</h2>");
-                    out.println("<Input name='moneyToLoad' type='number' placeholder='amount..' step='10'/>");
+                    out.println("<Input  type='number' id=\"moneyToLoad\" name=\"moneyToLoad\" placeholder='amount..' step='10'/>");
                     out.println("<Button onclick='ajaxLoadMoney()'>Load Money</Button>");
                 out.println("</div>");
                 out.flush();
