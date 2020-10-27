@@ -12,6 +12,10 @@ public class MyOwner {
         this.zonesNames = new HashSet<>();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public Set<String> getZonesNames() {
         return zonesNames;
     }

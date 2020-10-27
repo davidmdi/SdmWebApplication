@@ -192,11 +192,23 @@ public class MySuperMarket {
     }
 
     private void updateMoneyTransfer(MyOrder order) {
-        double before = order.getCustomer().user.account.getBalance();
+        double before = order.getCustomer().getUser().getAccount().getBalance();
         double amountTotransfer = order.getTotalCost();
         AccountAction actionForCustomer = new AccountAction("transfer",order.getDate(),amountTotransfer,before
         ,before-amountTotransfer);
         order.getCustomer().getUser().getAccount().addAction(actionForCustomer);
+        Set<Integer> myStoreSingleOrderItemsSet = order.getStoreSingleOrderItemsMap().keySet();
+        for(int i : myStoreSingleOrderItemsSet ){
+            MyStoreSingleOrderItems singleOrderItems = order.getStoreSingleOrderItemsMap().get(i);
+            MyStore store = this.getStores().getStoreMap().get(singleOrderItems.getStoreId());
+            double  beforeReceiving = this.getOwner().getUser().getAccount().getBalance();
+            double sumOfAction = singleOrderItems.calculatePrice() + singleOrderItems.getDeliveryCost();
+           // double sumOfAction = singleOrderItems.getOrderCost() + singleOrderItems.getDeliveryCost();
+            double after = beforeReceiving + sumOfAction;
+            AccountAction storeAction = new AccountAction("receive",order.getDate(),
+                    sumOfAction,beforeReceiving,after);
+            this.getOwner().getUser().getAccount().addAction(storeAction);
+        }
     }
 
     private void updatMyItemsHowManyTimeSold(MyOrder order) {

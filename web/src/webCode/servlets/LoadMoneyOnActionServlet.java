@@ -53,30 +53,6 @@ public class LoadMoneyOnActionServlet extends HttpServlet {
         process(req, resp);
     }
 }
-/**
- *    try {
- *             SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
- *             Date date = new Date(System.currentTimeMillis());
- *             Engine engine = ServletUtils.getEngine(getServletContext());
- *             String userName = SessionUtils.getUsername(req);
- *             MyCustomer customer = engine.getMyUsers().findCustomerByName(userName);
- *             if (customer != null) {
- *                 double moneyAmount = Double.parseDouble(req.getParameter("moneyToLoad"));
- *                 double before = customer.getUser().getAccount().getBalance();
- *                 double after = before + moneyAmount;
- *                 AccountAction action = new AccountAction("load", date, moneyAmount, before, after);
- *                 customer.getUser().getAccount().getActionList().add(action);
- *                 try {
- *                     PrintWriter out = resp.getWriter();
- *                     out.println("Load money successfully");
- *                 } catch (IOException e) {
- *                     e.printStackTrace();
- *                 }
- *             }
- *         } catch (Exception e) {
- *             e.printStackTrace();
- *         }
- */
 
 
 
