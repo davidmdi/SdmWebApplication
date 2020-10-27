@@ -4,6 +4,7 @@ import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MyItem;
 import logic.Logic.My_CLASS.MyStore;
 import logic.Logic.My_CLASS.MyStoreItem;
+import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -18,13 +19,15 @@ public class getSelectedStoreItemsForStaticOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (PrintWriter out = resp.getWriter()) {
-            // bring al items from selected store
+            // bring al items from selected storeJs
             Engine engine = ServletUtils.getEngine(getServletContext());
             String zoneName = SessionUtils.getAreaName(req);
+            MySuperMarket superMarket = engine.getMySupermarkets().getAreaSuperMarketByName(zoneName);
             String selectedStore = req.getParameter("storeSelection");
-            MyStore.StoreJson store = engine.getStoreJson(zoneName ,selectedStore );
+            MyStore.StoreJson storeJs = engine.getStoreJson(zoneName ,selectedStore );
+            MyStore myStore = superMarket.getStores().findStoreByName(storeJs.name);
             //List<MyStoreItem.StoreItemJson> storeItemJsons = engine.getStoreItemsJson(zoneName ,selectedStore );
-            out.println(createHtmlFormForSelectingItemsFromStaticOrder(store));
+            out.println(createHtmlFormForSelectingItemsFromStaticOrder(storeJs , myStore));
             out.flush();
         }
 
@@ -32,7 +35,7 @@ public class getSelectedStoreItemsForStaticOrder extends HttpServlet {
 /*
 Item: id name purchase method price amount
  */
-    private String createHtmlFormForSelectingItemsFromStaticOrder(MyStore.StoreJson store) {
+    private String createHtmlFormForSelectingItemsFromStaticOrder(MyStore.StoreJson storeJs, MyStore myStore) {
             int deliveryPrice = 0;
         String res ="<div id=\"content\">"+
                         "<div class='row'>"+
@@ -46,7 +49,7 @@ Item: id name purchase method price amount
                                             "<label for=\"fname\">Store Name</label>"+
                                         "</div>"+
                                         "<div class=\"col-75\">"+
-                                            "<label id='storeNameLabel' >"+store.name+"</label >" +
+                                            "<label id='storeNameLabel' >"+storeJs.name+"</label >" +
                                         "</div>"+
                                     "</div>"+
                                     "<div class=\"row\">"+
@@ -54,7 +57,7 @@ Item: id name purchase method price amount
                                             "<label for=\"fname\">Store PPK</label>"+
                                         "</div>" +
                                         "<div class=\"col-75\">"+
-                                            "<label >"+store.ppk+"</label >" +
+                                            "<label >"+storeJs.ppk+"</label >" +
                                         "</div>"+
                                     "</div>"+
                                     "<div class=\"row\">"+
@@ -62,7 +65,7 @@ Item: id name purchase method price amount
                                             "<label for=\"lname\">Store locaton</label>"+
                                         "</div>"+
                                         "<div class=\"col-75\">"+
-                                            "<label>("+store.x+","+store.y+")</label>" +
+                                            "<label>("+storeJs.x+","+storeJs.y+")</label>" +
                                         "</div>"+
                                     "</div>"+
                                     "<div class=\"row\">"+
@@ -74,14 +77,14 @@ Item: id name purchase method price amount
                                         "</div>" +
                                     "</div>"+
                                 "<div class=\"row\">";
-                        for(MyStoreItem.StoreItemJson item : store.storeItems) {
+                        for(MyStoreItem.StoreItemJson item : storeJs.storeItems) {
+                            int itemPrice = myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getPrice();
                            res += "<div class=\"item\" name='item'>" +
                                     "<input type = \"checkbox\" name='itemCheckBox' value='"+item.jsonItem.id+"' class=\"regular-checkbox\">" +
                                     "<label >"+item.jsonItem.id+"</label >" +
                                     "<label >"+ item.jsonItem.name+"</label >" +
                                     "<label > "+item.jsonItem.purchaseMethod+"</label >" +
-                                    "<label > Price:"+item.price+"</label >" +
-                                    "<label > Price:"+item.price+"</label >";
+                                    "<label > Price:"+itemPrice+"</label >";
                                    if(item.jsonItem.purchaseMethod.equalsIgnoreCase(MyItem.QUANTITY)){
                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>";
                                    }else{
