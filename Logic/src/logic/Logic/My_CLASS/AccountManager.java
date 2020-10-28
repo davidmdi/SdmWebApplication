@@ -18,6 +18,7 @@ public class AccountManager {
 
     public void addAction(AccountAction action){
         this.actionList.add(action);
+        this.setBalance(action.getBalanceAfter());
     }
 
     public void setBalance(double balance) {

@@ -120,6 +120,14 @@
         <servlet-name>GetOwnerAlerts</servlet-name>
         <servlet-class>webCode.servlets.alerts.GetOwnerAlerts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadMoneyOnAction</servlet-name>
+        <servlet-class>webCode.servlets.LoadMoneyOnActionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>showCustomersOrderHistoryPage</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowCustomersOrderHistoryPageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -237,6 +245,14 @@
         <url-pattern>/getAlerts</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>loadMoneyOnAction</servlet-name>
+        <url-pattern>/loadMoneyOnAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>showCustomersOrderHistoryPage</servlet-name>
+        <url-pattern>/showCustomersOrderHistoryPage</url-pattern>
+    </servlet-mapping>
 
 
 

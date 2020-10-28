@@ -163,6 +163,8 @@ public class MySuperMarket {
         MyCustomer customer = order.getCustomer();
         // add order to customer
         customer.addOrder(order);
+        //set orders Location
+        order.setFromWhereOrderWasMade(customer.getLocation());
         // add order to super market orders
         this.getOrders().addOrder(order);
 
@@ -185,11 +187,30 @@ public class MySuperMarket {
 
         }
 
-
         // update MyItems how many times item sold.
         updatMyItemsHowManyTimeSold(order);
+        updateMoneyTransfer(order);
 
+    }
 
+    private void updateMoneyTransfer(MyOrder order) {
+        double before = order.getCustomer().getUser().getAccount().getBalance();
+        double amountTotransfer = order.getTotalCost();
+        AccountAction actionForCustomer = new AccountAction("transfer",order.getDate(),amountTotransfer,before
+        ,before-amountTotransfer);
+        order.getCustomer().getUser().getAccount().addAction(actionForCustomer);
+        Set<Integer> myStoreSingleOrderItemsSet = order.getStoreSingleOrderItemsMap().keySet();
+        for(int i : myStoreSingleOrderItemsSet ){
+            MyStoreSingleOrderItems singleOrderItems = order.getStoreSingleOrderItemsMap().get(i);
+            MyStore store = this.getStores().getStoreMap().get(singleOrderItems.getStoreId());
+            double  beforeReceiving = this.getOwner().getUser().getAccount().getBalance();
+            double sumOfAction = singleOrderItems.calculatePrice() + singleOrderItems.getDeliveryCost();
+            singleOrderItems.setOrderCost(singleOrderItems.calculatePrice()); // Updates order total cost
+            double after = beforeReceiving + sumOfAction;
+            AccountAction storeAction = new AccountAction("receive",order.getDate(),
+                    sumOfAction,beforeReceiving,after);
+            this.getOwner().getUser().getAccount().addAction(storeAction);
+        }
     }
 
     private void updatMyItemsHowManyTimeSold(MyOrder order) {

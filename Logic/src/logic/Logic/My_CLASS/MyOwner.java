@@ -16,6 +16,10 @@ public class MyOwner {
         this.alerts = new ArrayList<>();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public Set<String> getZonesNames() {
         return zonesNames;
     }

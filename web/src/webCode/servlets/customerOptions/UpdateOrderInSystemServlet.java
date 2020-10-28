@@ -36,8 +36,8 @@ public class UpdateOrderInSystemServlet extends HttpServlet {
 
 
         // send notification to store owners...
-        // handle money transfer...
-        //throw alert -> update success...
+        // handle money transfer... done
+        //throw alert -> update success...done
 
        getServletContext()
                .getRequestDispatcher("/showFeedbacksForm").forward(req,resp);

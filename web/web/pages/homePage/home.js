@@ -1,6 +1,7 @@
+
 var refreshRate = 2000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
-var refreshRateForAccount = 10000; //milli seconds
+var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
 var LOAD_XML_URL = buildUrlWithContextPath("loadXml");
 var UPLOAD_XML_URL = buildUrlWithContextPath("uploadXmlFile");
@@ -10,6 +11,7 @@ var SELECTED_ZONE_URL = buildUrlWithContextPath("zoneSelected");
 var USER_NAME_URL = buildUrlWithContextPath("userName");
 var LOAD_MONEY_FORM = buildUrlWithContextPath("loadMoneyForm");
 var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
+var LOAD_MONY_ON_ACTION = buildUrlWithContextPath("loadMoneyOnAction")
 
 //activate the timer calls after the page is loaded
 // The onLoad function...
@@ -189,7 +191,7 @@ function refreshAccountTable(accountActions) {
         "<th>Date</th>" +
         "<th>Sum</th>" +
         "<th>Balance before action</th>" +
-        "<th>Balance before action</th>" +
+        "<th>Balance after action</th>" +
         "</tr>";
 
     $(tableHeaders).appendTo($("#accountActionsTable"));
@@ -260,5 +262,15 @@ function ajaxShowLoadMoneyForm(){
 }
 
 function ajaxLoadMoney(){
-    alert("load moneyyyyy");
+    var moneyData = $("#moneyToLoad").val();
+    $.ajax({
+        data: moneyData,
+        contentType: false,//"multipart/form-data",
+        url: LOAD_MONY_ON_ACTION ,
+        method: 'POST',
+        success: function(response) {
+            //refreshUsersList(users);
+           alert("Load Money Successfully");
+        }
+    });
 }
