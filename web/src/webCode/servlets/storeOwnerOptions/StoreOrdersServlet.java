@@ -38,8 +38,9 @@ public class StoreOrdersServlet extends HttpServlet {
             out.println("</table>");
             out.println("</div>");
             //orderItems:
-            out.println("<div id=\"orderItems\" orderID='' style=\"display:none;\">");
-            out.println("<h3>Order Items</h3><p>items purchase from selected store<p>");
+            //out.println("<div id=\"orderItems\" orderID='' style=\"display:none;\">");
+            out.println("<div id=\"orderItems\" orderID=''>");
+            out.println("<h3>Order Items</h3><p id='pInfo'>items purchase from selected order<p>");
             out.println("<table id=\"orderItemsTable\">");
             out.println("<thead>");
             out.println("<tr>");

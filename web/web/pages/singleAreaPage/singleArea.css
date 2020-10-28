@@ -125,6 +125,16 @@ li:active{
 .store-active{
     background: #8d3a95;
 }
+
+.store-order-active{
+    background: #8d3a95;
+}
+
+tbody tr:active{
+    background-color:#8d3a95;
+    color:white;
+}
+
 /* end store orders */
 
 

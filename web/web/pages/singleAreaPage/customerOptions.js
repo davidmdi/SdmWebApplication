@@ -170,13 +170,6 @@ function showOrderHistory() {
 function showSelectedStoreInfo() {
 
     var selectedStoreSerialized = $("form").serialize();
-    /*
-    var selectedStoreSerializedArray = $('form').serializeArray();
-    ORDER_DATE = selectedStoreSerializedArray[0].value;
-    ORDER_TYPE = selectedStoreSerializedArray[1].value;
-    ORDER_X  = selectedStoreSerializedArray[2].value;
-    ORDER_Y  = selectedStoreSerializedArray[3].value;
-    */
 
     $.ajax({
         data:  selectedStoreSerialized ,
@@ -406,16 +399,6 @@ function createSelectedDiscountsOffersList(){
     //return JSON.stringify(concatArray);
     return concatArray;
 }
-
-// function ItemInOrder(itemId, itemName, itemPurchaseMethod, itemPrice, itemQuantity, itemType, storeId){
-//     this.id = itemId;
-//     this.name = itemName; //null
-//     this.purchaseMethod = itemPurchaseMethod;
-//     this.price = itemPrice;
-//     this.quantity = itemQuantity;
-//     this.type = itemType;
-//     this.storeId = storeId;
-// }
 
 function Order(date, orderKind, x, y, selectedStoreItemsList, selectedOfferItemsList){
     this.date = date;
