@@ -21,6 +21,7 @@ public class MyOrder {
     private Map<Integer, Double>deliveryCostMap; // <storeId,deliveryCost>
     private double totalCost;
     private Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap;
+    private MyLocation fromWhereOrderWasMade ;
 
 
     public MyOrder(Date date, MyCustomer customer, Map<MyStoreItem, Double> quantityMap, String orderKind,
@@ -154,6 +155,14 @@ public class MyOrder {
 
     public void updateOrderCost() {
         this.setOrderCost(calculateorderCost());
+    }
+
+    public MyLocation getFromWhereOrderWasMade() {
+        return fromWhereOrderWasMade;
+    }
+
+    public void setFromWhereOrderWasMade(MyLocation fromWhereOrderWasMade) {
+        this.fromWhereOrderWasMade = fromWhereOrderWasMade;
     }
 
     @Override

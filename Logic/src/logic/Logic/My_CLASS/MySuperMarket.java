@@ -163,6 +163,8 @@ public class MySuperMarket {
         MyCustomer customer = order.getCustomer();
         // add order to customer
         customer.addOrder(order);
+        //set orders Location
+        order.setFromWhereOrderWasMade(customer.getLocation());
         // add order to super market orders
         this.getOrders().addOrder(order);
 
@@ -203,7 +205,7 @@ public class MySuperMarket {
             MyStore store = this.getStores().getStoreMap().get(singleOrderItems.getStoreId());
             double  beforeReceiving = this.getOwner().getUser().getAccount().getBalance();
             double sumOfAction = singleOrderItems.calculatePrice() + singleOrderItems.getDeliveryCost();
-           // double sumOfAction = singleOrderItems.getOrderCost() + singleOrderItems.getDeliveryCost();
+            singleOrderItems.setOrderCost(singleOrderItems.calculatePrice()); // Updates order total cost
             double after = beforeReceiving + sumOfAction;
             AccountAction storeAction = new AccountAction("receive",order.getDate(),
                     sumOfAction,beforeReceiving,after);
