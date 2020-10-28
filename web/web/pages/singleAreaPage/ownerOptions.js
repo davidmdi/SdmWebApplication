@@ -5,21 +5,15 @@ var STORES_LIST_URL = buildUrlWithContextPath("zoneStoresList");
 var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
 var STORE_FEEDBACKS_URL = buildUrlWithContextPath("showStoreFeedbacks");
+var STORE_ORDERS_URL = buildUrlWithContextPath("loadStoreOrdersInfo");
 var arrStores;
-var timer_ajax_call;
-var isStoreOrdersPage = false;
-var isStoreFeedbacksPage= false;
+var feedbacks_interval;
+var storeList_interval;
 
-// OnLoad function
-$(function() {
-    arrStores = [];
-    //The users list is refreshed automatically every second
-    //setInterval(ajaxUsersList, refreshRate);
 
-});
 
-function stopIntervalFunction(timer) {
-    clearInterval(timer);
+function stopIntervalFunction(interval) {
+    clearInterval(interval);
 }
 
 function changeSelectedMenuOption(selectedMenuOptionID){
@@ -31,72 +25,179 @@ function changeSelectedMenuOption(selectedMenuOptionID){
     $(selectedMenuOptionID).attr({class: 'active'});
 }
 
-function storeOrdersClicked(){
-            changeSelectedMenuOption("#storeOrders");//changes to ui options
-            //$("#content").empty(); //clear old content
+function homeClicked(){
+    changeSelectedMenuOption("#homePage");//changes to ui options
 
-             $.ajax({
-                url: STORE_ORDERS_PAGE_URL,
-                success: function(response) {
-                    $("#content").replaceWith(response);
-                    ajaxStoresList();
-                    stopIntervalFunction(timer_ajax_call);
-                    timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
-                    isStoreOrdersPage =true;
-                    isStoreFeedbacksPage = false;
-                    /*
-                    ajaxStoresList();
-                    setInterval(ajaxStoresList, refreshRate); //stores list will update every few seconds.
-                     */
-                }
-            });
+    if (feedbacks_interval) { //stop feedbacks interval if running
+        stopIntervalFunction(feedbacks_interval);
+        feedbacks_interval = undefined;
+    }
+
+    if (storeList_interval) { //stop feedbacks interval if running
+        stopIntervalFunction(storeList_interval);
+        storeList_interval = undefined;
+    }
+}
+
+function storeOrdersClicked(){
+    changeSelectedMenuOption("#storeOrders");//changes to ui options
+
+    if (feedbacks_interval) { //stop feedbacks interval if running
+        stopIntervalFunction(feedbacks_interval);
+        feedbacks_interval = undefined;
+    }
+
+    $.ajax({
+        url: STORE_ORDERS_PAGE_URL,
+        success: function(response) {
+            $("#content").replaceWith(response);
+            ajaxStoresList();
+            if (!storeList_interval) {
+                storeList_interval = setInterval(ajaxStoresList, 6000);
+            }
+        }
+    });
+
     return false;
 }
 
 function ajaxStoresList() {
+    console.log("inside ajaxStoresList");
+    /*
     $.ajax({
         url: STORES_LIST_URL,
+        error: function(e) { console.log("ajaxStoresList success"); alert(e); },
         success: function(stores) {
+            console.log("ajaxStoresList success");
             arrStores = stores; //save stores in array
+            //if(isStoreFeedbacksPage || isStoreOrdersPage)
+            refreshStoresList(stores);
+        }
+    });
+    console.log("arrStores= " + arrStores);
+     */
+    $.ajax({
+        url: STORES_LIST_URL,
+        error: function(e) { console.log("ajaxStoresList success"); alert(e); },
+        success: function(stores) {
+            console.log("ajaxStoresList success");
+            //arrStores = stores; //save stores in array
+            //if(isStoreFeedbacksPage || isStoreOrdersPage)
             refreshStoresList(stores);
         }
     });
 }
 
 function refreshStoresList(stores) {
+    console.log("stores= "+ stores);
     //clear all current stores
     $("#storesList").empty();
 
     // rebuild the list of stores:
     $.each(stores || [], function(index, store) {
-    var listItem = '<li class="store" storeId="'+store.sdmStore.id+'" onclick="storeClickEvent(event)">' + store.sdmStore.name + '</li>';
-        $(listItem).appendTo($("#storesList"));
+    var listItem = '<li class="store" storeId="'+store.id+'" storeName="'+store.name+'">' + store.name + '</li>';
+        //listItem.onclick = storeClickEvent;
+    $(listItem).appendTo($("#storesList"));
     });
+
+    $("#storesList li").on("click", storeClickEvent);
 }
 
 //declaration of a function that will be called on mouse clicks
-function storeClickEvent (event) {
+function storeClickEvent(event) {
+    //var storeId = event.currentTarget.attributes['storeId'].value;
+    var storeName = event.currentTarget.attributes['storeName'].value;
+    //const selectedStore = arrStores.find( ( store ) => store.id == storeId );
+
+    $.ajax({
+        url: STORE_ORDERS_URL,
+        data: {"storeName" : storeName},
+        error: function(e) { alert("error"); },
+        success: function(response) {
+            $("#ordersHistoryTable tbody").empty();
+            $("#ordersHistoryTable tbody").replaceWith(response);
+        }
+    });
+
+    /*
     var storeId = event.currentTarget.attributes['storeId'].value;
-    const selectedStore = arrStores.find( ( store ) => store.sdmStore.id == storeId );
-    if(isStoreOrdersPage == true)
+    const selectedStore = arrStores.find( ( store ) => store.id == storeId );
+    //if(isStoreOrdersPage == true)
         refreshStoreOrdersHistory(selectedStore); //refresh store orders table
-    else if(isStoreFeedbacksPage == true)
-        refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
+    //else if(isStoreFeedbacksPage == true)
+    //refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
 
     //change UI for the selected store
     var listItems = $("#storesList").children("li");
     listItems.removeAttr("class");
     var clickedListItem = event.currentTarget;
     clickedListItem.setAttribute("class", "store-active");
+     */
 }
 
 function refreshStoreFeedbacksTable(selectedStore){
     console.log("inside refreshStoreFeedbacksTable");
+    console.log(selectedStore);
+    console.log(selectedStore.storeFeedbacks.feedbacksList);
+    console.log(selectedStore.storeFeedbacks.feedbacksList[0]);
+    //clear all current orders
+    $("#storeFeedbacksTable tbody").empty();
+    /*
+    private String storeName;
+    private String customerName;
+    private Date orderDate;
+    private int rate;
+    private String comments;
+     */
+/*
+    // rebuild the list of users: scan all users and add them to the list of users
+    $.each(selectedStore.storeSingleOrderItemsList || [], function(index, order) {
+
+        console.log("order.thisStoreQuantityMapFromOrder= "+order.thisStoreQuantityMapFromOrder);
+
+        var orderRow = 	"<tr name='order_tr' selectedOrderID='"+orderId+"'>" +
+            "<th>"+Customer name"</th>" +
+            "<th>"+Order date+"</th>" +
+            "<th>"+Rate+"</th>" +
+            "<th>Comments</th>" +
+            "</tr>";
+        $(orderRow).appendTo($("#ordersHistoryTable tbody"));
+    });
+
+//"<th>Customer name</th><th>Order date</th><th>Rate (1-5)</th><th>Comments</th>"
+    if(selectedStore.storeSingleOrderItemsList.length == 0 ){ //msg if there are no orders
+        var emptyOrders = "<tr name='order_tr' selectedOrderID='1'><td>There are no areas</td></tr>";
+        console.log(selectedStore.storeSingleOrderItemsList);
+        $(emptyOrders).appendTo($("#ordersHistoryTable tbody"));
+        //toggle display for orderItems table:
+        $("#orderItems").toggle(false);
+    }else
+        $("#orderItems").toggle(true);
+
+
+ */
+
+    /*
+    var testRow = 	"<tr>" +
+                        "<th>123</th>" +
+                        "<th>03/04</th>" +
+                        "<th>Oryom</th>" +
+                        "<th>(2,2)</th>" +
+                        "<th>3</th>" +
+                        "<th>20</th>" +
+                        "<th>20</th>" +
+                    "</tr>";
+        $(testRow).appendTo($("#ordersHistoryTable tbody"));
+    */
+
+
+
 }
 
 
 function refreshStoreOrdersHistory(selectedStore) {
     console.log("inside refreshStoreOrdersHistory");
+    /*
     //clear all current orders
     $("#ordersHistoryTable tbody").empty();
 
@@ -129,18 +230,7 @@ function refreshStoreOrdersHistory(selectedStore) {
     //add all the orders rows click event:
     addOrdersClickEvent();
 
-        /*
-        var testRow = 	"<tr>" +
-                            "<th>123</th>" +
-                            "<th>03/04</th>" +
-                            "<th>Oryom</th>" +
-                            "<th>(2,2)</th>" +
-                            "<th>3</th>" +
-                            "<th>20</th>" +
-                            "<th>20</th>" +
-                        "</tr>";
-            $(testRow).appendTo($("#ordersHistoryTable tbody"));
-        */
+*/
 }
 
 /* add onClick event for 'order row' in ordersHistoryTable
@@ -172,50 +262,52 @@ function myOrderRowClickEvent (event) {
 
 }
 
-function refreshOrderItemsTable(selectedStore) {
-console.log("refreshOrderItemsTable");
-    //const selectedOrder = arrStores.find( ( store ) => store.sdmStore.id == storeId );
-    //store.storeSingleOrderItemsList[].thisStoreQuantityMapFromOrder[].
-    /*
-        private MyItem myItem;
-        private int price;
-        private int storeId;
-        private String itemKind; // store offer.
-        private int howManyTimeSold = 0 ;
-    */
-
-    /*
-    //div id="orderItems" style="display:none;" /block>
-    out.println("<form id=\"storeOrderItems\" method=\"POST\" action=\"\">");
-                out.println("<input id=\"selected_order\" type='hidden' name=\"selectedOrder\"/>");
-    */
-}
-
-
-
-
-
+////////////////////////// FEEDBACKS /////////////////////
 
 function feedbacksClicked(){
     changeSelectedMenuOption("#feedbacks");//changes to ui options
-    //$("#content").empty(); //clear old content
+
+    if (storeList_interval) { //stop store list interval if running
+        stopIntervalFunction(storeList_interval);
+        storeList_interval = undefined;
+    }
+
+    ajaxRefreshStoresFeedbacks();
+    if (!feedbacks_interval) {
+        feedbacks_interval = setInterval(ajaxRefreshStoresFeedbacks, 2000);
+    }
+
+    return false;
+}
+
+function ajaxRefreshStoresFeedbacks(){
 
     $.ajax({
         url: STORE_FEEDBACKS_URL,
         success: function(response) {
             $("#content").replaceWith(response);
-            ajaxStoresList();
-            stopIntervalFunction(timer_ajax_call);
-            timer_ajax_call = setInterval(ajaxStoresList, refreshRate);
-            isStoreOrdersPage =false;
-            isStoreFeedbacksPage = true;
+
         }
     });
-    return false;
 }
+
+
+////////////////////////// FEEDBACKS /////////////////////
+
 
 function openStoreClicked(){
     changeSelectedMenuOption("#openStore");
+
+    if (feedbacks_interval) { //stop feedbacks interval if running
+        stopIntervalFunction(feedbacks_interval);
+        feedbacks_interval = undefined;
+    }
+
+    if (storeList_interval) { //stop feedbacks interval if running
+        stopIntervalFunction(storeList_interval);
+        storeList_interval = undefined;
+    }
+
     ajaxOpenStore();
 
     return false;
@@ -252,30 +344,6 @@ function createNewStoreOnSubmit(){
 
     return false;
 }
-/*
-function createNewStoreOnSubmit(){
-    var store = createStoreToAdd(this); //send the form
-
-    if(store === null){ // Exit submit function
-        return false;
-    }else{
-         $.ajax({
-            method:'POST',
-            data: store,
-            url: ADD_NEW_STORE_URL,
-            contentType: "application/json",
-            timeout: 4000,
-            error: function(e) { alert("An error occurred!"); },
-            success: function(response) {
-                alert(response);
-                ajaxOpenStore(); //refresh open store page
-            }
-            });
-    }
-
-    return false;
-}
- */
 
 function ItemJson(itemId, itemName, itemPurchaseMethod){
     this.id = itemId;
@@ -341,44 +409,123 @@ function createStoreToAdd(form){
 }
 
 /*
-    OLD:
-    ----
-function Item(myCheckBox, index){
-    this.id = myCheckBox.value;
-    this.price = document.getElementsByName("itemPrice")[index].value;
-}
+OLD
+---
 
-function Store(storeName, X, Y, PPK, itemsList){
-    this.name = storeName;
-    this.x = X;
-    this.y = Y;
-    this.ppk = PPK;
-    this.items = itemsList;
-}
+// OnLoad function
+$(function() {
+    arrStores = [];
+});
 
-function createStoreToAdd(form){
-    var formItems = document.getElementsByName("item");
-    var checkBoxes = document.getElementsByName("itemCheckBox");
-    var storeItems = [];
-
-    create items list
-    for (var i=0; i<checkBoxes.length; i++) {
-        if(checkBoxes[i].checked){
-            var item = new Item(checkBoxes[i], i);
-            if(item.price <= 0){ //check for item with out price
-                alert("Item "+item.id+" must have price.");
-                return null;
-            }else{ storeItems.push(item); }
+function ajaxStoresList() {
+    console.log("inside ajaxStoresList");
+    $.ajax({
+        url: STORES_LIST_URL,
+        error: function(e) { console.log("ajaxStoresList success"); alert(e); },
+        success: function(stores) {
+            console.log("ajaxStoresList success");
+            arrStores = stores; //save stores in array
+            //if(isStoreFeedbacksPage || isStoreOrdersPage)
+            refreshStoresList(stores);
         }
-    }
+    });
+    console.log("arrStores= " + arrStores);
+}
 
-    if(storeItems.length == 0){ //check for store with out items
-        alert("Must have at least one item in store.");
-        return null;
-    }
+function refreshStoresList(stores) {
+    console.log("stores= "+ stores);
+    //clear all current stores
+    $("#storesList").empty();
 
-    var storeToAdd = new Store(form[0].value, form[1].value, form[2].value, form[3].value, storeItems);
+    // rebuild the list of stores:
+    $.each(stores || [], function(index, store) {
+    var listItem = '<li class="store" storeId="'+store.sdmStore.id+'">' + store.sdmStore.name + '</li>';
+        //listItem.onclick = storeClickEvent;
+    $(listItem).appendTo($("#storesList"));
+    });
 
-    return JSON.stringify(storeToAdd);
+    $("#storesList li").on("click", storeClickEvent);
+}
+
+//declaration of a function that will be called on mouse clicks
+function storeClickEvent(event) {
+    var storeId = event.currentTarget.attributes['storeId'].value;
+    const selectedStore = arrStores.find( ( store ) => store.sdmStore.id == storeId );
+    //if(isStoreOrdersPage == true)
+        refreshStoreOrdersHistory(selectedStore); //refresh store orders table
+    //else if(isStoreFeedbacksPage == true)
+    //refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
+
+    //change UI for the selected store
+    var listItems = $("#storesList").children("li");
+    listItems.removeAttr("class");
+    var clickedListItem = event.currentTarget;
+    clickedListItem.setAttribute("class", "store-active");
+}
+
+function refreshStoreOrdersHistory(selectedStore) {
+    console.log("inside refreshStoreOrdersHistory");
+    //clear all current orders
+    $("#ordersHistoryTable tbody").empty();
+
+    // rebuild the list of users: scan all users and add them to the list of users
+    $.each(selectedStore.storeSingleOrderItemsList || [], function(index, order) {
+
+    console.log("order.thisStoreQuantityMapFromOrder= "+order.thisStoreQuantityMapFromOrder);
+
+    var orderRow = 	"<tr name='order_tr' selectedOrderID='"+orderId+"'>" +
+                        "<th>"+order.orderId+"</th>" +
+                        "<th>"+order.date+"</th>" +
+                        "<th>"+order.customer.user.name+"</th>" +
+                        "<th>Customer location ?WHERE?</th>" +
+                        "<th>"+order.thisStoreQuantityMapFromOrder.length+"</th>" +
+                        "<th>"+order.orderCost+"</th>" +
+                        "<th>"+order.deliveryCost+"</th>" +
+                    "</tr>";
+        $(orderRow).appendTo($("#ordersHistoryTable tbody"));
+    });
+
+    if(selectedStore.storeSingleOrderItemsList.length == 0 ){ //msg if there are no orders
+        var emptyOrders = "<tr name='order_tr' selectedOrderID='1'><td>There are no areas</td></tr>";
+        console.log(selectedStore.storeSingleOrderItemsList);
+        $(emptyOrders).appendTo($("#ordersHistoryTable tbody"));
+        //toggle display for orderItems table:
+            $("#orderItems").toggle(false);
+    }else
+        $("#orderItems").toggle(true);
+
+    //add all the orders rows click event:
+    addOrdersClickEvent();
+
+        /*
+        var testRow = 	"<tr>" +
+                            "<th>123</th>" +
+                            "<th>03/04</th>" +
+                            "<th>Oryom</th>" +
+                            "<th>(2,2)</th>" +
+                            "<th>3</th>" +
+                            "<th>20</th>" +
+                            "<th>20</th>" +
+                        "</tr>";
+            $(testRow).appendTo($("#ordersHistoryTable tbody"));
+        */
+/*
+}
+ */
+/*
+//declaration of a function that will be called on mouse clicks
+function storeClickEvent(event) {
+    var storeId = event.currentTarget.attributes['storeId'].value;
+    const selectedStore = arrStores.find( ( store ) => store.id == storeId );
+    //if(isStoreOrdersPage == true)
+        refreshStoreOrdersHistory(selectedStore); //refresh store orders table
+    //else if(isStoreFeedbacksPage == true)
+    //refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
+
+    //change UI for the selected store
+    var listItems = $("#storesList").children("li");
+    listItems.removeAttr("class");
+    var clickedListItem = event.currentTarget;
+    clickedListItem.setAttribute("class", "store-active");
 }
  */

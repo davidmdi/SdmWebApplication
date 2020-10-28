@@ -10,6 +10,7 @@ var ACCOUNT_ACTIONS_URL = buildUrlWithContextPath("accountTable");
 var SELECTED_ZONE_URL = buildUrlWithContextPath("zoneSelected");
 var USER_NAME_URL = buildUrlWithContextPath("userName");
 var LOAD_MONEY_FORM = buildUrlWithContextPath("loadMoneyForm");
+var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
 var LOAD_MONY_ON_ACTION = buildUrlWithContextPath("loadMoneyOnAction")
 
 //activate the timer calls after the page is loaded
@@ -28,11 +29,31 @@ $(function() {
     setInterval(ajaxAreasTable, refreshRateForAreas);
     setInterval(ajaxAccountActionsTable, refreshRateForAccount);
 
+    setInterval(ajaxAlertsList, refreshRateForAreas);//refreshRate); //check for alerts
+
 
     //The chat content is refreshed only once (using a timeout) but
     //on each call it triggers another execution of itself later (1 second later)
             // triggerAjaxChatContent();
 });
+
+function ajaxAlertsList() {
+    $.ajax({
+        url: CHECK_ALERTS_URL,
+        success: function(alerts) {
+            alertsHandler(alerts);
+        }
+    });
+}
+
+
+function alertsHandler(alerts){
+    console.log("alert "+ alerts);
+
+    $.each(alerts || [], function(index, alertMsg) {
+        alert(alertMsg);
+    });
+}
 
 function ajaxUsersList() {
     $.ajax({

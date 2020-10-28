@@ -148,4 +148,42 @@ public class MySuperMarkets {
         return (++maxStoreId);
     }
 
+    public void addFeedBackAlert(FeedbackAlert feedbackAlert) {
+        String ownerName = "";
+        MyOwner owner = null;
+
+        for(Set<MySuperMarket> superMarkets : this.superMarkets.values()){
+            for(MySuperMarket superMarket : superMarkets){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if(feedbackAlert.getStoreName().equalsIgnoreCase(store.getName()))
+                        ownerName = store.getOwnerName();
+                }
+            }
+        }
+
+        for(MyOwner myOwner : this.superMarkets.keySet()){
+            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
+                owner = myOwner;
+        }
+
+        owner.addAlert(feedbackAlert);
+    }
+
+    public synchronized List<String> getOwnerAlertsToString(String ownerName) {
+        MyOwner owner = null;
+        List<String> stringAlerts = new ArrayList<>();
+
+        for(MyOwner myOwner : this.superMarkets.keySet()){
+            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
+                owner = myOwner;
+        }
+
+        for(Alertable alert : owner.getAlerts()){
+            stringAlerts.add(alert.alert());
+        }
+
+        owner.removeAllAlerts(); //Delete alerts so each alert appear only once!!
+
+        return stringAlerts;
+    }
 }

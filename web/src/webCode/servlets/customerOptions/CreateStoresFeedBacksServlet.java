@@ -2,6 +2,7 @@ package webCode.servlets.customerOptions;
 
 import com.google.gson.Gson;
 import logic.Logic.Engine;
+import logic.Logic.My_CLASS.FeedbackAlert;
 import logic.Logic.My_CLASS.MyFeedback;
 import logic.Logic.My_CLASS.MyStore;
 import utils.ServletUtils;
@@ -48,8 +49,10 @@ public class CreateStoresFeedBacksServlet extends HttpServlet {
             FeedBackList feedbackList = gson.fromJson(reader, FeedBackList.class);
             System.out.println(feedbackList);
             try {
-                for (MyFeedback.FeedbackJson feedbackJson : feedbackList.feedbacksList)
+                for (MyFeedback.FeedbackJson feedbackJson : feedbackList.feedbacksList) {
                     engine.addFeedBack(zoneName, customerName, feedbackJson);
+                    addFeedBackAlert(engine, feedbackJson);
+                }
 
                 out.println("Feedback accepted");
                 out.flush();
@@ -60,6 +63,16 @@ public class CreateStoresFeedBacksServlet extends HttpServlet {
         }
 
     }
+
+    private void addFeedBackAlert(Engine engine, MyFeedback.FeedbackJson feedbackJson){
+        FeedbackAlert feedbackAlert = new FeedbackAlert(feedbackJson.storeName,
+                feedbackJson.rate, feedbackJson.comments);
+        System.out.println(feedbackAlert);
+
+        //insert to owner alerts
+        engine.getMySupermarkets().addFeedBackAlert(feedbackAlert);
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

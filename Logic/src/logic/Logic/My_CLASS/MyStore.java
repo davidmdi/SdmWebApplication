@@ -56,6 +56,8 @@ public class MyStore {
         this.myLocation = new MyLocation(store.x, store.y);
         this.storeSingleOrderItemsList = new ArrayList<>();
 
+        this.storeFeedbacks = new MyFeedbacks();
+
     }
 
     private void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems) {
