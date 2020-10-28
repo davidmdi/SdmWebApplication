@@ -127,7 +127,7 @@ public class MySuperMarket {
 
     public Double calculateDeliveryCost(MyStore value, MyLocation M, MyLocation N) {
         double distance = caculateDeliveryDistance(value, M, N);
-        return distance * value.getSdmStore().getDeliveryPpk();
+        return distance * value.getPPK();
     }
 
     public double calculateItemCost(Map<MyStoreItem, Double> selectedItemsMap) {

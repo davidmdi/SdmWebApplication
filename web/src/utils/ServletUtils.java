@@ -55,7 +55,6 @@ public class ServletUtils {
 	}
 
 	public static void showOffersToUser(PrintWriter out, Map<MyStoreItem, Double> selectedItemsMap, MySuperMarket superMarket) {
-
 		out.println("<form id ='selectSpecialOffers' method='POST' action='/createStaticOrder'>" +
 		//out.println("<form id ='selectSpecialOffers' method='POST' action=''>" +
 				"<div class='row'>" +
@@ -65,15 +64,17 @@ public class ServletUtils {
 		Set<MyStoreItem> storeItemSet =selectedItemsMap.keySet() ;
 		for (MyStoreItem storeItem:storeItemSet) {
 			MyStore store = superMarket.getStores().getStoreMap().get(storeItem.getStoreId());
-			if(store.getSdmStore().getSDMDiscounts() != null) { // if the store has discounters.
-				for (SDMDiscount discount : store.getSdmStore().getSDMDiscounts().getSDMDiscount()) {
-					IfYouBuy ifYouBuy = discount.getIfYouBuy();
-					if(storeItem.getMyItem().getSdmItem().getId() == ifYouBuy.getItemId() &&
-							selectedItemsMap.get(storeItem) >= ifYouBuy.getQuantity())
-						for (double i=0;
-							 i<Math.floor(selectedItemsMap.get(storeItem)/ifYouBuy.getQuantity());i++){
-							out.println(createSellTile(discount,superMarket,store)); // need to build single offer html
-						}
+			if(store.getSdmStore() !=null) {
+				if (store.getSdmStore().getSDMDiscounts() != null) { // if the store has discounters.
+					for (SDMDiscount discount : store.getSdmStore().getSDMDiscounts().getSDMDiscount()) {
+						IfYouBuy ifYouBuy = discount.getIfYouBuy();
+						if (storeItem.getMyItem().getSdmItem().getId() == ifYouBuy.getItemId() &&
+								selectedItemsMap.get(storeItem) >= ifYouBuy.getQuantity())
+							for (double i = 0;
+								 i < Math.floor(selectedItemsMap.get(storeItem) / ifYouBuy.getQuantity()); i++) {
+								out.println(createSellTile(discount, superMarket, store)); // need to build single offer html
+							}
+					}
 				}
 			}
 		}

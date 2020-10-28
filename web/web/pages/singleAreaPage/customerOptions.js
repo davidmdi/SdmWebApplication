@@ -167,6 +167,7 @@ function showOrderHistory() {
 }
 
 /* called after store was selected (static order) */
+
 function showSelectedStoreInfo() {
 
     var selectedStoreSerialized = $("form").serialize();

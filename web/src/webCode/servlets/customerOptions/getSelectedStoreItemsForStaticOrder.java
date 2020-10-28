@@ -78,6 +78,9 @@ Item: id name purchase method price amount
                                     "</div>"+
                                 "<div class=\"row\">";
                         for(MyStoreItem.StoreItemJson item : storeJs.storeItems) {
+                            System.out.println(item.jsonItem.id);
+                            System.out.println(myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getName());
+                            System.out.println(myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getPrice());
                             int itemPrice = myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getPrice();
                            res += "<div class=\"item\" name='item'>" +
                                     "<input type = \"checkbox\" name='itemCheckBox' value='"+item.jsonItem.id+"' class=\"regular-checkbox\">" +

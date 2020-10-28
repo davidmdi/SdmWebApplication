@@ -89,7 +89,7 @@ public class MakeOrderServlet extends HttpServlet {
 
         List<MyStore> stores = engine.getMySupermarkets().getAreaStoresList(zoneName);
         for (MyStore store : stores){
-            htmlBuilder+="<option value=\"" + store.getName()+ "\">" + +store.getId() + "," +
+            htmlBuilder+="<option value=\"" + store.getName()+ "\">" + store.getId() + "," +
                     store.getName() + "," + store.getPPK() + "</option>" ;
         }
         

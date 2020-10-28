@@ -40,7 +40,6 @@ public class MyStore {
         this.storeItems = new MyStoreItems(sdmStore,items);
         this.myLocation = new MyLocation(this.getSdmStore().getLocation());
         this.storeSingleOrderItemsList = new ArrayList<>();
-
         this.storeFeedbacks = new MyFeedbacks();
     }
 
@@ -52,7 +51,7 @@ public class MyStore {
         this.storeOrderMap = new HashMap<>();
 
         this.storeItems = new MyStoreItems();
-        createStoreItemsFromJson(store.storeItems);
+        //createStoreItemsFromJson(store.storeItems);
         this.myLocation = new MyLocation(store.x, store.y);
         this.storeSingleOrderItemsList = new ArrayList<>();
 
@@ -60,16 +59,20 @@ public class MyStore {
 
     }
 
-    private void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems) {
+    public void createStoreItemsFromJson(List<MyStoreItem.StoreItemJson> storeItems, List<MyItem> superMarketItems) {
         MyStoreItem newStoreItem;
         MyItem item;
         MyStoreItem storeItem;
         int index = 0;
 
         for(MyStoreItem.StoreItemJson storeItemJson : storeItems){
-            item = new MyItem(storeItemJson.jsonItem.id, storeItemJson.jsonItem.name, storeItemJson.jsonItem.purchaseMethod);
-            storeItem = new MyStoreItem(item, storeItemJson.price, storeItemJson.storeId, "store");
-            this.storeItems.addStoreItem(storeItem);
+            for(MyItem superItem : superMarketItems) {
+                if(superItem.getItemId() == storeItemJson.jsonItem.id){
+                    //item = new MyItem(storeItemJson.jsonItem.id, storeItemJson.jsonItem.name, storeItemJson.jsonItem.purchaseMethod);
+                    storeItem = new MyStoreItem(superItem, storeItemJson.price, storeItemJson.storeId, "store");
+                    this.storeItems.addStoreItem(storeItem);
+                }
+            }
         }
 
     }

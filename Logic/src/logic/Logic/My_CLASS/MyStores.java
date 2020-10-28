@@ -86,8 +86,8 @@ public class MyStores {
 
     public synchronized MyStore findStoreByName(String storeName) {
         for (MyStore store : this.getStoreList()){
-            if(store.getName().equals(storeName));
-            return store;
+            if(store.getName().equalsIgnoreCase(storeName))
+                 return store;
         }
         return null ; // if store not found by it name
     }
