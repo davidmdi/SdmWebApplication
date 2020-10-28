@@ -48,7 +48,7 @@ public class SingleAreaMenuServlet extends HttpServlet {
     private String createOwnerMenuString(){
         StringBuilder ownerMenuString = new StringBuilder();
         ownerMenuString.append("<div id=\"menu\" class=\"topnav\">");
-        ownerMenuString.append("<a href=\"\" id='homePage' class=\"active\">Home</a>");
+        ownerMenuString.append("<a href=\"\" id='homePage' onclick=\"return homeClicked()\" class=\"active\">Home</a>");
         ownerMenuString.append("<a href='#' id='storeOrders' onclick=\"return storeOrdersClicked()\">Store orders</a>");
         ownerMenuString.append("<a href='#' id='feedbacks' onclick=\"return feedbacksClicked()\">Feedbacks</a>");
         ownerMenuString.append("<a href='#' id='openStore' onclick=\"return openStoreClicked()\">Open store</a>");

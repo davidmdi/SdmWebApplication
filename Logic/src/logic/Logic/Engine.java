@@ -109,6 +109,13 @@ public class Engine {
         // ADD FEEDBACKS ALERT FOR OWNERS !!
     }
 
+    /* get zone name and store name and return the store*/
+    public MyStore findZoneStoreByStoreName(String zoneName, String storeName){
+        MySuperMarket superMarket = mySupermarkets.getAreaSuperMarketByName(zoneName);
+        MyStore store = superMarket.getStores().findStoreByName(storeName);
+
+        return store;
+    }
 
 //
 //        public boolean isIsSuperMarketIsValid() {
@@ -177,8 +184,6 @@ public class Engine {
 
     }
   }
-
-
 
 }
 

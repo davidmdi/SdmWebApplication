@@ -112,6 +112,14 @@
         <servlet-name>LoadMoneyFormServlet</servlet-name>
         <servlet-class>webCode.servlets.LoadMoneyFormServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoreOrdersInfoTable</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.StoreOrdersInfoTable</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetOwnerAlerts</servlet-name>
+        <servlet-class>webCode.servlets.alerts.GetOwnerAlerts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -219,6 +227,14 @@
     <servlet-mapping>
         <servlet-name>LoadMoneyFormServlet</servlet-name>
         <url-pattern>/loadMoneyForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreOrdersInfoTable</servlet-name>
+        <url-pattern>/loadStoreOrdersInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetOwnerAlerts</servlet-name>
+        <url-pattern>/getAlerts</url-pattern>
     </servlet-mapping>
 
 
