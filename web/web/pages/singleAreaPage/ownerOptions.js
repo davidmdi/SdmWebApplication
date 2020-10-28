@@ -6,11 +6,9 @@ var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
 var STORE_FEEDBACKS_URL = buildUrlWithContextPath("showStoreFeedbacks");
 var STORE_ORDERS_URL = buildUrlWithContextPath("loadStoreOrdersInfo");
-var arrStores;
+var STORE_ORDER_ITEMS_URL = buildUrlWithContextPath("loadStoreOrderItemsInfo");
 var feedbacks_interval;
 var storeList_interval;
-
-
 
 function stopIntervalFunction(interval) {
     clearInterval(interval);
@@ -63,26 +61,12 @@ function storeOrdersClicked(){
 
 function ajaxStoresList() {
     console.log("inside ajaxStoresList");
-    /*
+
     $.ajax({
         url: STORES_LIST_URL,
         error: function(e) { console.log("ajaxStoresList success"); alert(e); },
         success: function(stores) {
             console.log("ajaxStoresList success");
-            arrStores = stores; //save stores in array
-            //if(isStoreFeedbacksPage || isStoreOrdersPage)
-            refreshStoresList(stores);
-        }
-    });
-    console.log("arrStores= " + arrStores);
-     */
-    $.ajax({
-        url: STORES_LIST_URL,
-        error: function(e) { console.log("ajaxStoresList success"); alert(e); },
-        success: function(stores) {
-            console.log("ajaxStoresList success");
-            //arrStores = stores; //save stores in array
-            //if(isStoreFeedbacksPage || isStoreOrdersPage)
             refreshStoresList(stores);
         }
     });
@@ -109,6 +93,12 @@ function storeClickEvent(event) {
     var storeName = event.currentTarget.attributes['storeName'].value;
     //const selectedStore = arrStores.find( ( store ) => store.id == storeId );
 
+    //change UI for the selected store
+    var listItems = $("#storesList").children("li");
+    listItems.removeAttr("class");
+    var clickedListItem = event.currentTarget;
+    clickedListItem.setAttribute("class", "store-active");
+
     $.ajax({
         url: STORE_ORDERS_URL,
         data: {"storeName" : storeName},
@@ -116,121 +106,27 @@ function storeClickEvent(event) {
         success: function(response) {
             $("#ordersHistoryTable tbody").empty();
             $("#ordersHistoryTable tbody").replaceWith(response);
+
+            $("#ordersHistoryTable tbody tr").on("click", orderClickEvent);// add onClick to each order row
         }
     });
-
-    /*
-    var storeId = event.currentTarget.attributes['storeId'].value;
-    const selectedStore = arrStores.find( ( store ) => store.id == storeId );
-    //if(isStoreOrdersPage == true)
-        refreshStoreOrdersHistory(selectedStore); //refresh store orders table
-    //else if(isStoreFeedbacksPage == true)
-    //refreshStoreFeedbacksTable(selectedStore); //refresh store feedbacks table
-
-    //change UI for the selected store
-    var listItems = $("#storesList").children("li");
-    listItems.removeAttr("class");
-    var clickedListItem = event.currentTarget;
-    clickedListItem.setAttribute("class", "store-active");
-     */
 }
 
-function refreshStoreFeedbacksTable(selectedStore){
-    console.log("inside refreshStoreFeedbacksTable");
-    console.log(selectedStore);
-    console.log(selectedStore.storeFeedbacks.feedbacksList);
-    console.log(selectedStore.storeFeedbacks.feedbacksList[0]);
-    //clear all current orders
-    $("#storeFeedbacksTable tbody").empty();
-    /*
-    private String storeName;
-    private String customerName;
-    private Date orderDate;
-    private int rate;
-    private String comments;
-     */
-/*
-    // rebuild the list of users: scan all users and add them to the list of users
-    $.each(selectedStore.storeSingleOrderItemsList || [], function(index, order) {
+function orderClickEvent(event){
+    var storeName = event.currentTarget.attributes['storeName'].value;
+    var singleOrderIndex = event.currentTarget.attributes['singleOrderIndex'].value;
+    var orderId = event.currentTarget.attributes['orderId'].value;
 
-        console.log("order.thisStoreQuantityMapFromOrder= "+order.thisStoreQuantityMapFromOrder);
-
-        var orderRow = 	"<tr name='order_tr' selectedOrderID='"+orderId+"'>" +
-            "<th>"+Customer name"</th>" +
-            "<th>"+Order date+"</th>" +
-            "<th>"+Rate+"</th>" +
-            "<th>Comments</th>" +
-            "</tr>";
-        $(orderRow).appendTo($("#ordersHistoryTable tbody"));
+    $.ajax({
+        url: STORE_ORDER_ITEMS_URL,
+        data: {"storeName" : storeName, "singleOrderIndex" : singleOrderIndex},
+        error: function(e) { alert("error"); },
+        success: function(response) {
+            $("#orderItemsTable tbody").empty();
+            $("#orderItemsTable tbody").replaceWith(response);
+            $("#pInfo").replaceWith("<p id='pInfo'>items purchase from order(ID): "+orderId+"</p>");
+        }
     });
-
-//"<th>Customer name</th><th>Order date</th><th>Rate (1-5)</th><th>Comments</th>"
-    if(selectedStore.storeSingleOrderItemsList.length == 0 ){ //msg if there are no orders
-        var emptyOrders = "<tr name='order_tr' selectedOrderID='1'><td>There are no areas</td></tr>";
-        console.log(selectedStore.storeSingleOrderItemsList);
-        $(emptyOrders).appendTo($("#ordersHistoryTable tbody"));
-        //toggle display for orderItems table:
-        $("#orderItems").toggle(false);
-    }else
-        $("#orderItems").toggle(true);
-
-
- */
-
-    /*
-    var testRow = 	"<tr>" +
-                        "<th>123</th>" +
-                        "<th>03/04</th>" +
-                        "<th>Oryom</th>" +
-                        "<th>(2,2)</th>" +
-                        "<th>3</th>" +
-                        "<th>20</th>" +
-                        "<th>20</th>" +
-                    "</tr>";
-        $(testRow).appendTo($("#ordersHistoryTable tbody"));
-    */
-
-
-
-}
-
-
-function refreshStoreOrdersHistory(selectedStore) {
-    console.log("inside refreshStoreOrdersHistory");
-    /*
-    //clear all current orders
-    $("#ordersHistoryTable tbody").empty();
-
-    // rebuild the list of users: scan all users and add them to the list of users
-    $.each(selectedStore.storeSingleOrderItemsList || [], function(index, order) {
-
-    console.log("order.thisStoreQuantityMapFromOrder= "+order.thisStoreQuantityMapFromOrder);
-
-    var orderRow = 	"<tr name='order_tr' selectedOrderID='"+orderId+"'>" +
-                        "<th>"+order.orderId+"</th>" +
-                        "<th>"+order.date+"</th>" +
-                        "<th>"+order.customer.user.name+"</th>" +
-                        "<th>Customer location ?WHERE?</th>" +
-                        "<th>"+order.thisStoreQuantityMapFromOrder.length+"</th>" +
-                        "<th>"+order.orderCost+"</th>" +
-                        "<th>"+order.deliveryCost+"</th>" +
-                    "</tr>";
-        $(orderRow).appendTo($("#ordersHistoryTable tbody"));
-    });
-
-    if(selectedStore.storeSingleOrderItemsList.length == 0 ){ //msg if there are no orders
-        var emptyOrders = "<tr name='order_tr' selectedOrderID='1'><td>There are no areas</td></tr>";
-        console.log(selectedStore.storeSingleOrderItemsList);
-        $(emptyOrders).appendTo($("#ordersHistoryTable tbody"));
-        //toggle display for orderItems table:
-            $("#orderItems").toggle(false);
-    }else
-        $("#orderItems").toggle(true);
-
-    //add all the orders rows click event:
-    addOrdersClickEvent();
-
-*/
 }
 
 /* add onClick event for 'order row' in ordersHistoryTable
@@ -273,6 +169,7 @@ function feedbacksClicked(){
     }
 
     ajaxRefreshStoresFeedbacks();
+
     if (!feedbacks_interval) {
         feedbacks_interval = setInterval(ajaxRefreshStoresFeedbacks, 2000);
     }

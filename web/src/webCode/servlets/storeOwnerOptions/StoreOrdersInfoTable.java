@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MyOrder;
 import logic.Logic.My_CLASS.MyStore;
+import logic.Logic.My_CLASS.MyStoreSingleOrderItems;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
@@ -16,7 +17,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class StoreOrdersInfoTable extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,47 +30,34 @@ public class StoreOrdersInfoTable extends HttpServlet {
             System.out.println("storeName= "+storeName);
             MyStore store = engine.findZoneStoreByStoreName(zoneName, storeName);
             String orders = buildStoreOrdersTable(store);
-            //PrintWriter out = response.getWriter();
+
             out.println(orders.toString());
-            System.out.println(orders);
             out.flush();
         }
     }
 
     private String buildStoreOrdersTable(MyStore store) {
+        int singleOrderIndex = 0;
         String res = "<tbody>";
 
-        if(store.getStoreOrderMap().values().size() == 0 ){
-            //add empty row
-            res+= "<tr>" +
+        if(store.getStoreSingleOrderItemsList().size() == 0 ){ //add empty row
+            res+= "<tr storeName='' singleOrderIndex='' orderId=''>" +
                     "<td>There are no orders.</td>" +
                     "<td></td><td></td><td></td><td></td><td><td>" +
                     "</tr>";
         }else{
-            for(MyOrder order : store.getStoreOrderMap().values()){
-                res+= "<tr>" +
-                        "<td>"+order.getOrderId()+"</td>" +
-                        "<td>"+order.getDate()+"</td>" +
-                        "<td>"+ order.getCustomer().getUserName()+"</td>" +
-                        "<td>"+ order.getCustomer().getLocation()+"</td>" +
-                        "<td>"+order.getQuantityMap().size()+"</td>" +
-                        "<td>"+order.getOrderCost()+"</td>" +
-                        "<td>"+order.getDeliveryCost()+"</td>" +
+            for(MyStoreSingleOrderItems singleOrder : store.getStoreSingleOrderItemsList()){
+                res+= "<tr storeName='"+store.getName()+"' singleOrderIndex='"+(singleOrderIndex++)+"' orderId='"+singleOrder.getOrderId()+"'>" +
+                        "<td>"+singleOrder.getOrderId()+"</td>" +
+                        "<td>"+singleOrder.getDate()+"</td>" +
+                        "<td>"+singleOrder.getCustomer().getUserName()+"</td>" +
+                        "<td>"+singleOrder.getCustomer().getLocation()+"</td>" +
+                        "<td>"+singleOrder.getThisStoreQuantityMapFromOrderMapSize()+"</td>" +
+                        "<td>"+String.format("%.2f",singleOrder.getOrderCost())+"</td>" +
+                        "<td>"+String.format("%.2f",singleOrder.getDeliveryCost())+"</td>" +
                         "</tr>";
             }
         }
-
-/*
-        res+= "<tr>" +
-                "<td>order.getOrderId()</td>" +
-                "<td>order.getDate()</td>" +
-                "<td>rder.getCustomer().getUserName()</td>" +
-                "<td>order.getCustomer().getLocation()</td>" +
-                "<td>order.getQuantityMap().size()</td>" +
-                "<td>order.getOrderCost()</td>" +
-                "<td>order.getDeliveryCost()</td>" +
-                "</tr>";
-*/
 
         res += "</tbody>";
 
@@ -89,3 +76,28 @@ public class StoreOrdersInfoTable extends HttpServlet {
 
 
 }
+
+/*
+
+    for(MyOrder order : store.getStoreOrderMap().values()){
+        res+= "<tr>" +
+                "<td>"+order.getOrderId()+"</td>" +
+                "<td>"+order.getDate()+"</td>" +
+                "<td>"+ order.getCustomer().getUserName()+"</td>" +
+                "<td>"+ order.getCustomer().getLocation()+"</td>" +
+                "<td>"+order.getQuantityMap().size()+"</td>" +
+                "<td>"+order.getOrderCost()+"</td>" +
+                "<td>"+order.getDeliveryCost()+"</td>" +
+                "</tr>";
+    }
+
+        res+= "<tr>" +
+                "<td>order.getOrderId()</td>" +
+                "<td>order.getDate()</td>" +
+                "<td>rder.getCustomer().getUserName()</td>" +
+                "<td>order.getCustomer().getLocation()</td>" +
+                "<td>order.getQuantityMap().size()</td>" +
+                "<td>order.getOrderCost()</td>" +
+                "<td>order.getDeliveryCost()</td>" +
+                "</tr>";
+*/

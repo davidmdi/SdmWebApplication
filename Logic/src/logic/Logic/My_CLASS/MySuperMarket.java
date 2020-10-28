@@ -190,7 +190,15 @@ public class MySuperMarket {
         // update MyItems how many times item sold.
         updatMyItemsHowManyTimeSold(order);
         updateMoneyTransfer(order);
+        addNewOrderAlert(order);
+    }
 
+    private void addNewOrderAlert(MyOrder order) {
+        /*
+        for(MyStoreSingleOrderItems storeSingleOrder : order.getStoreSingleOrderItemsMap().values()){
+
+        }
+         */
     }
 
     private void updateMoneyTransfer(MyOrder order) {
