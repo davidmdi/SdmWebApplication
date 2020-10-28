@@ -18,6 +18,7 @@ public class MyStoreSingleOrderItems {
     private double orderCost ;
     private int thisStoreQuantityMapFromOrderMapSize;
     private String orderKind;
+    private MyLocation fromWhereOrderWasMade ;
 
     public MyStoreSingleOrderItems(int orderId, Date date, int storeId, MyCustomer customer, String orderKind,
                                    double deliveryDistance, double deliveryCost) {
@@ -113,6 +114,14 @@ public class MyStoreSingleOrderItems {
 
     public void setOrderCost(double orderCost) {
         this.orderCost = orderCost;
+    }
+
+    public MyLocation getFromWhereOrderWasMade() {
+        return fromWhereOrderWasMade;
+    }
+
+    public void setFromWhereOrderWasMade(MyLocation fromWhereOrderWasMade) {
+        this.fromWhereOrderWasMade = fromWhereOrderWasMade;
     }
 
     public ObservableList<MySingleOrderTableView> createObservableListForOrderSummery() {

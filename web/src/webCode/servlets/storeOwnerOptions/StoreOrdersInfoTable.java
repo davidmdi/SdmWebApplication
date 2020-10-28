@@ -1,19 +1,15 @@
 package webCode.servlets.storeOwnerOptions;
 
-import com.google.gson.Gson;
 import logic.Logic.Engine;
-import logic.Logic.My_CLASS.MyOrder;
 import logic.Logic.My_CLASS.MyStore;
 import logic.Logic.My_CLASS.MyStoreSingleOrderItems;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -50,7 +46,7 @@ public class StoreOrdersInfoTable extends HttpServlet {
                 res+= "<tr storeName='"+store.getName()+"' singleOrderIndex='"+(singleOrderIndex++)+"' orderId='"+singleOrder.getOrderId()+"'>" +
                         "<td>"+singleOrder.getOrderId()+"</td>" +
                         "<td>"+singleOrder.getDate()+"</td>" +
-                        "<td>"+singleOrder.getCustomer().getUserName()+"</td>" +
+                        "<td>"+singleOrder.getFromWhereOrderWasMade()+"</td>" +
                         "<td>"+singleOrder.getCustomer().getLocation()+"</td>" +
                         "<td>"+singleOrder.getThisStoreQuantityMapFromOrderMapSize()+"</td>" +
                         "<td>"+String.format("%.2f",singleOrder.getOrderCost())+"</td>" +
