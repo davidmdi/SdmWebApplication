@@ -72,8 +72,7 @@ public class Engine {
     }
 
     public synchronized boolean isStoreLocationValid(int x, int y){
-        return((isThereACustomerInTheLocation(x,y) == false) &&
-                (this.mySupermarkets.isThereAStoreInTheLocation(x, y) == false));
+        return this.mySupermarkets.isThereAStoreInTheLocation(x, y) == false;
     }
 
     private synchronized boolean isThereACustomerInTheLocation(int x, int y){
