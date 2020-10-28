@@ -95,9 +95,11 @@ public class MySuperMarkets {
 
         //List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
         //MyStore storeToAdd = new MyStore(storeId, store, storeItemsToAdd, ownerName);
-        MyStore storeToAdd = new MyStore(storeId, store, ownerName);
-        //add store to zone:
         MySuperMarket superMarket = getSuperMarketByOwnerAndZone(ownerName, zoneName);
+        MyStore storeToAdd = new MyStore(storeId, store, ownerName);
+        storeToAdd.createStoreItemsFromJson(store.storeItems, superMarket.getItems().getItemList());
+
+        //add store to zone:
         superMarket.getStores().addStore(storeToAdd);
     }
 
