@@ -263,7 +263,6 @@ public class MySuperMarkets {
             double after = beforeReceiving + sumOfAction;
             AccountAction storeAction = new AccountAction("receive", order.getDate(),
                     sumOfAction, beforeReceiving, after);
-            //this.getOwner().getUser().getAccount().addAction(storeAction);
             String ownerName = store.getOwnerName();
             MyOwner owner = engine.getMyUsers().findOwnerByName(ownerName);
             owner.getUser().getAccount().addAction(storeAction);
