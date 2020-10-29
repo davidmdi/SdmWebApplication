@@ -37,9 +37,5 @@ public class AreaInfoServlet extends HttpServlet {
             out.println(json);
             out.flush();
         }
-
-
     }
-
-
 }

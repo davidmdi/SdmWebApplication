@@ -81,27 +81,3 @@ public class ShowAreasTableServlet extends HttpServlet {
         processRequest(req, resp);
     }
 }
-/*
-<table id='areasTable'>
-    <thead>
-        <tr>
-            <th>Owner name</th>
-            <th>Zone name</th>
-            <th>Total products for sell</th>
-            <th>Total stores in area</th>
-            <th>Total orders</th>
-            <th>Avg orders price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr name='area' selectedArea='Galil Maarvi'>
-            <td>admin</td>
-            <td>Galil Maarvi</td>
-            <td>5</td>
-            <td>2</td>
-            <td>0</td>
-            <td>0.0</td>
-        </tr>
-    </tbody>
-</table>
- */
