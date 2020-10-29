@@ -18,6 +18,8 @@ public class MyStore {
     private  String ownerName ;
     private double totalOrdersCost = 0 ;
     private double totalDeliveryCosts = 0 ;
+    private int totalOrdersItemsCost = 0 ;
+    private double totalOrdersDeliveryCost = 0.0 ;
 
     private MyFeedbacks storeFeedbacks;
     private String name;
@@ -263,6 +265,28 @@ public class MyStore {
                             storeItem.getName() , storeItem.getMyItem().getPurchaseCategory())));
         }
         return new StoreJson(this.name, this.myLocation.getX(), this.myLocation.getY(), this.PPK, storeItemsJson);
+    }
+
+    public void setTotalDeliveryCosts(double totalDeliveryCosts) {
+        this.totalDeliveryCosts = totalDeliveryCosts;
+    }
+
+    public int getTotalOrdersItemsCost() {
+        return totalOrdersItemsCost;
+    }
+
+    public void setTotalOrdersItemsCost(int totalOrdersItemsCost) {
+        this.totalOrdersItemsCost = totalOrdersItemsCost;
+    }
+
+
+    public double getTotalOrdersDeliveryCost() {
+        return totalOrdersDeliveryCost;
+    }
+
+    public void addPricesOfDeliveryAndItemsCosts(MyStoreSingleOrderItems singleOrderItems) {
+        this.totalOrdersDeliveryCost +=singleOrderItems.getDeliveryCost();
+        this.totalOrdersItemsCost +=singleOrderItems.calculatePrice();
     }
 
 

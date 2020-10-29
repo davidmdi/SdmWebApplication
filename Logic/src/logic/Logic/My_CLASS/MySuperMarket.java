@@ -214,6 +214,7 @@ public class MySuperMarket {
             MyStore store = this.getStores().getStoreMap().get(singleOrderItems.getStoreId());
             double  beforeReceiving = this.getOwner().getUser().getAccount().getBalance();
             double sumOfAction = singleOrderItems.calculatePrice() + singleOrderItems.getDeliveryCost();
+            store.addPricesOfDeliveryAndItemsCosts(singleOrderItems);
             singleOrderItems.setOrderCost(singleOrderItems.calculatePrice()); // Updates order total cost
             double after = beforeReceiving + sumOfAction;
             AccountAction storeAction = new AccountAction("receive",order.getDate(),

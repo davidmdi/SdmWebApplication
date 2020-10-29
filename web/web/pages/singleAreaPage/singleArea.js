@@ -95,13 +95,15 @@ function refreshStoresTable(stores) {
                             "<td>("+store.myLocation.X+","+store.myLocation.Y+")</td>" +
                             "<td>"+createStoreItemsTable(store.storeItems.itemsList)+"</td>" +
                             "<td>"+store.storeSingleOrderItemsList.length+"</td>" +
-                            "<td>**Need to change the code**</td>" +            //Need to add parameter to MyStore
+                            "<td>"+store.totalOrdersItemsCost+"</td>" +  //Need to add parameter to MyStore
                             "<td>"+store.PPK+"</td>" +
-                            "<td>**Need to change the code**</td>" +            //Need to add parameter to MyStore
+                            "<td>"+store.totalOrdersDeliveryCost+"</td>" +//Need to add parameter to MyStore
                         "</tr>";
         $(itemInfo).appendTo($("#storesTable"));
     });
 }
+
+
 
 function createStoreItemsTable(storeItems){
     var storeItemsTable = "<table id='storeItemsTable'>" +
