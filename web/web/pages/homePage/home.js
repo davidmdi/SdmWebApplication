@@ -1,5 +1,6 @@
 
 var refreshRate = 2000; //milli seconds
+var alertsRefreshRate = 5000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
 var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
@@ -29,7 +30,7 @@ $(function() {
     setInterval(ajaxAreasTable, refreshRateForAreas);
     setInterval(ajaxAccountActionsTable, refreshRateForAccount);
 
-    setInterval(ajaxAlertsList, refreshRateForAreas);//refreshRate); //check for alerts
+    setInterval(ajaxAlertsList, alertsRefreshRate);//refreshRate); //check for alerts
 
 
     //The chat content is refreshed only once (using a timeout) but
@@ -45,7 +46,6 @@ function ajaxAlertsList() {
         }
     });
 }
-
 
 function alertsHandler(alerts){
     console.log("alert "+ alerts);
@@ -114,7 +114,7 @@ function refreshUsersList(users) {
 
     // rebuild the list of users: scan all users and add them to the list of users
     $.each(users || [], function(index, user) {
-        console.log("Adding user #" + index + ": " + user.name +", type: "+user.type);
+        //console.log("Adding user #" + index + ": " + user.name +", type: "+user.type);
         //create a new <option> tag with a value in it and
         //appeand it to the #userslist (div with id=userslist) element
         $('<li>' + user.name+", "+user.type + '</li>').appendTo($("#userslist"));
@@ -167,7 +167,7 @@ function refreshAreasTable(areas) {
 
     if(areas.length == 0 ){
         var emptyAreas = "<tr><td>There are no areas</td></tr>";
-        console.log(areas);
+        //console.log(areas);
         $(emptyAreas).appendTo($("#areasTable"));
     }
     //add click event for each zone

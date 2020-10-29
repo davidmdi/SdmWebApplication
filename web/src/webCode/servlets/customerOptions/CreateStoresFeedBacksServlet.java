@@ -70,7 +70,7 @@ public class CreateStoresFeedBacksServlet extends HttpServlet {
         System.out.println(feedbackAlert);
 
         //insert to owner alerts
-        engine.getMySupermarkets().addFeedBackAlert(feedbackAlert);
+        engine.addFeedBackAlert(feedbackAlert);
     }
 
 

@@ -1,5 +1,7 @@
 package logic.Logic.My_CLASS;
 
+import logic.Logic.Engine;
+
 import java.util.*;
 
 public class MySuperMarkets {
@@ -95,44 +97,25 @@ public class MySuperMarkets {
 
         //List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
         //MyStore storeToAdd = new MyStore(storeId, store, storeItemsToAdd, ownerName);
-        MySuperMarket superMarket = getSuperMarketByOwnerAndZone(ownerName, zoneName);
+        MySuperMarket superMarket = getAreaSuperMarketByName(zoneName);
         MyStore storeToAdd = new MyStore(storeId, store, ownerName);
         storeToAdd.createStoreItemsFromJson(store.storeItems, superMarket.getItems().getItemList());
 
         //add store to zone:
         superMarket.getStores().addStore(storeToAdd);
+        //add alert only if the store owner is not the area owner!
+        if(superMarket.getOwner().getUserName().equalsIgnoreCase(ownerName) == false) {
+            addCompetingStoreAlert(superMarket, storeToAdd);
+        }
     }
 
-    private MySuperMarket getSuperMarketByOwnerAndZone(String ownerName, String zoneName) {
-        MyOwner zoneOwner = null;
+    private void addCompetingStoreAlert(MySuperMarket superMarket, MyStore store) {
+        CompetingStoreAlert storeAlert = new CompetingStoreAlert(store.getOwnerName(), store.getName(),
+                store.getMyLocation(), superMarket.getItems().getItemList().size(),
+                store.getStoreItems().getItemsList().size());
 
-        for(MyOwner owner : this.superMarkets.keySet()){
-            if(owner.getUserName().equalsIgnoreCase(ownerName))
-                zoneOwner = owner;
-        }
-
-        for(MySuperMarket superMarket : this.superMarkets.get(zoneOwner)){
-            if(superMarket.getZoneName().equalsIgnoreCase(zoneName))
-                return superMarket;
-        }
-
-        return null;
+        superMarket.getOwner().addAlert(storeAlert);
     }
-/*
-    public List<MyItem> createStoreItemsToAddList(MyStore.StoreJson store, String zoneName){
-        List<MyItem> zoneItems = getAreaItemsList(zoneName);
-        List<MyItem> storeItems = new ArrayList<>();
-
-        for(MyItem.ItemJson itemJson : store.items){
-            for(MyItem zoneItem : zoneItems){
-                if(itemJson.id == zoneItem.getItemId())
-                    storeItems.add(zoneItem);
-            }
-        }
-
-        return storeItems;
-    }
-*/
 
     /* find max id and return (maxId+1) */
     private int generateStoreId() {
@@ -148,27 +131,6 @@ public class MySuperMarkets {
         }
 
         return (++maxStoreId);
-    }
-
-    public void addFeedBackAlert(FeedbackAlert feedbackAlert) {
-        String ownerName = "";
-        MyOwner owner = null;
-
-        for(Set<MySuperMarket> superMarkets : this.superMarkets.values()){
-            for(MySuperMarket superMarket : superMarkets){
-                for(MyStore store : superMarket.getStores().getStoreList()){
-                    if(feedbackAlert.getStoreName().equalsIgnoreCase(store.getName()))
-                        ownerName = store.getOwnerName();
-                }
-            }
-        }
-
-        for(MyOwner myOwner : this.superMarkets.keySet()){
-            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
-                owner = myOwner;
-        }
-
-        owner.addAlert(feedbackAlert);
     }
 
     public synchronized List<String> getOwnerAlertsToString(String ownerName) {
@@ -188,4 +150,85 @@ public class MySuperMarkets {
 
         return stringAlerts;
     }
+
+    /*
+    public void addNewOrderAlert(MyOrder order) {
+        int storeId;
+        String ownerName;
+        MyOwner owner;
+        OrderCreatedAlert newOrderAlert;
+
+        for(MyStoreSingleOrderItems storeSingleOrder : order.getStoreSingleOrderItemsMap().values()){
+            storeId = storeSingleOrder.getStoreId();
+            ownerName = getStoreOwnerNameByStoreId(storeId);
+            owner = findOwnerByName(ownerName);
+            newOrderAlert = new OrderCreatedAlert(storeSingleOrder.getOrderId(), storeSingleOrder.getCustomer().getUserName(),
+                    storeSingleOrder.getThisStoreQuantityMapFromOrderMapSize(),
+                    storeSingleOrder.getOrderCost(), storeSingleOrder.getDeliveryCost());
+            owner.addAlert(newOrderAlert);
+        }
+    }
+     */
+
+    public String getStoreOwnerNameByStoreId(int storeId) {
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if(store.getId() == storeId)
+                       return store.getOwnerName();
+                }
+            }
+        }
+
+        return "";
+    }
+
+    public MyOwner findOwnerByName(String ownerName) {
+
+        for(MyOwner owner : this.superMarkets.keySet()){
+            if(owner.getUserName().equalsIgnoreCase(ownerName))
+                return owner;
+        }
+
+        return  null;
+    }
+
+    public String getStoreOwnerNameByStoreName(String storeName) {
+
+        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for(MySuperMarket superMarket : superMarketsSet){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if(store.getName().equalsIgnoreCase(storeName))
+                        return store.getOwnerName();
+                }
+            }
+        }
+
+        return "";
+    }
 }
+
+    /*
+    public void addFeedBackAlert(MyOwner storeOwner, FeedbackAlert feedbackAlert) {
+        String ownerName = "";
+        MyOwner owner = null;
+
+        for(Set<MySuperMarket> superMarkets : this.superMarkets.values()){
+            for(MySuperMarket superMarket : superMarkets){
+                for(MyStore store : superMarket.getStores().getStoreList()){
+                    if(feedbackAlert.getStoreName().equalsIgnoreCase(store.getName()))
+                        ownerName = store.getOwnerName();
+                }
+            }
+        }
+
+
+        for(MyOwner myOwner : this.superMarkets.keySet()){ // HERE !!
+            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
+                owner = myOwner;
+        }
+
+
+        owner.addAlert(feedbackAlert);
+    }
+*/

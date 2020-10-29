@@ -44,7 +44,7 @@ public class MyOwner {
         this.alerts.clear();
     }
 
-    public synchronized List<Alertable> getAlerts() {
+    public List<Alertable> getAlerts() {
         return alerts;
     }
 }

@@ -83,15 +83,15 @@ Item: id name purchase method price amount
                             System.out.println(myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getPrice());
                             int itemPrice = myStore.getStoreItems().getItemsMap().get(item.jsonItem.id).getPrice();
                            res += "<div class=\"item\" name='item'>" +
-                                    "<input type = \"checkbox\" name='itemCheckBox' value='"+item.jsonItem.id+"' class=\"regular-checkbox\">" +
+                                    "<input type = \"checkbox\" name='itemCheckBox' value='"+item.jsonItem.id+"' class=\"regular-checkbox\"></input>" +
                                     "<label >"+item.jsonItem.id+"</label >" +
                                     "<label >"+ item.jsonItem.name+"</label >" +
                                     "<label > "+item.jsonItem.purchaseMethod+"</label >" +
                                     "<label > Price:"+itemPrice+"</label >";
                                    if(item.jsonItem.purchaseMethod.equalsIgnoreCase(MyItem.QUANTITY)){
-                                      res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'>";
+                                      res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0' min = '0' value ='0'></input>";
                                    }else{
-                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.1\" value = \"0.0\" >";
+                                       res += "<input type =\"number\" name='itemAmount' class=\"text-price\" placeholder = '0.0' inputmode = \"decimal\" min = \"0.0\" step = \"0.1\" value = \"0.0\"></input>";
                                    }
                             res += "</div>";
                         }

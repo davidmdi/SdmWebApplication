@@ -1,8 +1,11 @@
 
 var refreshRate = 10000; //milli seconds
+var alertsRefreshRate = 5000; //milli seconds
 var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var MENU_URL = buildUrlWithContextPath("singleAreaMenu");
 var ZONE_NAME_URL = buildUrlWithContextPath("zoneName");
+var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
+
 
 $(function() {
 //init:
@@ -12,7 +15,26 @@ $(function() {
 
 //The users list is refreshed automatically every second
     setInterval(ajaxAreaInfo, refreshRate);
+    setInterval(ajaxAlertsList, alertsRefreshRate);//refreshRate); //check for alerts
 });
+
+function ajaxAlertsList() {
+    $.ajax({
+        url: CHECK_ALERTS_URL,
+        success: function(alerts) {
+            alertsHandler(alerts);
+        }
+    });
+}
+
+function alertsHandler(alerts){
+    console.log("alert "+ alerts);
+
+    $.each(alerts || [], function(index, alertMsg) {
+        alert(alertMsg);
+    });
+}
+
 
 function ajaxAreaInfo() {
     $.ajax({

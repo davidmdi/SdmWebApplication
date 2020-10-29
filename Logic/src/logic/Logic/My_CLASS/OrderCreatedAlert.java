@@ -8,7 +8,7 @@ public class OrderCreatedAlert implements Alertable{
     private double totalOrderItemsCost;
     private double totalOrderDeliveryCost;
 
-    public OrderCreatedAlert(int orderId, String customerName, int totalOrderItemsTypes, int totalOrderItemsCost, int totalOrderDeliveryCost) {
+    public OrderCreatedAlert(int orderId, String customerName, int totalOrderItemsTypes, double totalOrderItemsCost, double totalOrderDeliveryCost) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.totalOrderItemsTypes = totalOrderItemsTypes;
