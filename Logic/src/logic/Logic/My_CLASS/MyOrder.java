@@ -163,6 +163,9 @@ public class MyOrder {
 
     public void setFromWhereOrderWasMade(MyLocation fromWhereOrderWasMade) {
         this.fromWhereOrderWasMade = fromWhereOrderWasMade;
+        for(MyStoreSingleOrderItems singleOrderItems : this.getStoreSingleOrderItemsMap().values()){
+            singleOrderItems.setFromWhereOrderWasMade(fromWhereOrderWasMade);
+        }
     }
 
     @Override

@@ -166,6 +166,7 @@ public class MySuperMarket {
         customer.addOrder(order);
         //set orders Location
         order.setFromWhereOrderWasMade(customer.getLocation());
+
         // add order to super market orders
         this.getOrders().addOrder(order);
 
