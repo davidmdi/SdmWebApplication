@@ -18,10 +18,11 @@ public class OrderCreatedAlert implements Alertable{
 
     @Override
     public String alert() {
-        return String.format("Order %s was created by %d.\n" +
-                "Total items types: %s\n" +
-                "Total items cost: %2.f\n" +
-                "Total delivery cost: %2.f",orderId, customerName,
+
+        return String.format("Order %d was created by %s." +
+                " Total items types: %s" +
+                " Total items cost: %.2f " +
+                " Total delivery cost: %.2f ",orderId, customerName,
                 totalOrderItemsTypes, totalOrderItemsCost, totalOrderDeliveryCost);
     }
 }

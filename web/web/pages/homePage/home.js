@@ -1,6 +1,6 @@
 
 var refreshRate = 2000; //milli seconds
-var alertsRefreshRate = 10000;//5000; //milli seconds
+var alertsRefreshRate = 5000;//5000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
 var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
@@ -43,7 +43,7 @@ function ajaxAlertsList() {
     $.ajax({
         url: CREATE_NEW_ALERT,
         success: function(alerts) {
-            console.log("alert "+ alerts);
+            console.log("alert"+ alerts);
             $("#userAlerts").append(alerts);
         }
     });

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 public class UpdateOrderInSystemServlet extends HttpServlet {
@@ -34,7 +35,8 @@ public class UpdateOrderInSystemServlet extends HttpServlet {
 
         engine.getMySupermarkets().updateOrder(order,storeSingleOrderItemsMap,superMarket,engine);
 
-      engine.addNewOrderAlert(order); //add alerts to stores owners
+
+        engine.addNewOrderAlert(order); //add alerts to stores owners
 
         // send notification to store owners...
         // handle money transfer... done

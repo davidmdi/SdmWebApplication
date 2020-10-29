@@ -17,35 +17,35 @@ public class CreateNewAlertServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=UTF-8");
-        try(PrintWriter out = response.getWriter()) {
 
+        try(PrintWriter out = response.getWriter()) {
+            response.setContentType("text/html;charset=UTF-8");
             Engine engine = ServletUtils.getEngine(getServletContext());
             User currUser = SessionUtils.getUser(request, getServletContext());
 
-            if(currUser.getType().equalsIgnoreCase(User.OWNER)) {
+           if(currUser.getType().equalsIgnoreCase(User.OWNER)) {
 
-                String ownerName = currUser.getName();
-                List<String> ownerAlertsToString = engine.getMySupermarkets().getOwnerAlertsToString(ownerName);
-
-                String alertsList = buildAlertsHTML(ownerAlertsToString);
-                System.out.println(alertsList.toString());
+                String userName = SessionUtils.getUsername(request);
+                //List<String> ownerAlertsToString = engine.getOwnerAlertsToString(userName);
+                String ownerAlertsToString = engine.getOwnerAlertsToString(userName);
+               String alertsList = "";
+                if(!ownerAlertsToString.equalsIgnoreCase(""))
+                    alertsList = buildAlertsHTML(ownerAlertsToString);
 
                 out.println(alertsList);
-            }
+           }
+           else{
+               out.println("");
+           }
             out.flush();
         }
     }
 
-    private String buildAlertsHTML(List<String> ownerAlerts){
-        String res = "";
-
-        for(String alert : ownerAlerts){
-            res += "<div class='alert'>" +
-                        "<button type='submit' onclick='removeAlert()'>Close alert</button>" +
-                        "<label>"+alert+"</label>" +
-                    "</div>";
-        }
+    private String buildAlertsHTML(String ownerAlert){
+        String res = "<div class='alert'>" +
+                    "<button type='submit' onclick='removeAlert()'>Close alert</button>" +
+                    "<label>"+ownerAlert+"</label>" +
+                "</div>";
 
         return res;
     }

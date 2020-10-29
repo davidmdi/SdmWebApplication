@@ -32,19 +32,19 @@ public class MyOwner {
         return user.getUserId();
     }
 
-    public void addAlert(Alertable alert){
+    public synchronized void addAlert(Alertable alert){
         this.alerts.add(alert);
     }
 
-    public void removeAlert(Alertable alert){
+    public synchronized void removeAlert(Alertable alert){
         this.alerts.remove(alert);
     }
 
-    public void removeAllAlerts(){
+    public synchronized void removeAllAlerts(){
         this.alerts.clear();
     }
 
-    public List<Alertable> getAlerts() {
+    public synchronized List<Alertable> getAlerts() {
         return alerts;
     }
 }
