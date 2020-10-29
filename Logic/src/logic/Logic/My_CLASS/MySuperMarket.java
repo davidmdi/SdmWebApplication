@@ -4,7 +4,6 @@ package logic.Logic.My_CLASS;
 import SDM_CLASS.SDMDiscount;
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.scene.control.DatePicker;
-import logic.Logic.Engine;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -199,6 +198,8 @@ public class MySuperMarket {
         AccountAction actionForCustomer = new AccountAction("transfer",order.getDate(),amountTotransfer,before
         ,before-amountTotransfer);
         order.getCustomer().getUser().getAccount().addAction(actionForCustomer);
+
+
         Set<Integer> myStoreSingleOrderItemsSet = order.getStoreSingleOrderItemsMap().keySet();
         for(int i : myStoreSingleOrderItemsSet ){
             MyStoreSingleOrderItems singleOrderItems = order.getStoreSingleOrderItemsMap().get(i);
@@ -210,7 +211,9 @@ public class MySuperMarket {
             double after = beforeReceiving + sumOfAction;
             AccountAction storeAction = new AccountAction("receive",order.getDate(),
                     sumOfAction,beforeReceiving,after);
-            this.getOwner().getUser().getAccount().addAction(storeAction);
+            //this.getOwner().getUser().getAccount().addAction(storeAction);
+            String ownerName = store.getOwnerName();
+
         }
     }
 

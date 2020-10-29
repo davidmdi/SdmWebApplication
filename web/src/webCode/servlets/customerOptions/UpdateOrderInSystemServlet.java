@@ -32,7 +32,8 @@ public class UpdateOrderInSystemServlet extends HttpServlet {
         MySuperMarket superMarket = engine.getMySupermarkets()
                 .getAreaSuperMarketByName(areaName);
 
-      superMarket.updateOrder(order,storeSingleOrderItemsMap);
+        engine.getMySupermarkets().updateOrder(order,storeSingleOrderItemsMap,superMarket,engine);
+      //superMarket.updateOrder(order,storeSingleOrderItemsMap);
       engine.addNewOrderAlert(order); //add alerts to stores owners
 
         // send notification to store owners...

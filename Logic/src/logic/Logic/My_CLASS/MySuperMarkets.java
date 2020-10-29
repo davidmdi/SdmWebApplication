@@ -15,23 +15,22 @@ public class MySuperMarkets {
         return superMarkets;
     }
 
-    public void addSuperMarketToList(MyOwner owner ,MySuperMarket superMarketToAdd){
-        if(this.superMarkets.containsKey(owner)){
+    public void addSuperMarketToList(MyOwner owner, MySuperMarket superMarketToAdd) {
+        if (this.superMarkets.containsKey(owner)) {
             this.superMarkets.get(owner).add(superMarketToAdd);
-        }
-        else{
+        } else {
             Set<MySuperMarket> temp = new HashSet<>();
             temp.add(superMarketToAdd);
-            this.superMarkets.put(owner,temp);
+            this.superMarkets.put(owner, temp);
         }
     }
 
-    public Set<MySuperMarket> getAreaSuperMarketsSet(String areaName){
+    public Set<MySuperMarket> getAreaSuperMarketsSet(String areaName) {
         Set<MySuperMarket> zoneSuperMarkets = new HashSet<>();
 
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                if(superMarket.getZoneName().equalsIgnoreCase(areaName))
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                if (superMarket.getZoneName().equalsIgnoreCase(areaName))
                     zoneSuperMarkets.add(superMarket);
             }
         }
@@ -39,12 +38,12 @@ public class MySuperMarkets {
         return zoneSuperMarkets;
     }
 
-    public synchronized MySuperMarket getAreaSuperMarketByName(String areaName){
-        MySuperMarket zoneSuperMarket =null ;
+    public synchronized MySuperMarket getAreaSuperMarketByName(String areaName) {
+        MySuperMarket zoneSuperMarket = null;
 
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                if(superMarket.getZoneName().equalsIgnoreCase(areaName))
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                if (superMarket.getZoneName().equalsIgnoreCase(areaName))
                     zoneSuperMarket = (superMarket);
             }
         }
@@ -57,7 +56,7 @@ public class MySuperMarkets {
         List<MyStore> areaStores = new ArrayList<>();
         Set<MySuperMarket> zoneSuperMarkets = getAreaSuperMarketsSet(areaName);
 
-        for(MySuperMarket superMarket : zoneSuperMarkets){
+        for (MySuperMarket superMarket : zoneSuperMarkets) {
             areaStores.addAll(superMarket.getStores().getStoreList());
         }
 
@@ -68,20 +67,20 @@ public class MySuperMarkets {
         List<MyItem> areaItems = new ArrayList<>();
         Set<MySuperMarket> zoneSuperMarkets = getAreaSuperMarketsSet(areaName);
 
-        for(MySuperMarket superMarket : zoneSuperMarkets){
+        for (MySuperMarket superMarket : zoneSuperMarkets) {
             areaItems.addAll(superMarket.getItems().getItemList());
         }
 
         return areaItems;
     }
 
-    public synchronized boolean isThereAStoreInTheLocation(int x, int y){
+    public synchronized boolean isThereAStoreInTheLocation(int x, int y) {
         boolean res = false;
 
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                for(MyStore store : superMarket.getStores().getStoreList()){
-                    if((store.getMyLocation().getX() == x) && (store.getMyLocation().getY() == y))
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                for (MyStore store : superMarket.getStores().getStoreList()) {
+                    if ((store.getMyLocation().getX() == x) && (store.getMyLocation().getY() == y))
                         res = true;
                 }
             }
@@ -92,7 +91,7 @@ public class MySuperMarkets {
 
     public void createNewStore(MyStore.StoreJson store, String zoneName, String ownerName) {
         int storeId = generateStoreId();
-        for(MyStoreItem.StoreItemJson storeItem : store.storeItems)
+        for (MyStoreItem.StoreItemJson storeItem : store.storeItems)
             storeItem.storeId = storeId;
 
         //List<MyItem> storeItemsToAdd = createStoreItemsToAddList(store, zoneName);
@@ -104,7 +103,7 @@ public class MySuperMarkets {
         //add store to zone:
         superMarket.getStores().addStore(storeToAdd);
         //add alert only if the store owner is not the area owner!
-        if(superMarket.getOwner().getUserName().equalsIgnoreCase(ownerName) == false) {
+        if (superMarket.getOwner().getUserName().equalsIgnoreCase(ownerName) == false) {
             addCompetingStoreAlert(superMarket, storeToAdd);
         }
     }
@@ -121,10 +120,10 @@ public class MySuperMarkets {
     private int generateStoreId() {
         int maxStoreId = 0;
 
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                for(MyStore store : superMarket.getStores().getStoreList()){
-                    if(store.getId() > maxStoreId)
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                for (MyStore store : superMarket.getStores().getStoreList()) {
+                    if (store.getId() > maxStoreId)
                         maxStoreId = store.getId();
                 }
             }
@@ -137,12 +136,12 @@ public class MySuperMarkets {
         MyOwner owner = null;
         List<String> stringAlerts = new ArrayList<>();
 
-        for(MyOwner myOwner : this.superMarkets.keySet()){
-            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
+        for (MyOwner myOwner : this.superMarkets.keySet()) {
+            if (myOwner.getUserName().equalsIgnoreCase(ownerName))
                 owner = myOwner;
         }
 
-        for(Alertable alert : owner.getAlerts()){
+        for (Alertable alert : owner.getAlerts()) {
             stringAlerts.add(alert.alert());
         }
 
@@ -171,11 +170,11 @@ public class MySuperMarkets {
      */
 
     public String getStoreOwnerNameByStoreId(int storeId) {
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                for(MyStore store : superMarket.getStores().getStoreList()){
-                    if(store.getId() == storeId)
-                       return store.getOwnerName();
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                for (MyStore store : superMarket.getStores().getStoreList()) {
+                    if (store.getId() == storeId)
+                        return store.getOwnerName();
                 }
             }
         }
@@ -185,26 +184,98 @@ public class MySuperMarkets {
 
     public MyOwner findOwnerByName(String ownerName) {
 
-        for(MyOwner owner : this.superMarkets.keySet()){
-            if(owner.getUserName().equalsIgnoreCase(ownerName))
+        for (MyOwner owner : this.superMarkets.keySet()) {
+            if (owner.getUserName().equalsIgnoreCase(ownerName))
                 return owner;
         }
 
-        return  null;
+        return null;
     }
 
     public String getStoreOwnerNameByStoreName(String storeName) {
 
-        for(Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
-            for(MySuperMarket superMarket : superMarketsSet){
-                for(MyStore store : superMarket.getStores().getStoreList()){
-                    if(store.getName().equalsIgnoreCase(storeName))
+        for (Set<MySuperMarket> superMarketsSet : this.superMarkets.values()) {
+            for (MySuperMarket superMarket : superMarketsSet) {
+                for (MyStore store : superMarket.getStores().getStoreList()) {
+                    if (store.getName().equalsIgnoreCase(storeName))
                         return store.getOwnerName();
                 }
             }
         }
 
         return "";
+    }
+
+
+    public void updateOrder(MyOrder order, Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap,
+                            MySuperMarket superMarket, Engine engine) {
+        order.setStoreSingleOrderItemsMap(storeSingleOrderItemsMap);
+        MyCustomer customer = order.getCustomer();
+        // add order to customer
+        customer.addOrder(order);
+        //set orders Location
+        order.setFromWhereOrderWasMade(customer.getLocation());
+
+        // add order to super market orders
+        superMarket.getOrders().addOrder(order);
+
+        //  update items in stores
+        for (Integer storeId : storeSingleOrderItemsMap.keySet()) {
+            MyStore store = superMarket.getStores().getStoreMap().get(storeId);
+            store.getStoreSingleOrderItemsList().add(storeSingleOrderItemsMap.get(storeId));
+            Set<Integer> itemsIdSet = new HashSet<>();
+            for (MyStoreItem storeItem
+                    : storeSingleOrderItemsMap.get(storeId).getThisStoreQuantityMapFromOrder().keySet()) {
+                int itemId = storeItem.getMyItem().getSdmItem().getId();
+
+                // updating stores actual item - not storeItem that crated because of an offer.
+                MyStoreItem actualItemFromStore = store.getStoreItems().getItemsMap().get(itemId);
+                if (!itemsIdSet.contains(itemId)) {
+                    actualItemFromStore.setHowManyTimeSold(actualItemFromStore.getHowManyTimeSold() + 1);
+                    itemsIdSet.add(itemId);
+                }
+            }
+
+        }
+
+        // update MyItems how many times item sold.
+        updatMyItemsHowManyTimeSold(order);
+        updateMoneyTransfer(order, superMarket,engine);
+        //addNewOrderAlert(order);
+    }
+
+    private void updateMoneyTransfer(MyOrder order, MySuperMarket superMarket, Engine engine) {
+        double before = order.getCustomer().getUser().getAccount().getBalance();
+        double amountTotransfer = order.getTotalCost();
+        AccountAction actionForCustomer = new AccountAction("transfer", order.getDate(), amountTotransfer, before
+                , before - amountTotransfer);
+        order.getCustomer().getUser().getAccount().addAction(actionForCustomer);
+
+
+        Set<Integer> myStoreSingleOrderItemsSet = order.getStoreSingleOrderItemsMap().keySet();
+        for (int i : myStoreSingleOrderItemsSet) {
+            MyStoreSingleOrderItems singleOrderItems = order.getStoreSingleOrderItemsMap().get(i);
+            MyStore store = superMarket.getStores().getStoreMap().get(singleOrderItems.getStoreId());
+            double beforeReceiving = superMarket.getOwner().getUser().getAccount().getBalance();
+            double sumOfAction = singleOrderItems.calculatePrice() + singleOrderItems.getDeliveryCost();
+            store.addPricesOfDeliveryAndItemsCosts(singleOrderItems);
+            singleOrderItems.setOrderCost(singleOrderItems.calculatePrice()); // Updates order total cost
+            double after = beforeReceiving + sumOfAction;
+            AccountAction storeAction = new AccountAction("receive", order.getDate(),
+                    sumOfAction, beforeReceiving, after);
+            //this.getOwner().getUser().getAccount().addAction(storeAction);
+            String ownerName = store.getOwnerName();
+            MyOwner owner = engine.getMyUsers().findOwnerByName(ownerName);
+            owner.getUser().getAccount().addAction(storeAction);
+
+        }
+    }
+
+    private void updatMyItemsHowManyTimeSold(MyOrder order) {
+        for (MyStoreItem storeItem : order.getQuantityMap().keySet()) {
+            MyItem item = storeItem.getMyItem();
+            item.setHowManyTimesItemSold(order.getQuantityMap().get(storeItem) + item.getHowManyTimesItemSold());
+        }
     }
 }
 

@@ -279,7 +279,6 @@ public class MyStore {
         this.totalOrdersItemsCost = totalOrdersItemsCost;
     }
 
-
     public double getTotalOrdersDeliveryCost() {
         return totalOrdersDeliveryCost;
     }
