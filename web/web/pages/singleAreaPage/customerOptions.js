@@ -171,6 +171,7 @@ function showOrderHistory() {
 
 function showSelectedStoreInfo() {
 
+    $("#initDataForOrder input[type='submit']").attr("disabled", 'disabled');
     var selectedStoreSerialized = $("form").serialize();
 
     $.ajax({
@@ -190,7 +191,7 @@ function showSelectedStoreInfo() {
 }
 
 function showStoreDiscountsOffers(){
-    $("input[type='submit']").attr("disabled", 'disabled');
+
     selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
@@ -203,7 +204,8 @@ function showStoreDiscountsOffers(){
            $("#content").append(response); // offers form
                //OVERRIDE ACTION ATTRIBUTE !!!!!
                 //$("#selectSpecialOffers").attr('action' ,'');
-            console.log("before Summery function");
+            //console.log("before Summery function");
+
             $("#selectSpecialOffers").attr('action', STATIC_ORDER_SUMMERY);
             $("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
         }

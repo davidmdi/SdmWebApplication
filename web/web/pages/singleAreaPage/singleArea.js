@@ -1,12 +1,10 @@
-
 var refreshRate = 10000; //milli seconds
 var alertsRefreshRate = 5000; //milli seconds
-var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var MENU_URL = buildUrlWithContextPath("singleAreaMenu");
 var ZONE_NAME_URL = buildUrlWithContextPath("zoneName");
 var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
-var HOME_PAGE_URL = buildUrlWithContextPath("homePage");
-
+var AREAS_ITEMS_TABLE_URL = buildUrlWithContextPath("areasItemsTable");
+var AREAS_STORES_TABLE_URL = buildUrlWithContextPath("areasStoresTable");
 
 $(function() {
 //init:
@@ -36,122 +34,29 @@ function alertsHandler(alerts){
     });
 }
 
-
-function ajaxAreaInfo() {
+function ajaxAreaItemsTable(){
     $.ajax({
-        url: AREA_INFO_URL,
-        success: function(areas) {
-            var arrItems = [];
-            var arrStores = [];
-
-                for (var i = 0 ; i < areas.length ; i++){
-
-                    var superItems = areas[i].items.itemList;
-                    var stores = areas[i].stores.storeList;
-
-                    for (var j = 0 ; j < superItems.length ; j++){
-                        var item = superItems[j];
-                        arrItems.push(item);
-                    }
-
-                    for (var j = 0 ; j < stores.length ; j++){
-                        var store = stores[j];
-                        arrStores.push(store);
-                    }
-                }
-
-            //show area info in tables:
-            refreshItemsTable(arrItems);
-            refreshStoresTable(arrStores);
+        url: AREAS_ITEMS_TABLE_URL,
+        error: function(e){alert(e);},
+        success: function(areasItemsTableResp) {
+            $('#itemsTable').replaceWith(areasItemsTableResp);
         }
     });
 }
 
-function refreshItemsTable(items) {
-    $("#itemsTable").empty();    //clear all current areas
-
-    var tableHeaders = "<tr>" +
-                            "<th>Id</th>" +
-                            "<th>Name</th>" +
-                            "<th>Purchase method</th>" +
-                            "<th>Sold by X stores</th>" +
-                            "<th>Average price</th>" +
-                            "<th>Purchases amount</th>" +
-                        "</tr>";
-
-    $(tableHeaders).appendTo($("#itemsTable"));
-
-    $.each(items || [], function(index, item) {
-        var itemInfo = "<tr name='item'>" +
-                            "<td>"+item.itemId+"</td>" +
-                            "<td>"+item.name+"</td>" +
-                            "<td>"+item.purchaseCategory+"</td>" +
-                            "<td>"+item.howManyStoresSellsThisItem+"</td>" +
-                            "<td>"+item.averageItemPrice+"</td>" +
-                            "<td>"+item.howManyTimesItemSold+"</td>" +
-                        "</tr>";
-        $(itemInfo).appendTo($("#itemsTable"));
+function ajaxAreaStoresTable(){
+    $.ajax({
+        url: AREAS_STORES_TABLE_URL,
+        error: function(e){alert(e);},
+        success: function(areasStoresTableResp) {
+            $('#storesTable').replaceWith(areasStoresTableResp);
+        }
     });
 }
 
-function refreshStoresTable(stores) {
-    $("#storesTable").empty();    //clear all current areas
-
-    var tableHeaders = "<tr>" +
-                            "<th>Id</th>" +
-                            "<th>Name</th>" +
-                            "<th>Owner's name</th>" +
-                            "<th>Coordinates</th>" +
-                            "<th>Items</th>" +
-                            "<th>Total orders</th>" +
-                            "<th>Total items cost</th>" +
-                            "<th>PPK</th>" +
-                            "<th>Total delivery cost</th>" +
-                        "</tr>";
-
-    $(tableHeaders).appendTo($("#storesTable"));
-    $.each(stores || [], function(index, store) {
-        var itemInfo = "<tr name='item'>" +
-                            "<td>"+store.id+"</td>" +
-                            "<td>"+store.name+"</td>" +
-                            "<td>"+store.ownerName+"</td>" +
-                            "<td>("+store.myLocation.X+","+store.myLocation.Y+")</td>" +
-                            "<td>"+createStoreItemsTable(store.storeItems.itemsList)+"</td>" +
-                            "<td>"+store.storeSingleOrderItemsList.length+"</td>" +
-                            "<td>"+store.totalOrdersItemsCost+"</td>" +  //Need to add parameter to MyStore
-                            "<td>"+store.PPK+"</td>" +
-                            "<td>"+store.totalOrdersDeliveryCost+"</td>" +//Need to add parameter to MyStore
-                        "</tr>";
-        $(itemInfo).appendTo($("#storesTable"));
-    });
-}
-
-
-
-function createStoreItemsTable(storeItems){
-    var storeItemsTable = "<table id='storeItemsTable'>" +
-                            "<tr>" +
-                                "<th>Id</th>" +
-                                "<th>Name</th>" +
-                                "<th>Purchase method</th>" +
-                                "<th>Price</th>" +
-                                "<th>Total purchases</th>" +
-                            "</tr>";
-
-    $.each(storeItems || [], function(index, item) {
-        var itemInfo = "<tr name='item'>" +
-                            "<td>"+item.myItem.itemId+"</td>" +
-                            "<td>"+item.myItem.name+"</td>" +
-                            "<td>"+item.myItem.purchaseCategory+"</td>" +
-                            "<td>"+item.price+"</td>" +
-                            "<td>"+item.howManyTimeSold+"</td>" +
-                        "</tr>";
-        storeItemsTable += itemInfo;
-    });
-
-    storeItemsTable += "</table>";
-
-    return storeItemsTable;
+function ajaxAreaInfo() {
+    ajaxAreaItemsTable();
+    ajaxAreaStoresTable();
 }
 
 function ajaxInsertZoneNameHeadLine() {

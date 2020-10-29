@@ -132,6 +132,14 @@
         <servlet-name>StoreOrderItemsInfoTable</servlet-name>
         <servlet-class>webCode.servlets.storeOwnerOptions.StoreOrderItemsInfoTable</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AreasItemsTableServlet</servlet-name>
+        <servlet-class>webCode.servlets.singleAreaPage.AreasItemsTableServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AreasStoresTableServlet</servlet-name>
+        <servlet-class>webCode.servlets.singleAreaPage.AreasStoresTableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -261,6 +269,15 @@
         <servlet-name>StoreOrderItemsInfoTable</servlet-name>
         <url-pattern>/loadStoreOrderItemsInfo</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AreasItemsTableServlet</servlet-name>
+        <url-pattern>/areasItemsTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AreasStoresTableServlet</servlet-name>
+        <url-pattern>/areasStoresTable</url-pattern>
+    </servlet-mapping>
+
 
 
 
