@@ -18,12 +18,14 @@ $(function() {
 });
 
 function ajaxAlertsList() {
+    /*
     $.ajax({
         url: CHECK_ALERTS_URL,
         success: function(alerts) {
             alertsHandler(alerts);
         }
     });
+     */
 }
 
 function alertsHandler(alerts){

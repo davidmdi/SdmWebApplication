@@ -79,3 +79,12 @@ tr{
     margin-bottom:10px;
     font-weight: bold;
 }
+
+.alertsContainer{
+/* new: */
+    display:flex;
+    flex-direction:column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
