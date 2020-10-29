@@ -20,8 +20,6 @@ public class MySuperMarket {
    private String  zoneName ;
    //MyCustomers customers;
 
-
-
     public MySuperMarket(SuperDuperMarketDescriptor sdmSuper , MyOwner owner) {
         this.owner = owner;
         this.sdmSuper = sdmSuper;

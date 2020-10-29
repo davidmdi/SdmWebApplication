@@ -5,6 +5,7 @@ var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var MENU_URL = buildUrlWithContextPath("singleAreaMenu");
 var ZONE_NAME_URL = buildUrlWithContextPath("zoneName");
 var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
+var HOME_PAGE_URL = buildUrlWithContextPath("homePage");
 
 
 $(function() {
