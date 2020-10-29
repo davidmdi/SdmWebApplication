@@ -36,6 +36,7 @@ function makeOrderOnClick(){
     //$("#content").empty(); //clear old content
     $("#content").replaceWith(buildFormForOrder());
     $("#initDataForOrder").submit(function () {
+            $("input[type='submit']").attr("disabled", 'disabled');
             parametrs = $("form").serialize();
             var selectedStoreSerializedArray = $('form').serializeArray();
             ORDER_DATE = selectedStoreSerializedArray[0].value;
@@ -189,6 +190,7 @@ function showSelectedStoreInfo() {
 }
 
 function showStoreDiscountsOffers(){
+    $("input[type='submit']").attr("disabled", 'disabled');
     selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
@@ -275,6 +277,7 @@ function storeSelectioItems(storeName,selecetdItems){
 
                        /*Dynamic Orde*/
 function showDynamicOrderFinalSummeryOnSubmitClicked() {
+    $("input[type='submit']").attr("disabled", 'disabled');
     var selectedDiscountsOffers = createSelectedDiscountsOffersList();
     var selectedStoreItemsList = creatDummyStoreItemsList();
     var dynamicOrder = createDynamicOrder(selectedStoreItemsList, selectedDiscountsOffers);
@@ -286,6 +289,7 @@ function showDynamicOrderFinalSummeryOnSubmitClicked() {
         data: JSON.stringify(dynamicOrder),
         error: function(e) { alert(e); },
         success: function(response) { //response is order summery and approve button
+
             $("#content").replaceWith(response);
             //approve order button overide
             //$("#selectSpecialOffers").submit(createStaticOrderOnSubmitClicked);e:
@@ -312,6 +316,7 @@ function createDynamicOrder(selectedStoreItemsList, selectedDiscountsOffers) {
                     /* STATIC ORDER */
 
 function showStaticOrderSummeryOnSubmitClicked(){
+    $("input[type='submit']").attr("disabled", 'disabled');
     var selectedDiscountsOffers = createSelectedDiscountsOffersList();
     var selectedStoreItemsList = createSelectedStoreItemsList(STORE_NAME, saveSelecetedItemsForStaticOrder);
     console.log(selectedStoreItemsList[0]);
@@ -451,13 +456,13 @@ function createStaticOrder(selectedStoreItemsList, selectedDiscountsOffers){
 }
 
 function acceptOrderButton(){
-
     $.ajax({
         method:'POST',
         url: UPDATE_ORDER,
         error: function(e) { alert("Error!"); },
         success: function(response) {
-            $("#feedbacksForm").replaceWith(response);
+            //$("#feedbacksForm").replaceWith(response);
+            $("#content").replaceWith(response);
             $("#storesFeedBacks").attr('action', CREATE_STORES_FEEDBACKS);
             $("#storesFeedBacks").submit(ajaxSendStoresFeedbacks);
         }
