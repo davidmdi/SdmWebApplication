@@ -8,9 +8,17 @@ public class CompetingStoreAlert implements Alertable{
     private int areaTotalItems;
     private int storeTotalItems;
 
+    public CompetingStoreAlert(String storeOwnerName, String storeName, MyLocation storeLocation, int areaTotalItems, int storeTotalItems) {
+        this.storeOwnerName = storeOwnerName;
+        this.storeName = storeName;
+        this.storeLocation = storeLocation;
+        this.areaTotalItems = areaTotalItems;
+        this.storeTotalItems = storeTotalItems;
+    }
+
     @Override
     public String alert() {
-        return String.format("%s open the store %s in your area at location %s",
-                storeOwnerName, storeName, storeLocation.toString());
+        return String.format("%s open the store %s in your area, store location: %s, store sells %d/%d items from your area.",
+                storeOwnerName, storeName, storeLocation.toString(), storeTotalItems, areaTotalItems);
     }
 }

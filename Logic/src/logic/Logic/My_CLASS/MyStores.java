@@ -91,4 +91,9 @@ public class MyStores {
         }
         return null ; // if store not found by it name
     }
+
+    public String getStoreOwnerNameByStoreId(int storeId){
+        MyStore store = this.storeMap.get(storeId);
+        return store.getOwnerName();
+    }
 }

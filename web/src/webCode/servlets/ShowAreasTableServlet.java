@@ -1,10 +1,8 @@
 package webCode.servlets;
 
-import com.google.gson.Gson;
 import logic.Logic.Engine;
 import logic.Logic.My_CLASS.MySuperMarket;
 import utils.ServletUtils;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,27 +13,55 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ShowAreasTableServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
-        //super.doGet(req, resp);
-        //get all Areas
-        //Convert areas to JSON object
-        response.setContentType("application/json");
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
             Engine engine = ServletUtils.getEngine(getServletContext());
-            //Map<MyOwner,Set<MySuperMarket>> supermarkets = engine.getMySupermarkets().getSuperMarkets();
+            Set<MySuperMarket> superMarketsSet = getSuperMarketsSet(engine);
 
-            Set<MySuperMarket> superMarketsForJson = getSuperMarketsJson(engine);
-            String json = gson.toJson(superMarketsForJson);
-
-
-            out.println(json);
+            String areasTable = buildAreasTableString(superMarketsSet);
+            out.println(areasTable.toString());
             out.flush();
         }
     }
 
-    private Set<MySuperMarket> getSuperMarketsJson(Engine engine) {
+    private String buildAreasTableString(Set<MySuperMarket> supermarketsSet){
+        String res = "<table id='areasTable'>" +
+                    "<thead>" +
+                        "<tr>" +
+                            "<th>Owner name</th>" +
+                            "<th>Zone name</th>" +
+                            "<th>Total products for sell</th>" +
+                            "<th>Total stores in area</th>" +
+                            "<th>Total orders</th>" +
+                            "<th>Avg orders price</th>" +
+                        "</tr>" +
+                    "</thead>" +
+                    "<tbody>";
+        if(supermarketsSet.size() == 0){
+            res += "<tr><td>There are no areas</td><td></td><td></td><td></td><td></td><td></td></tr>";
+        } else {
+            for (MySuperMarket superMarket : supermarketsSet) {
+                res += "<tr name='area' selectedArea='" + superMarket.getZoneName() + "'>" +
+                        "<td>" + superMarket.getOwner().getUserName() + "</td>" +
+                        "<td>" + superMarket.getZoneName() + "</td>" +
+                        "<td>" + superMarket.getItems().getItemList().size() + "</td>" +
+                        "<td>" + superMarket.getStores().getStoreList().size() + "</td>" +
+                        "<td>" + superMarket.getOrders().getOrderList().size() + "</td>" +
+                        "<td>" + superMarket.getOrders().getAvgOrdersPrice() + "</td>" +
+                        "</tr>";
+            }
+        }
+        res += "</tbody>" +
+            "</table>";
+
+        return res;
+    }
+
+    private Set<MySuperMarket> getSuperMarketsSet(Engine engine) {
         Set<MySuperMarket> superMarketsForJson = new HashSet<>();
 
         for(Set<MySuperMarket> supermarket : engine.getMySupermarkets().getSuperMarkets().values()){
@@ -46,7 +72,36 @@ public class ShowAreasTableServlet extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        processRequest(req, resp);
     }
 }
+/*
+<table id='areasTable'>
+    <thead>
+        <tr>
+            <th>Owner name</th>
+            <th>Zone name</th>
+            <th>Total products for sell</th>
+            <th>Total stores in area</th>
+            <th>Total orders</th>
+            <th>Avg orders price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr name='area' selectedArea='Galil Maarvi'>
+            <td>admin</td>
+            <td>Galil Maarvi</td>
+            <td>5</td>
+            <td>2</td>
+            <td>0</td>
+            <td>0.0</td>
+        </tr>
+    </tbody>
+</table>
+ */

@@ -116,7 +116,39 @@ public class Engine {
         return store;
     }
 
-//
+    public void addFeedBackAlert(FeedbackAlert feedbackAlert) {
+        String ownerName = this.getMySupermarkets().getStoreOwnerNameByStoreName(feedbackAlert.getStoreName());
+        MyOwner owner = findOwnerByName(ownerName);
+        owner.addAlert(feedbackAlert);
+    }
+
+    public void addNewOrderAlert(MyOrder order) {
+        int storeId;
+        String ownerName;
+        MyOwner owner;
+        OrderCreatedAlert newOrderAlert;
+
+        for(MyStoreSingleOrderItems storeSingleOrder : order.getStoreSingleOrderItemsMap().values()){
+            storeId = storeSingleOrder.getStoreId();
+            ownerName = this.mySupermarkets.getStoreOwnerNameByStoreId(storeId);
+            owner = findOwnerByName(ownerName);
+            newOrderAlert = new OrderCreatedAlert(storeSingleOrder.getOrderId(), storeSingleOrder.getCustomer().getUserName(),
+                    storeSingleOrder.getThisStoreQuantityMapFromOrderMapSize(),
+                    storeSingleOrder.getOrderCost(), storeSingleOrder.getDeliveryCost());
+            owner.addAlert(newOrderAlert);
+        }
+    }
+
+    private MyOwner findOwnerByName(String ownerName) {
+        for(MyOwner myOwner : this.myUsers.getOwnerSet()){
+            if(myOwner.getUserName().equalsIgnoreCase(ownerName))
+                return  myOwner;
+        }
+
+        return null;
+    }
+
+    //
 //        public boolean isIsSuperMarketIsValid() {
 //        return isSuperMarketIsValid.get();
 //    }

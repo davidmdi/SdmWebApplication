@@ -1,5 +1,6 @@
 
 var refreshRate = 2000; //milli seconds
+var alertsRefreshRate = 5000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
 var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
@@ -29,7 +30,7 @@ $(function() {
     setInterval(ajaxAreasTable, refreshRateForAreas);
     setInterval(ajaxAccountActionsTable, refreshRateForAccount);
 
-    setInterval(ajaxAlertsList, refreshRateForAreas);//refreshRate); //check for alerts
+    setInterval(ajaxAlertsList, alertsRefreshRate);//refreshRate); //check for alerts
 
 
     //The chat content is refreshed only once (using a timeout) but
@@ -45,7 +46,6 @@ function ajaxAlertsList() {
         }
     });
 }
-
 
 function alertsHandler(alerts){
     console.log("alert "+ alerts);
@@ -114,7 +114,7 @@ function refreshUsersList(users) {
 
     // rebuild the list of users: scan all users and add them to the list of users
     $.each(users || [], function(index, user) {
-        console.log("Adding user #" + index + ": " + user.name +", type: "+user.type);
+        //console.log("Adding user #" + index + ": " + user.name +", type: "+user.type);
         //create a new <option> tag with a value in it and
         //appeand it to the #userslist (div with id=userslist) element
         $('<li>' + user.name+", "+user.type + '</li>').appendTo($("#userslist"));
@@ -125,53 +125,12 @@ function refreshUsersList(users) {
 function ajaxAreasTable() {
     $.ajax({
         url: AREAS_TABLE_URL,
-        success: function(areas) {
-            refreshAreasTable(areas);
+        error: function(e){alert(e);},
+        success: function(areasTableResp) {
+            $('#areasTable').replaceWith(areasTableResp);
+            addZoneClickEvent();
         }
     });
-}
-
-function refreshAreasTable(areas) {
-    $("#areasTable").empty();    //clear all current areas
-
-    var tableHeaders = "<tr>" +
-                        "<th>Owner name</th>" +
-                        "<th>Zone name</th>" +
-                        "<th>Total products for sell</th>" +
-                        "<th>Total stores in area</th>" +
-                        "<th>Total orders</th>" +
-                        "<th>Avg orders price</th>" +
-                    "</tr>";
-
-    $(tableHeaders).appendTo($("#areasTable"));
-
-    // rebuild the list of users: scan all areas and add them to the table of areas
-    $.each(areas || [], function(index, area) {
-        var name = area.owner.user.name;
-        var zone = area.zoneName;
-        var itemsNum = area.items.itemList.length;
-        var storesNum = area.stores.storeList.length;
-        var ordersNum = area.orders.avgOrdersPrice;
-        var avgOrdersPrice = area.orders.avgOrdersPrice;
-
-        var areaInfo = "<tr name='area' selectedArea='"+zone+"'>" +
-                            "<td>"+name+"</td>" +
-                            "<td>"+zone+"</td>" +
-                            "<td>"+itemsNum+"</td>" +
-                            "<td>"+storesNum+"</td>" +
-                            "<td>"+ordersNum+"</td>" +
-                            "<td>"+avgOrdersPrice+"</td>" +
-                        "</tr>";
-        $(areaInfo).appendTo($("#areasTable"));
-    });
-
-    if(areas.length == 0 ){
-        var emptyAreas = "<tr><td>There are no areas</td></tr>";
-        console.log(areas);
-        $(emptyAreas).appendTo($("#areasTable"));
-    }
-    //add click event for each zone
-    addZoneClickEvent();
 }
 
 function ajaxAccountActionsTable() {

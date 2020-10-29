@@ -25,7 +25,7 @@ public class GetOwnerAlerts extends HttpServlet {
             //response.setContentType("text/html;charset=UTF-8");
             Engine engine = ServletUtils.getEngine(getServletContext());
             User currUser = SessionUtils.getUser(request, getServletContext());
-
+            http://localhost:8080/webSdm
             if(currUser.getType().equalsIgnoreCase(User.OWNER)) {
 
                 String ownerName = currUser.getName();
@@ -36,9 +36,9 @@ public class GetOwnerAlerts extends HttpServlet {
                 System.out.println(alertsList);
 
                 out.println(alertsList);
-            }else{
-                out.println("{}");
-            }
+            }//else{
+             //   out.println("{}");
+            //}
             out.flush();
         }
     }

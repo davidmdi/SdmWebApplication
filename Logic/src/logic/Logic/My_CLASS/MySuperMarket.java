@@ -4,6 +4,7 @@ package logic.Logic.My_CLASS;
 import SDM_CLASS.SDMDiscount;
 import SDM_CLASS.SuperDuperMarketDescriptor;
 import javafx.scene.control.DatePicker;
+import logic.Logic.Engine;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,8 +19,6 @@ public class MySuperMarket {
    private MyOrders orders;
    private String  zoneName ;
    //MyCustomers customers;
-
-
 
     public MySuperMarket(SuperDuperMarketDescriptor sdmSuper , MyOwner owner) {
         this.owner = owner;
@@ -191,15 +190,7 @@ public class MySuperMarket {
         // update MyItems how many times item sold.
         updatMyItemsHowManyTimeSold(order);
         updateMoneyTransfer(order);
-        addNewOrderAlert(order);
-    }
-
-    private void addNewOrderAlert(MyOrder order) {
-        /*
-        for(MyStoreSingleOrderItems storeSingleOrder : order.getStoreSingleOrderItemsMap().values()){
-
-        }
-         */
+        //addNewOrderAlert(order);
     }
 
     private void updateMoneyTransfer(MyOrder order) {
