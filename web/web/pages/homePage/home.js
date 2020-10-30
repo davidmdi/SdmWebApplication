@@ -177,9 +177,9 @@ function refreshAccountTable(accountActions) {
         var actionInfo = "<tr>" +
             "<td>"+type+"</td>" +
             "<td>"+date+"</td>" +
-            "<td>"+sum+"</td>" +
-            "<td>"+balanceBefore+"</td>" +
-            "<td>"+balanceAfter+"</td>" +
+            "<td>"+sum.toFixed(2)+"</td>" +
+            "<td>"+balanceBefore.toFixed(2)+"</td>" +
+            "<td>"+balanceAfter.toFixed(2)+"</td>" +
             "</tr>";
         $(actionInfo).appendTo($("#accountActionsTable"));
     });
