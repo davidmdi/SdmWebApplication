@@ -33,10 +33,9 @@
             <br>
             <br>
             <input type="submit" value="Login" class = "login-button"/>
-
         </div>
     </form>
-    <label style="color:red">Error: User name already exists.<br> Please enter a different username.</label>
+    <label style="color:red">User name already exists. Please enter a different username.</label>
 </div>
 </body>
 </html>

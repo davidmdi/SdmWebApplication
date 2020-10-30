@@ -21,13 +21,13 @@ public class LoadMoneyFormServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             if (currUser.getType().equalsIgnoreCase(User.CUSTOMER)) {
                 out.println("<div id=\"loadingMoneyToAccount\">");
-                    out.println("<h2>Load money</h2>");
-                    out.println("<Input  type='number' id=\"moneyToLoad\" name=\"moneyToLoad\" placeholder='amount..' step='10'/>");
-                    out.println("<Button onclick='ajaxLoadMoney()'>Load Money</Button>");
+                    out.println("<p>Load money to account:</p>");
+                    out.println("<Input type='number' id=\"moneyToLoad\" name=\"moneyToLoad\" placeholder='amount..' step='10'/>");
+                    out.println("<Button class='money-button' onclick='ajaxLoadMoney()'>Load Money</Button>");
                 out.println("</div>");
                 out.flush();
             } else {
-                out.println("<div id=\"loadXml\"></div>");
+                //out.println("<div id=\"loadXml\"></div>");
             }
         }
     }

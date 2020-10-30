@@ -1,6 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+    user-select: none;
 }
 
 .login-button {
@@ -54,7 +55,6 @@ form{
 {
     padding: 5px;
     font-size: 18px;
-    cursor: none;
 
     display:flex;
     flex-direction:column;
