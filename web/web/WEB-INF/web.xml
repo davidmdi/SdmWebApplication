@@ -140,6 +140,10 @@
         <servlet-name>AreasStoresTableServlet</servlet-name>
         <servlet-class>webCode.servlets.singleAreaPage.AreasStoresTableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateNewAlertServlet</servlet-name>
+        <servlet-class>webCode.servlets.alerts.CreateNewAlertServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -276,6 +280,10 @@
     <servlet-mapping>
         <servlet-name>AreasStoresTableServlet</servlet-name>
         <url-pattern>/areasStoresTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewAlertServlet</servlet-name>
+        <url-pattern>/createNewAlert</url-pattern>
     </servlet-mapping>
 
 

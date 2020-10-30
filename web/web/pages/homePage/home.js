@@ -1,6 +1,6 @@
 
 var refreshRate = 2000; //milli seconds
-var alertsRefreshRate = 5000; //milli seconds
+var alertsRefreshRate = 5000;//5000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
 var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
@@ -13,6 +13,7 @@ var USER_NAME_URL = buildUrlWithContextPath("userName");
 var LOAD_MONEY_FORM = buildUrlWithContextPath("loadMoneyForm");
 var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
 var LOAD_MONY_ON_ACTION = buildUrlWithContextPath("loadMoneyOnAction")
+var CREATE_NEW_ALERT = buildUrlWithContextPath("createNewAlert")
 
 //activate the timer calls after the page is loaded
 // The onLoad function...
@@ -40,11 +41,21 @@ $(function() {
 
 function ajaxAlertsList() {
     $.ajax({
-        url: CHECK_ALERTS_URL,
+        url: CREATE_NEW_ALERT,
         success: function(alerts) {
-            alertsHandler(alerts);
+            console.log("alert"+ alerts);
+            $("#userAlerts").append(alerts);
         }
     });
+
+    /*
+        $.ajax({
+            url: CHECK_ALERTS_URL,
+            success: function(alerts) {
+                alertsHandler(alerts);
+            }
+        });
+    */
 }
 
 function alertsHandler(alerts){

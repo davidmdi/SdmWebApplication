@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Engine {
    private SimpleBooleanProperty validationForBuild ;
    //private SimpleBooleanProperty isSuperMarketIsValid ;
 
-    public MySuperMarkets getMySupermarkets() {
+    public synchronized MySuperMarkets getMySupermarkets() {
         return mySupermarkets;
     }
 
@@ -216,5 +217,48 @@ public class Engine {
     }
   }
 
+  /*
+      public synchronized List<String> getOwnerAlertsToString(String userName) {
+        MyOwner owner = null;
+        List<String> stringAlerts = new ArrayList<>();
+
+
+        for (MyOwner myOwner : this.myUsers.getOwnerSet()) {
+            if (myOwner.getUserName().equalsIgnoreCase(userName))
+                owner = myOwner;
+        }
+
+        if(owner != null) {
+            for (Alertable alert : owner.getAlerts()) {
+                stringAlerts.add(alert.alert());
+                //owner.removeAlert(alert);
+            }
+
+            owner.removeAllAlerts(); //Delete alerts so each alert appear only once!!
+        }
+
+        return stringAlerts;
+    }
+   */
+
+    public synchronized String getOwnerAlertsToString(String userName) {
+        MyOwner owner = null;
+        String stringAlerts = "";
+
+
+        for (MyOwner myOwner : this.myUsers.getOwnerSet()) {
+            if (myOwner.getUserName().equalsIgnoreCase(userName))
+                owner = myOwner;
+        }
+
+        if(owner != null) {
+            if(owner.getAlerts().size() > 0){
+                stringAlerts = owner.getAlerts().get(0).alert();
+                owner.removeAlert(owner.getAlerts().get(0));
+            }
+        }
+
+        return stringAlerts;
+    }
 }
 

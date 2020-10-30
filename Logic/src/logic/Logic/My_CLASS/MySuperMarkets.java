@@ -132,6 +132,7 @@ public class MySuperMarkets {
         return (++maxStoreId);
     }
 
+    /*
     public synchronized List<String> getOwnerAlertsToString(String ownerName) {
         MyOwner owner = null;
         List<String> stringAlerts = new ArrayList<>();
@@ -149,6 +150,9 @@ public class MySuperMarkets {
 
         return stringAlerts;
     }
+    */
+
+
 
     /*
     public void addNewOrderAlert(MyOrder order) {
@@ -207,7 +211,7 @@ public class MySuperMarkets {
     }
 
 
-    public void updateOrder(MyOrder order, Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap,
+    public synchronized void updateOrder(MyOrder order, Map<Integer, MyStoreSingleOrderItems> storeSingleOrderItemsMap,
                             MySuperMarket superMarket, Engine engine) {
         order.setStoreSingleOrderItemsMap(storeSingleOrderItemsMap);
         MyCustomer customer = order.getCustomer();

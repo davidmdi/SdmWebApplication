@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetOwnerAlerts extends HttpServlet {
@@ -29,7 +30,8 @@ public class GetOwnerAlerts extends HttpServlet {
             if(currUser.getType().equalsIgnoreCase(User.OWNER)) {
 
                 String ownerName = currUser.getName();
-                List<String> ownerAlertsToString = engine.getMySupermarkets().getOwnerAlertsToString(ownerName);
+                List<String> ownerAlertsToString = new ArrayList<>();//engine.getOwnerAlertsToString(ownerName);
+                //List<String> ownerAlertsToString = engine.getMySupermarkets().getOwnerAlertsToString(ownerName);
 
                 Gson gson = new Gson();
                 String alertsList = gson.toJson(ownerAlertsToString);

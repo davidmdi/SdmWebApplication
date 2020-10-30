@@ -6,6 +6,8 @@ var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
 var AREAS_ITEMS_TABLE_URL = buildUrlWithContextPath("areasItemsTable");
 var AREAS_STORES_TABLE_URL = buildUrlWithContextPath("areasStoresTable");
 
+var CREATE_NEW_ALERT = buildUrlWithContextPath("createNewAlert")
+
 $(function() {
 //init:
     ajaxCreateMenuByUserType();
@@ -19,11 +21,20 @@ $(function() {
 
 function ajaxAlertsList() {
     $.ajax({
+        url: CREATE_NEW_ALERT,
+        success: function(alerts) {
+            console.log("alert"+ alerts);
+            $("#userAlerts").append(alerts);
+        }
+    });
+    /*
+    $.ajax({
         url: CHECK_ALERTS_URL,
         success: function(alerts) {
             alertsHandler(alerts);
         }
     });
+     */
 }
 
 function alertsHandler(alerts){
