@@ -18,7 +18,10 @@ public class CompetingStoreAlert implements Alertable{
 
     @Override
     public String alert() {
-        return String.format("%s open the store %s in your area, store location: %s, store sells %d/%d items from your area.",
+        return String.format("%s open the store '%s' in your area! Store location: %s, store sells %d/%d items from your area.",
                 storeOwnerName, storeName, storeLocation.toString(), storeTotalItems, areaTotalItems);
     }
 }
+/*
+roni open the store ronila in your area, store location: (x=3,y=3), store sells 3/5 items from your area.
+ */

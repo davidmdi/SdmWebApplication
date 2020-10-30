@@ -14,9 +14,9 @@ public class FeedbackAlert implements Alertable{
 
     @Override
     public String alert() {
-        return String.format("Your store %s got new Feedback:\n"+
-                "Rate: %d\n" +
-                "Comments: %s", storeName, rate, comments);
+        return String.format("Your store %s got new Feedback!"+
+                " Rate: %d," +
+                " Comments: %s", storeName, rate, comments);
     }
 
     public String getStoreName() {
@@ -31,3 +31,6 @@ public class FeedbackAlert implements Alertable{
         return comments;
     }
 }
+/*
+Your store super baba got new Feedback: Rate: 3 Comments: great work !
+ */

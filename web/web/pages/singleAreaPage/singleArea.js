@@ -16,33 +16,30 @@ $(function() {
 
 //The users list is refreshed automatically every second
     setInterval(ajaxAreaInfo, refreshRate);
-    setInterval(ajaxAlertsList, alertsRefreshRate);//refreshRate); //check for alerts
+    setInterval(ajaxCheckAlerts, alertsRefreshRate); //check for alerts
 });
 
-function ajaxAlertsList() {
+function ajaxCheckAlerts(){
     $.ajax({
         url: CREATE_NEW_ALERT,
-        success: function(alerts) {
-            console.log("alert"+ alerts);
-            $("#userAlerts").append(alerts);
+        success: function(alert) {
+            $("#userAlerts").append(alert);
+            addAlertsClickHandler();
         }
     });
-    /*
-    $.ajax({
-        url: CHECK_ALERTS_URL,
-        success: function(alerts) {
-            alertsHandler(alerts);
-        }
-    });
-     */
 }
 
-function alertsHandler(alerts){
-    console.log("alert "+ alerts);
+function addAlertsClickHandler(){
+    var okButtons = document.getElementsByName("okButton");
 
-    $.each(alerts || [], function(index, alertMsg) {
-        alert(alertMsg);
-    });
+    for (var i = 0 ; i < okButtons.length ; i++){
+        var btn = okButtons[i];
+        btn.onclick = removeAlert;
+    }
+}
+
+function removeAlert(event){
+    $(this.parentElement).remove();
 }
 
 function ajaxAreaItemsTable(){
