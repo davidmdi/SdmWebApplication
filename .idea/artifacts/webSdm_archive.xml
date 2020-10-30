@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="webSdm archive">
+    <output-path>$PROJECT_DIR$/out/artifacts/webSdm_archive</output-path>
+    <root id="archive" name="webSdm archive.war">
+      <element id="artifact" artifact-name="webSdm" />
+    </root>
+  </artifact>
+</component>
