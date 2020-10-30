@@ -1,6 +1,6 @@
 
 var refreshRate = 2000; //milli seconds
-var alertsRefreshRate = 5000;//5000; //milli seconds
+var alertsRefreshRate = 5000; //milli seconds
 var refreshRateForAreas = 5000; //milli seconds
 var refreshRateForAccount = 5000; //milli seconds
 var USER_LIST_URL = buildUrlWithContextPath("userslist");
@@ -30,40 +30,30 @@ $(function() {
     setInterval(ajaxUsersList, refreshRate);
     setInterval(ajaxAreasTable, refreshRateForAreas);
     setInterval(ajaxAccountActionsTable, refreshRateForAccount);
-
-    setInterval(ajaxAlertsList, alertsRefreshRate);//refreshRate); //check for alerts
-
-
-    //The chat content is refreshed only once (using a timeout) but
-    //on each call it triggers another execution of itself later (1 second later)
-            // triggerAjaxChatContent();
+    setInterval(ajaxAlerts, alertsRefreshRate); //check for alerts
 });
 
-function ajaxAlertsList() {
+function ajaxAlerts() {
     $.ajax({
         url: CREATE_NEW_ALERT,
-        success: function(alerts) {
-            console.log("alert"+ alerts);
-            $("#userAlerts").append(alerts);
+        success: function(alert) {
+            $("#userAlerts").append(alert);
+            addAlertsClickHandler();
         }
     });
-
-    /*
-        $.ajax({
-            url: CHECK_ALERTS_URL,
-            success: function(alerts) {
-                alertsHandler(alerts);
-            }
-        });
-    */
 }
 
-function alertsHandler(alerts){
-    console.log("alert "+ alerts);
+function addAlertsClickHandler(){
+    var okButtons = document.getElementsByName("okButton");
 
-    $.each(alerts || [], function(index, alertMsg) {
-        alert(alertMsg);
-    });
+    for (var i = 0 ; i < okButtons.length ; i++){
+        var btn = okButtons[i];
+        btn.onclick = removeAlert;
+    }
+}
+
+function removeAlert(event){
+    $(this.parentElement).remove();
 }
 
 function ajaxUsersList() {

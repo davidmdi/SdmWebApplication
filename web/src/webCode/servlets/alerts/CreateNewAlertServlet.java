@@ -43,9 +43,9 @@ public class CreateNewAlertServlet extends HttpServlet {
 
     private String buildAlertsHTML(String ownerAlert){
         String res = "<div class='alert'>" +
-                    "<button type='submit' onclick='removeAlert()'>Close alert</button>" +
-                    "<label>"+ownerAlert+"</label>" +
-                "</div>";
+                        "<label style=\"user-select: none;\">"+ownerAlert+"</label>" +
+                        "<button name='okButton' class='okButton' type='submit'>OK</button>" +
+                     "</div>";
 
         return res;
     }

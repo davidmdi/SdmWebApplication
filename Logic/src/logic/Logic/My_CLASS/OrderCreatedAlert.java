@@ -20,9 +20,12 @@ public class OrderCreatedAlert implements Alertable{
     public String alert() {
 
         return String.format("Order %d was created by %s." +
-                " Total items types: %s" +
-                " Total items cost: %.2f " +
-                " Total delivery cost: %.2f ",orderId, customerName,
+                " Total items types: %s," +
+                " Total items cost: %.2f," +
+                " Total delivery cost: %.2f.",orderId, customerName,
                 totalOrderItemsTypes, totalOrderItemsCost, totalOrderDeliveryCost);
     }
 }
+/*
+Order 1 was created by moshe. Total items types: 2 Total items cost: 80.00 Total delivery cost: 540.83
+ */
