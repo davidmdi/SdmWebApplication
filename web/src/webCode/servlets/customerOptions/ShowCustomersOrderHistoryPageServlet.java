@@ -42,36 +42,41 @@ public class ShowCustomersOrderHistoryPageServlet extends HttpServlet {
                     "<div class='row'>" +
                         "<div class ='col'>" +
                             "<div class='row'>" +
-                            "<h3>Order history:</h3>" +
+                                "<h3>Order History</h3>" +
                             "</div>" +
-
-                            "<div id=\"orderTable\">" +
-                                   "<table id=\"orderItemsTable\">" +
-                                   "<tr>" +
-                                   "<th>Order id</th>" +
-                                   "<th>Date</th>" +
-                                   "<th>Location</th>" +
-                                   "<th>Total stores included</th>" +
-                                   "<th>How many items</th>" +
-                                   "<th>Items Cost</th>" +
-                                   "<th>Delivery Cost</th>" +
-                                   "<th>Total cost</th>" +
-                                   "</tr>";
+                            "<div id='customerOrdersHistory'>" +
+                                   "<table id=\"customerOrdersTable\">" +
+                                   "<thead>" +
+                                       "<tr>" +
+                                           "<th>Order id</th>" +
+                                           "<th>Date</th>" +
+                                           "<th>Location</th>" +
+                                           "<th>Total stores included</th>" +
+                                           "<th>How many items</th>" +
+                                           "<th>Items Cost</th>" +
+                                           "<th>Delivery Cost</th>" +
+                                           "<th>Total cost</th>" +
+                                       "</tr>" +
+                                    "</thead>" +
+                                    "<tbody>";
                                   MyOrders orders = customer.getCustomerOrders();
                                   for (MyOrder order: orders.getOrderList()) {
-                                     res += buileSingleOrderHtml(order);
+                                     res += buildSingleOrderHtml(order);
                                   }
-                      res+=       "</table>" +
-                            "</div>" +
-                      "</div>" +
-                    "</div>";
+        res+=  "</tbody>" +
+             "</table>" +
+            "</div>" +
+                "<div id='orderItems'><table id='orderItemsTable'></table></div>" +
+        "</div>" +
+    "</div>" +
+"</div>";
 
         return res;
     }
 
-    private String buileSingleOrderHtml(MyOrder order) {
+    private String buildSingleOrderHtml(MyOrder order) {
         return
-                "<tr>" +
+                "<tr orderId='"+order.getOrderId()+"'>" +
                         "<td>"+order.getOrderId()+"</td>" +
                         "<td>"+order.getDate()+"</td>" +
                         "<td>"+order.getFromWhereOrderWasMade()+"</td>" +

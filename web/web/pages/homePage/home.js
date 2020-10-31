@@ -216,6 +216,8 @@ function ajaxShowLoadMoneyForm(){
         url: LOAD_MONEY_FORM,
         success: function(response) {//if customer: load money form. else: empty div
             //refreshUsersList(users);
+           // $("#accountManager").append("<p>Load money to account:</p>");
+
             $("#loadingMoneyToAccount").replaceWith(response);
         }
     });

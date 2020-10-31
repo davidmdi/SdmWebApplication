@@ -22,12 +22,13 @@ public class LoadXmlServlet extends HttpServlet {
 
 
                 out.println("<div id=\"loadXml\">");
-                out.println("Load XML file:");
+                out.println("<h3>Load xml</h3>");
+                out.println("<p>Please choose XML file to load</p>");
+                //out.println("Load XML file:");
                 out.println(createFormString());
                 out.println("</div>");
                 out.flush();
             } else {
-
                 out.println("<div id=\"loadXml\"></div>");
             }
         }
@@ -36,10 +37,13 @@ public class LoadXmlServlet extends HttpServlet {
     private String createFormString(){
         StringBuilder formString = new StringBuilder();
         formString.append("<form id=\"uploadForm\" action=\"/uploadXmlFile\" enctype=\"multipart/form-data\" method=\"POST\">");
-        formString.append("<input type=\"file\" name=\"xmlFile\" accept=\".xml\"><br>");
-        formString.append("<input type=\"Submit\" value=\"Upload File\"><br>");
+        formString.append("<input class=\"custom-file-input\" type=\"file\" name=\"xmlFile\" accept=\".xml\"><br>");
+        //formString.append("<input type=\"file\" name=\"xmlFile\" accept=\".xml\"><br>");
+        formString.append("<input class='xml-button' type=\"Submit\" value=\"Upload File\"><br>");
         formString.append("<div id=errorMsg></div>");
         formString.append("</form>");
+
+
 
     return  formString.toString();
     }
