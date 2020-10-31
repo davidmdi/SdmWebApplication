@@ -67,7 +67,7 @@ public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
                     "<td>" + storeItem.getMyItem().getItemId() + "</td>" +
                     "<td>" + storeItem.getMyItem().getName() + "</td>" +
                     "<td>" + storeItem.getMyItem().getPurchaseCategory() + "</td>" +
-                    "<td>" + "Store " + storeItem.getStoreId()+ "</td>" + //NEED TO ADD STORE NAME
+                    "<td>" + "Store Id: " + storeItem.getStoreId()+ " Name: "+"</td>" + //NEED TO ADD STORE NAME
                     "<td>" + amount+ "</td>" +
                     "<td>" + storeItem.getPrice() + "</td>" +
                     "<td>" + String.format("%.2f", storeItem.getPrice() * amount) + "</td>" + // = Total cost

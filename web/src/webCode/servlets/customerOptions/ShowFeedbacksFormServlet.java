@@ -54,7 +54,7 @@ public class ShowFeedbacksFormServlet extends HttpServlet {
 
     private String buildFeedbacksDiv(Map<Integer, String> orderStoresInfo){
 
-        String div = "<div class=\"leaveFeedbacks\">" +
+        String div = "<div id='content' class=\"leaveFeedbacks\">" +
                         "<div class='row'>" +
                         "<div class='col'>" +
                             "<form id ='storesFeedBacks' method='POST' action='storesFeedBack'>" +
