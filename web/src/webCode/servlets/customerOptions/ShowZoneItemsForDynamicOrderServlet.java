@@ -33,7 +33,7 @@ public class ShowZoneItemsForDynamicOrderServlet extends HttpServlet {
 
         String res = "<div id='staticOrDynamicOrder' class='row'>" +
                         "<div class='col'>" +
-                            "<form id='dynamicOrderItems' action='' enctype=\"multipart/form-data\">" +
+                            "<form id='dynamicOrderItems' action='fake' enctype=\"multipart/form-data\">" +
                                 "<div class=\"row\"><h2>Choose items</h2></div>";
 
         for(MyItem item : zoneItems){
