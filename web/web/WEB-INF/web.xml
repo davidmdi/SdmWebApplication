@@ -32,10 +32,6 @@
         <servlet-class>webCode.servlets.ZoneSelectedServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AreaInfoServlet</servlet-name>
-        <servlet-class>webCode.servlets.AreaInfoServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SingleAreaMenuServlet</servlet-name>
         <servlet-class>webCode.servlets.SingleAreaMenuServlet</servlet-class>
     </servlet>
@@ -148,6 +144,10 @@
         <servlet-name>ShowCustomersOrderItemsTableServlet</servlet-name>
         <servlet-class>webCode.servlets.customerOptions.ShowCustomersOrderItemsTableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OwnerStoresListServlet</servlet-name>
+        <servlet-class>webCode.servlets.storeOwnerOptions.OwnerStoresListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -175,10 +175,6 @@
     <servlet-mapping>
         <servlet-name>ZoneSelectedServlet</servlet-name>
         <url-pattern>/zoneSelected</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AreaInfoServlet</servlet-name>
-        <url-pattern>/areaInfo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SingleAreaMenuServlet</servlet-name>
@@ -291,6 +287,10 @@
     <servlet-mapping>
         <servlet-name>ShowCustomersOrderItemsTableServlet</servlet-name>
         <url-pattern>/customerOrderItemsTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OwnerStoresListServlet</servlet-name>
+        <url-pattern>/ownerStoresList</url-pattern>
     </servlet-mapping>
 
 

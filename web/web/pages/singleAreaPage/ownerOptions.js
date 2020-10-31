@@ -1,12 +1,12 @@
 var refreshRate = 10000; //milli seconds
 var AREA_INFO_URL = buildUrlWithContextPath("areaInfo");
 var STORE_ORDERS_PAGE_URL = buildUrlWithContextPath("storeOrdersPage");
-var STORES_LIST_URL = buildUrlWithContextPath("zoneStoresList");
 var NEW_STORE_CONTENT_URL = buildUrlWithContextPath("newStorePage");
 var ADD_NEW_STORE_URL = buildUrlWithContextPath("addNewStore");
 var STORE_FEEDBACKS_URL = buildUrlWithContextPath("showStoreFeedbacks");
 var STORE_ORDERS_URL = buildUrlWithContextPath("loadStoreOrdersInfo");
 var STORE_ORDER_ITEMS_URL = buildUrlWithContextPath("loadStoreOrderItemsInfo");
+var OWNER_STORES_LIST_URL = buildUrlWithContextPath("ownerStoresList");
 var feedbacks_interval;
 var storeList_interval;
 
@@ -63,7 +63,7 @@ function ajaxStoresList() {
     console.log("inside ajaxStoresList");
 
     $.ajax({
-        url: STORES_LIST_URL,
+        url: OWNER_STORES_LIST_URL,
         error: function(e) { console.log("ajaxStoresList success"); alert(e); },
         success: function(stores) {
             console.log("ajaxStoresList success");
