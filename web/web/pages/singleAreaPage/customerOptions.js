@@ -45,9 +45,11 @@ function ajaxShowMakeOrderForm(){
             $("#content").replaceWith(response);
             $("#initDataForOrder").submit(startMakeOrderFormSubmitClicked);
 
+            /*
             $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
             $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
             return false;
+             */
         }
 
     });
@@ -71,12 +73,12 @@ function startMakeOrderFormSubmitClicked(){
 
                 var msg = document.getElementById("errorMsg").textContent;
                 if(msg == ""){ // == Location is valid
-                    $("input[type='submit']").attr("disabled", 'disabled');
+                    $("#initDataForOrder input[type=submit]").attr("disabled", 'disabled');
                     //start order by type
                     if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
-                        showZoneItemsList();//(parametrs);
+                        showZoneItemsList();
                     else
-                        showZoneStoresComboBox();//(parametrs);
+                        showZoneStoresComboBox();
                 }
             }
 
@@ -119,15 +121,9 @@ function showZoneStoresComboBox(){
 
 function showZoneItemsList(){
     $.ajax({
-        data:parametrs,
         url: ITEMS_FOR_DYNAMIC_URL,
         success: function(response) {
-
             $("#staticOrDynamicOrder").replaceWith(response);
-
-            // $("#content").replaceWith(response);
-            $("h1").hide();
-            $("#content").replaceWith(response);
 
             $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
             $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
