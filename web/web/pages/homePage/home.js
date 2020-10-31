@@ -175,7 +175,7 @@ function refreshAccountTable(accountActions) {
     });
 
     if(accountActions.length == 0 ){
-        var emptyActions = "<tr><td>There are no actions</td></tr>";
+        var emptyActions = "<tr><td>There are no actions</td><td></td><td></td><td></td><td></td></tr>";
         $(emptyActions).appendTo($("#accountActionsTable"));
     }
 }
