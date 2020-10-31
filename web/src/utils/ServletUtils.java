@@ -80,7 +80,7 @@ public class ServletUtils {
 		}
 
 		out.println("<div class=\"row\">");
-		out.println("<input type=\"submit\" value='Make order' >");
+		out.println("<input type=\"submit\" value='Next' >");
 		out.println("</div>");
 		out.println("</form>");
 

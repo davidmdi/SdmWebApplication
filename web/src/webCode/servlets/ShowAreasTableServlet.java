@@ -51,7 +51,7 @@ public class ShowAreasTableServlet extends HttpServlet {
                         "<td>" + superMarket.getItems().getItemList().size() + "</td>" +
                         "<td>" + superMarket.getStores().getStoreList().size() + "</td>" +
                         "<td>" + superMarket.getOrders().getOrderList().size() + "</td>" +
-                        "<td>" + superMarket.getOrders().getAvgOrdersPrice() + "</td>" +
+                        "<td>" + String.format("%.2f",superMarket.getOrders().getAvgOrdersPrice())  + "</td>" +
                         "</tr>";
             }
         }

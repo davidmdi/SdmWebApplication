@@ -85,8 +85,8 @@ function showZoneItemsList(parametrs){
         url: MAKE_ORDER_PAGE_URL,
         success: function(response) {
             // $("#content").replaceWith(response);
-            $("h6").hide()
-            $("#content").append(response);
+            $("h1").hide();
+            $("#content").replaceWith(response);
             $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
             $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
             return false;
@@ -209,6 +209,8 @@ function showSelectedStoreInfo() {
 
 function showStoreDiscountsOffers(){
 
+
+    $("#createStaticOrder input[type='submit']").attr("disabled", 'disabled');
     selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
@@ -235,7 +237,7 @@ function showStoreDiscountsOffers(){
     function buildFormForOrder(){
      var htmlBuilder = "<div id='content'>" +
          "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
-         "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\">" + "<br><br> " +
+         "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\" required>" + "<br><br> " +
         "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
         "<label for=\"static\">Static </label>\n" +
         "<input type=\"radio\" id=\"dynamic\" name=\"typeofOrder\" value=\"dynamic\">\n" +
@@ -501,6 +503,7 @@ function declineOrderButton(){
 }
 
 function ajaxSendStoresFeedbacks(){
+
     var feedBacksList = createFeedBacksList(this);
 
     if(feedBacksList !== null){
