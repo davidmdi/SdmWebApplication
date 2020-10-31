@@ -11,6 +11,7 @@ var STATIC_ORDER_SUMMERY = buildUrlWithContextPath("staticOrderSummery");
 var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
 var END_ORDER = buildUrlWithContextPath("endOrder");
+var CUSTOMER_ORDER_ITEMS_URL = buildUrlWithContextPath("customerOrderItemsTable");
 var parametrs;
 var ORDER_DATE;
 var ORDER_TYPE;
@@ -154,18 +155,34 @@ function sendDynamicOrderItems(){
 }
 
 
-
 function showOrderHistory() {
     changeSelectedMenuOption("#orderHistory");//changes to ui options
     $.ajax({
 
         url: SHOW_ORDER_HISTORY_PAGE_URL,
         success: function (response) {
-            $("#content").replaceWith(response)}
+            $("#content").replaceWith(response);
+            // add onClick to each order row
+            $("#customerOrdersTable tbody tr").on("click", customerOrderClickEvent);
 
-
+        }
     });
 }
+
+function customerOrderClickEvent(event){
+    var orderId = event.currentTarget.attributes['orderId'].value;
+
+    $.ajax({
+        url: CUSTOMER_ORDER_ITEMS_URL,
+        data: {"orderId" : orderId},
+        error: function(e) { alert("error"); },
+        success: function(response) {
+            $("#orderItemsTable").replaceWith(response);
+        }
+    });
+}
+
+
 
 /* called after store was selected (static order) */
 
