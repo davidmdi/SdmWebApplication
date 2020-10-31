@@ -405,3 +405,11 @@ h3, h2{
     }
 }
 /* END ALERTS */
+
+input[type=submit]:disabled{
+    background-color: darkgray;
+}
+
+input[type=submit]:disabled:hover{
+    background-color: darkgray;
+}

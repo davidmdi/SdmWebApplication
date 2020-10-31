@@ -148,6 +148,22 @@
         <servlet-name>OwnerStoresListServlet</servlet-name>
         <servlet-class>webCode.servlets.storeOwnerOptions.OwnerStoresListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowMakeOrderForm</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowMakeOrderForm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowStoresComboBoxServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowStoresComboBoxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowZoneItemsForDynamicOrderServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.ShowZoneItemsForDynamicOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StartOrderByTypeServlet</servlet-name>
+        <servlet-class>webCode.servlets.customerOptions.StartOrderByTypeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/pages/loginPage/login</url-pattern>
@@ -291,6 +307,22 @@
     <servlet-mapping>
         <servlet-name>OwnerStoresListServlet</servlet-name>
         <url-pattern>/ownerStoresList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowMakeOrderForm</servlet-name>
+        <url-pattern>/showMakeOrderForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowStoresComboBoxServlet</servlet-name>
+        <url-pattern>/storesComboBox</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowZoneItemsForDynamicOrderServlet</servlet-name>
+        <url-pattern>/showZoneItemsForDynamicOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartOrderByTypeServlet</servlet-name>
+        <url-pattern>/startOrder</url-pattern>
     </servlet-mapping>
 
 

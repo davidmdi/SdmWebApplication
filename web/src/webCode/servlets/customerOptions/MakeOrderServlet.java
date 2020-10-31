@@ -81,11 +81,15 @@ public class MakeOrderServlet extends HttpServlet {
 
     private String createFormOfStoreList(Engine engine, String zoneName) {
 
-        String htmlBuilder = "<div id=\"storeId\">" +
-         "<label for=\"store\">Choose a store:</label>" +
-         "<form id=\"storeSelectForm\" action=\"presentSelectedStoreItems\" method=\"GET\"> "+
-         "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\"showSelectedStoreInfo()\">" +
-         "<option  value=\"" + "select store"+ "\">"  + "</option>" ;
+        String htmlBuilder = "<div class='row' id=\"storeId\">" +
+                                "<div class='col'>" +
+                                    "<div class='col-25'>" +
+                                        "<label for=\"store\">Choose a store:</label>" +
+                                    "</div>" +
+                                    "<div class='col-75'>" +
+                                        "<form id=\"storeSelectForm\" action=\"presentSelectedStoreItems\" method=\"GET\"> "+
+                                            "<select name=\"storeSelection\" id=\"storeSelection\" onchange=\"showSelectedStoreInfo()\">";
+                                                //"<option  value=\"" + "Select store.."+ "\">"  + "</option>" ;
 
         List<MyStore> stores = engine.getMySupermarkets().getAreaStoresList(zoneName);
         for (MyStore store : stores){
@@ -93,7 +97,12 @@ public class MakeOrderServlet extends HttpServlet {
                     store.getName() + "," + store.getPPK() + "</option>" ;
         }
         
-        htmlBuilder += "</select></form></div>";
+        htmlBuilder += "</select>" +
+                "</div>" +
+            "</div>" +
+        "</div>" +
+    "</form>" +
+"</div>";
 
         return htmlBuilder;
     }
