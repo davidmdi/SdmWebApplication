@@ -94,61 +94,14 @@ function startMakeOrderFormSubmitClicked(){
 }
 
 function makeOrderOnClick(){
-
     changeSelectedMenuOption("#makeOrder");//changes to ui options
-
     ajaxShowMakeOrderForm();
-    /*
-        changeSelectedMenuOption("#makeOrder");//changes to ui options
-        //$("#content").empty(); //clear old content
-        $("#content").replaceWith(buildFormForOrder());
-        $("#initDataForOrder").submit(function () {
-                $("input[type='submit']").attr("disabled", 'disabled');
-                parametrs = $("form").serialize();
-                var selectedStoreSerializedArray = $('form').serializeArray();
-                ORDER_DATE = selectedStoreSerializedArray[0].value;
-                ORDER_TYPE = selectedStoreSerializedArray[1].value;
-                ORDER_X  = selectedStoreSerializedArray[2].value;
-                ORDER_Y  = selectedStoreSerializedArray[3].value;
-
-                try{
-                    if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
-                        showZoneItemsList(parametrs);
-                    else
-                        showZoneStoresComboBox(parametrs);
-                }catch (e) {
-                    console.log("Error invoking the ajax !" + e);
-                }
-            return false;
-        });
-     */
 
     return false;
 }
-/*
-//action= "+ MAKE_ORDER_PAGE_URL + "
-function buildFormForOrder(){
-    var htmlBuilder = "<div id='content'>" +
-        "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
-        "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\">" + "<br><br> " +
-        "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
-        "<label for=\"static\">Static </label>\n" +
-        "<input type=\"radio\" id=\"dynamic\" name=\"typeofOrder\" value=\"dynamic\">\n" +
-        "<label for=\"dynamic\">Dynamic</label><br><br>\n" +
-        " <label for=\"xCord\">X location: </label>\n" +
-        " <input type=\"number\" id=\"xCord\" name=\"xCord\" class=\"\" placeholder=\" x cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
-        " <label for=\"yCord\">Y location: </label>\n" +
-        " <input type=\"number\" id=\"yCord\" name=\"yCord\" class=\"\" placeholder=\"y cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
-        "<br><br>" +
-        " <input type=\"submit\" value=\"start Shopping\" class = \"login-button\"/>"+
-        "</form>"  + "</div>";
 
-    return htmlBuilder ;
-}
-*/
 
-function showZoneStoresComboBox(){//(parametrs){
-
+function showZoneStoresComboBox(){
     $.ajax({
         url: STORES_FOR_STATIC_URL,
         success: function(response) {
@@ -161,27 +114,10 @@ function showZoneStoresComboBox(){//(parametrs){
         }
 
     });
-    /*
-    $.ajax({
-        data:parametrs,
-        url: MAKE_ORDER_PAGE_URL,
-        success: function(response) {
-            // $("#content").replaceWith(response);
-            $("h6").hide()
-            $("#content").append(response); // returns comboBox of zone's stores
-
-            //$(id).submit(function y{creating ajax  param.append(name, value) });
-            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); //replace form 'action' attribute
-            $("#storeSelectForm").submit(showStoreDiscountsOffers); //override 'submit' function
-            return false;
-        }
-
-    });
-     */
 }
 
 
-function showZoneItemsList(){//(parametrs){
+function showZoneItemsList(){
     $.ajax({
         data:parametrs,
         url: ITEMS_FOR_DYNAMIC_URL,
@@ -199,28 +135,10 @@ function showZoneItemsList(){//(parametrs){
         }
 
     });
-
-
-
-    /*
-        $.ajax({
-            data:parametrs,
-            url: MAKE_ORDER_PAGE_URL,
-            success: function(response) {
-                // $("#content").replaceWith(response);
-                $("h6").hide()
-                $("#content").append(response);
-                $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
-                $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
-                return false;
-            }
-
-        });
-     */
 }
 
 function createDynamicOrderItemsList(){
-    //var formItems = document.getElementsByName("item");
+
     var checkBoxes = document.getElementsByName("itemCheckBox");
     var selectedStoreItems = [];
 

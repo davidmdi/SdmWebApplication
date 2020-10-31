@@ -2,7 +2,6 @@ var refreshRate = 10000; //milli seconds
 var alertsRefreshRate = 5000; //milli seconds
 var MENU_URL = buildUrlWithContextPath("singleAreaMenu");
 var ZONE_NAME_URL = buildUrlWithContextPath("zoneName");
-var CHECK_ALERTS_URL = buildUrlWithContextPath("getAlerts");
 var AREAS_ITEMS_TABLE_URL = buildUrlWithContextPath("areasItemsTable");
 var AREAS_STORES_TABLE_URL = buildUrlWithContextPath("areasStoresTable");
 
