@@ -41,10 +41,9 @@ public class ShowCustomersOrderHistoryPageServlet extends HttpServlet {
         String res="<div id=\"content\">" +
                     "<div class='row'>" +
                         "<div class ='col'>" +
-                            "<div class='row'>" +
-                                "<h3>Order History</h3>" +
-                            "</div>" +
-                            "<div id='customerOrdersHistory'>" +
+                            "<div class='row' id='customerOrdersHistory'>" +
+                                "<div class='col'>" +
+                                   "<h2>Orders History</h2><p>Your previous orders<p>" +
                                    "<table id=\"customerOrdersTable\">" +
                                    "<thead>" +
                                        "<tr>" +
@@ -66,7 +65,8 @@ public class ShowCustomersOrderHistoryPageServlet extends HttpServlet {
         res+=  "</tbody>" +
              "</table>" +
             "</div>" +
-                "<div id='orderItems'><table id='orderItemsTable'></table></div>" +
+            "</div>" +
+                "<div id='orderItems' class='row'><div class='col'><h3>Order Items</h3><table id='orderItemsTable'></table></div></div>" +
         "</div>" +
     "</div>" +
 "</div>";

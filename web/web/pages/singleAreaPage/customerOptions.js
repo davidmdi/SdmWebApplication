@@ -12,6 +12,12 @@ var UPDATE_ORDER = buildUrlWithContextPath("updateOrder");
 var CREATE_STORES_FEEDBACKS = buildUrlWithContextPath("createStoreFeedbacks");
 var END_ORDER = buildUrlWithContextPath("endOrder");
 var CUSTOMER_ORDER_ITEMS_URL = buildUrlWithContextPath("customerOrderItemsTable");
+var SHOW_MAKE_ORDER_FORM_URL = buildUrlWithContextPath("showMakeOrderForm");
+var CHECK_VALID_LOCATION_URL = buildUrlWithContextPath("startOrder");
+
+var ITEMS_FOR_DYNAMIC_URL = buildUrlWithContextPath("showZoneItemsForDynamicOrder");
+var STORES_FOR_STATIC_URL = buildUrlWithContextPath("storesComboBox");
+
 var parametrs;
 var ORDER_DATE;
 var ORDER_TYPE;
@@ -32,34 +38,130 @@ function changeSelectedMenuOption(selectedMenuOptionID){
     $(selectedMenuOptionID).attr({class: 'active'});
 }
 
-function makeOrderOnClick(){
-    changeSelectedMenuOption("#makeOrder");//changes to ui options
-    //$("#content").empty(); //clear old content
-    $("#content").replaceWith(buildFormForOrder());
-    $("#initDataForOrder").submit(function () {
-            $("input[type='submit']").attr("disabled", 'disabled');
-            parametrs = $("form").serialize();
-            var selectedStoreSerializedArray = $('form').serializeArray();
-            ORDER_DATE = selectedStoreSerializedArray[0].value;
-            ORDER_TYPE = selectedStoreSerializedArray[1].value;
-            ORDER_X  = selectedStoreSerializedArray[2].value;
-            ORDER_Y  = selectedStoreSerializedArray[3].value;
+function ajaxShowMakeOrderForm(){
+    $.ajax({
+        url: SHOW_MAKE_ORDER_FORM_URL,
+        success: function(response) {
+            $("#content").replaceWith(response);
+            $("#initDataForOrder").submit(startMakeOrderFormSubmitClicked);
 
-            try{
-                if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
-                    showZoneItemsList(parametrs);
-                else
-                    showZoneStoresComboBox(parametrs);
-            }catch (e) {
-                console.log("Error invoking the ajax !" + e);
-            }
-        return false;
+            $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
+            $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
+            return false;
+        }
+
     });
+}
 
+function startMakeOrderFormSubmitClicked(){
+    //$("input[type='submit']").attr("disabled", 'disabled');
+    parametrs = $("form").serialize();
+    var selectedStoreSerializedArray = $('form').serializeArray();
+    ORDER_DATE = selectedStoreSerializedArray[0].value;
+    ORDER_TYPE = selectedStoreSerializedArray[1].value;
+    ORDER_X  = selectedStoreSerializedArray[2].value;
+    ORDER_Y  = selectedStoreSerializedArray[3].value;
+
+    try{
+        $.ajax({
+            data:parametrs,
+            url: CHECK_VALID_LOCATION_URL,
+            success: function(response) {
+                $("#errorMsg").replaceWith(response);
+
+                var msg = document.getElementById("errorMsg").textContent;
+                if(msg == ""){ // == Location is valid
+                    $("input[type='submit']").attr("disabled", 'disabled');
+                    //start order by type
+                    if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
+                        showZoneItemsList();//(parametrs);
+                    else
+                        showZoneStoresComboBox();//(parametrs);
+                }
+            }
+
+        });
+        /*
+        if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
+            showZoneItemsList(parametrs);
+        else
+            showZoneStoresComboBox(parametrs);
+         */
+    }catch (e) {
+        console.log("Error invoking the ajax !" + e);
+    }
     return false;
 }
 
-function showZoneStoresComboBox(parametrs){
+function makeOrderOnClick(){
+
+    changeSelectedMenuOption("#makeOrder");//changes to ui options
+
+    ajaxShowMakeOrderForm();
+    /*
+        changeSelectedMenuOption("#makeOrder");//changes to ui options
+        //$("#content").empty(); //clear old content
+        $("#content").replaceWith(buildFormForOrder());
+        $("#initDataForOrder").submit(function () {
+                $("input[type='submit']").attr("disabled", 'disabled');
+                parametrs = $("form").serialize();
+                var selectedStoreSerializedArray = $('form').serializeArray();
+                ORDER_DATE = selectedStoreSerializedArray[0].value;
+                ORDER_TYPE = selectedStoreSerializedArray[1].value;
+                ORDER_X  = selectedStoreSerializedArray[2].value;
+                ORDER_Y  = selectedStoreSerializedArray[3].value;
+
+                try{
+                    if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
+                        showZoneItemsList(parametrs);
+                    else
+                        showZoneStoresComboBox(parametrs);
+                }catch (e) {
+                    console.log("Error invoking the ajax !" + e);
+                }
+            return false;
+        });
+     */
+
+    return false;
+}
+/*
+//action= "+ MAKE_ORDER_PAGE_URL + "
+function buildFormForOrder(){
+    var htmlBuilder = "<div id='content'>" +
+        "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
+        "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\">" + "<br><br> " +
+        "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
+        "<label for=\"static\">Static </label>\n" +
+        "<input type=\"radio\" id=\"dynamic\" name=\"typeofOrder\" value=\"dynamic\">\n" +
+        "<label for=\"dynamic\">Dynamic</label><br><br>\n" +
+        " <label for=\"xCord\">X location: </label>\n" +
+        " <input type=\"number\" id=\"xCord\" name=\"xCord\" class=\"\" placeholder=\" x cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
+        " <label for=\"yCord\">Y location: </label>\n" +
+        " <input type=\"number\" id=\"yCord\" name=\"yCord\" class=\"\" placeholder=\"y cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
+        "<br><br>" +
+        " <input type=\"submit\" value=\"start Shopping\" class = \"login-button\"/>"+
+        "</form>"  + "</div>";
+
+    return htmlBuilder ;
+}
+*/
+
+function showZoneStoresComboBox(){//(parametrs){
+
+    $.ajax({
+        url: STORES_FOR_STATIC_URL,
+        success: function(response) {
+            $("#staticOrDynamicOrder").replaceWith(response); // returns comboBox of zone's stores
+
+            //$(id).submit(function y{creating ajax  param.append(name, value) });
+            $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); //replace form 'action' attribute
+            $("#storeSelectForm").submit(showStoreDiscountsOffers); //override 'submit' function
+            return false;
+        }
+
+    });
+    /*
     $.ajax({
         data:parametrs,
         url: MAKE_ORDER_PAGE_URL,
@@ -75,24 +177,46 @@ function showZoneStoresComboBox(parametrs){
         }
 
     });
+     */
 }
 
 
-function showZoneItemsList(parametrs){
-
+function showZoneItemsList(){//(parametrs){
     $.ajax({
         data:parametrs,
-        url: MAKE_ORDER_PAGE_URL,
+        url: ITEMS_FOR_DYNAMIC_URL,
         success: function(response) {
+
+            $("#staticOrDynamicOrder").replaceWith(response);
+
             // $("#content").replaceWith(response);
             $("h1").hide();
             $("#content").replaceWith(response);
+
             $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
             $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
             return false;
         }
 
     });
+
+
+
+    /*
+        $.ajax({
+            data:parametrs,
+            url: MAKE_ORDER_PAGE_URL,
+            success: function(response) {
+                // $("#content").replaceWith(response);
+                $("h6").hide()
+                $("#content").append(response);
+                $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
+                $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
+                return false;
+            }
+
+        });
+     */
 }
 
 function createDynamicOrderItemsList(){
@@ -233,6 +357,8 @@ function showStoreDiscountsOffers(){
     return false;
 }
 
+
+
 //action= "+ MAKE_ORDER_PAGE_URL + "
     function buildFormForOrder(){
      var htmlBuilder = "<div id='content'>" +
@@ -252,6 +378,7 @@ function showStoreDiscountsOffers(){
 
     return htmlBuilder ;
    }
+
 
 function createStaticOrderItemList(){ // whithout discounts.
     var formItems = document.getElementsByName("item");
