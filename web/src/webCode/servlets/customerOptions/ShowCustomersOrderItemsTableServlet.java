@@ -60,22 +60,20 @@ public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
 
     private String buildOrderItemsTBody(MyOrder order, Map<Integer, MyStore> storeMap) {
         String res = "<tbody>";
+        MyStore store;
         double amount;
         boolean isBoughtOnSell;
 
         for(MyStoreItem storeItem : order.getQuantityMap().keySet()){
             amount = order.getQuantityMap().get(storeItem);
             isBoughtOnSell = storeItem.getItemKind().equalsIgnoreCase("store")? false : true;
+            store = storeMap.get(storeItem.getStoreId());
 
             res += "<tr>" +
                     "<td>" + storeItem.getMyItem().getItemId() + "</td>" +
                     "<td>" + storeItem.getMyItem().getName() + "</td>" +
                     "<td>" + storeItem.getMyItem().getPurchaseCategory() + "</td>" +
-
-                    "<td>" + "Store Id: " + storeItem.getStoreId()+ " Name: "+"</td>" + //NEED TO ADD STORE NAME
-
-                    "<td>" + storeMap.get(storeItem.getStoreId()) + " " + storeItem.getStoreId()+ "</td>" + //NEED TO ADD STORE NAME
-
+                    "<td> Store Id: "+ store.getId()+", Name: "+store.getName()+"</td>" +
                     "<td>" + amount+ "</td>" +
                     "<td>" + storeItem.getPrice() + "</td>" +
                     "<td>" + String.format("%.2f", storeItem.getPrice() * amount) + "</td>" + // = Total cost

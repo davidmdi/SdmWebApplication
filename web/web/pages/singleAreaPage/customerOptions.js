@@ -45,11 +45,6 @@ function ajaxShowMakeOrderForm(){
             $("#content").replaceWith(response);
             $("#initDataForOrder").submit(startMakeOrderFormSubmitClicked);
 
-            /*
-            $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS);
-            $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
-            return false;
-             */
         }
 
     });
@@ -83,12 +78,6 @@ function startMakeOrderFormSubmitClicked(){
             }
 
         });
-        /*
-        if(document.querySelector('input[name="typeofOrder"]:checked').value == "dynamic")
-            showZoneItemsList(parametrs);
-        else
-            showZoneStoresComboBox(parametrs);
-         */
     }catch (e) {
         console.log("Error invoking the ajax !" + e);
     }
@@ -109,7 +98,6 @@ function showZoneStoresComboBox(){
         success: function(response) {
             $("#staticOrDynamicOrder").replaceWith(response); // returns comboBox of zone's stores
 
-            //$(id).submit(function y{creating ajax  param.append(name, value) });
             $("#storeSelectForm").attr("action", PRESENT_SELECTE_SROTE_ITEMS); //replace form 'action' attribute
             $("#storeSelectForm").submit(showStoreDiscountsOffers); //override 'submit' function
             return false;
@@ -117,7 +105,6 @@ function showZoneStoresComboBox(){
 
     });
 }
-
 
 function showZoneItemsList(){
     $.ajax({
@@ -247,8 +234,6 @@ function showSelectedStoreInfo() {
 
 function showStoreDiscountsOffers(){
 
-
-    $("#createStaticOrder input[type='submit']").attr("disabled", 'disabled');
     selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
@@ -259,9 +244,6 @@ function showStoreDiscountsOffers(){
         error: function(e) { alert(e); },
         success: function(response) {
            $("#content").append(response); // offers form
-               //OVERRIDE ACTION ATTRIBUTE !!!!!
-                //$("#selectSpecialOffers").attr('action' ,'');
-            //console.log("before Summery function");
 
             $("#selectSpecialOffers").attr('action', STATIC_ORDER_SUMMERY);
             $("#selectSpecialOffers").submit(showStaticOrderSummeryOnSubmitClicked);
@@ -270,28 +252,6 @@ function showStoreDiscountsOffers(){
     });
     return false;
 }
-
-
-
-//action= "+ MAKE_ORDER_PAGE_URL + "
-    function buildFormForOrder(){
-     var htmlBuilder = "<div id='content'>" +
-         "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
-         "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\" required>" + "<br><br> " +
-        "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
-        "<label for=\"static\">Static </label>\n" +
-        "<input type=\"radio\" id=\"dynamic\" name=\"typeofOrder\" value=\"dynamic\">\n" +
-        "<label for=\"dynamic\">Dynamic</label><br><br>\n" +
-        " <label for=\"xCord\">X location: </label>\n" +
-        " <input type=\"number\" id=\"xCord\" name=\"xCord\" class=\"\" placeholder=\" x cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
-        " <label for=\"yCord\">Y location: </label>\n" +
-        " <input type=\"number\" id=\"yCord\" name=\"yCord\" class=\"\" placeholder=\"y cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
-        "<br><br>" +
-        " <input type=\"submit\" value=\"start Shopping\" class = \"login-button\"/>"+
-        "</form>"  + "</div>";
-
-    return htmlBuilder ;
-   }
 
 
 function createStaticOrderItemList(){ // whithout discounts.
@@ -314,6 +274,8 @@ function createStaticOrderItemList(){ // whithout discounts.
     if(selectedItems.length == 0){ //check for store with out items
         alert("Must have at least one item in order.");
         return null;
+    }else{
+        $("#createStaticOrder input[type='submit']").attr("disabled", 'disabled'); //disable next button
     }
 
     saveSelecetedItemsForStaticOrder = selectedItems;
