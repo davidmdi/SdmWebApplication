@@ -31,7 +31,7 @@ public class MakeOrderServlet extends HttpServlet {
             // getting the zone from session.
             String zoneName = SessionUtils.getAreaName(req);
             if (!engine.isStoreLocationValid(xCord, yCord)) {
-                out.println("<h6 id=\"errMsg\" style=\"color:red;\">error:hitting store location</h6>");
+                out.println("<h1 id=\"errMsg\" style=\"color:red;\">error:(x=" +xCord +",y=" +yCord+  ") hitting store location - start order with other coords</h1>");
             } else {
                 if (orderType.equalsIgnoreCase("static")) {
                     //create with store list/

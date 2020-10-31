@@ -98,7 +98,7 @@ Item: id name purchase method price amount
 
                     res+= "</div>" +
                             "<div class=\"row\">"+
-                    "<input type=\"submit\" value='Make order'>"+
+                    "<input type=\"submit\" value='Next'>"+
                 "</div>"+
             "</form>"+
         "</div>"+
