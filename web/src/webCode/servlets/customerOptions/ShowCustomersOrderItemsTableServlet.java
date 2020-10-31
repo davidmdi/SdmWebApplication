@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -21,19 +22,22 @@ public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
             Engine engine = ServletUtils.getEngine(getServletContext());
             User user = SessionUtils.getUser(request, getServletContext());
             MyCustomer customer = engine.getMyUsers().findCustomerByName(user.getName());
+            String zoneName = SessionUtils.getAreaName(request);
+            Map<Integer, MyStore> storeMap = engine.getMySupermarkets().
+                    getAreaSuperMarketByName(zoneName).getStores().getStoreMap();
 
             int orderId = Integer.valueOf(request.getParameter("orderId"));
             System.out.println("orderId= " + orderId);
             MyOrder order = customer.getCustomerOrders().getOrderMap().get(orderId);
 
-            String orderItemsTable = buildCustomerOrderItemsTable(order);
+            String orderItemsTable = buildCustomerOrderItemsTable(order,storeMap);
 
             out.println(orderItemsTable.toString());
             System.out.println(orderItemsTable);
             out.flush();
         }
     }
-    private String buildCustomerOrderItemsTable(MyOrder order){
+    private String buildCustomerOrderItemsTable(MyOrder order, Map<Integer, MyStore> storeMap){
 
         String res = "<table id='orderItemsTable'>" +
                         "<thead>" +
@@ -48,13 +52,13 @@ public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
                                 "<th>Bought On Sale</th>" +
                             "</tr>" +
                         "</thead>" +
-                        buildOrderItemsTBody(order) +
+                        buildOrderItemsTBody(order,storeMap) +
                         "</table>";
 
         return res;
     }
 
-    private String buildOrderItemsTBody(MyOrder order) {
+    private String buildOrderItemsTBody(MyOrder order, Map<Integer, MyStore> storeMap) {
         String res = "<tbody>";
         double amount;
         boolean isBoughtOnSell;
@@ -67,7 +71,11 @@ public class ShowCustomersOrderItemsTableServlet extends HttpServlet {
                     "<td>" + storeItem.getMyItem().getItemId() + "</td>" +
                     "<td>" + storeItem.getMyItem().getName() + "</td>" +
                     "<td>" + storeItem.getMyItem().getPurchaseCategory() + "</td>" +
+
                     "<td>" + "Store Id: " + storeItem.getStoreId()+ " Name: "+"</td>" + //NEED TO ADD STORE NAME
+
+                    "<td>" + storeMap.get(storeItem.getStoreId()) + " " + storeItem.getStoreId()+ "</td>" + //NEED TO ADD STORE NAME
+
                     "<td>" + amount+ "</td>" +
                     "<td>" + storeItem.getPrice() + "</td>" +
                     "<td>" + String.format("%.2f", storeItem.getPrice() * amount) + "</td>" + // = Total cost

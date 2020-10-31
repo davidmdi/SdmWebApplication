@@ -186,7 +186,13 @@ function showZoneItemsList(){//(parametrs){
         data:parametrs,
         url: ITEMS_FOR_DYNAMIC_URL,
         success: function(response) {
+
             $("#staticOrDynamicOrder").replaceWith(response);
+
+            // $("#content").replaceWith(response);
+            $("h1").hide();
+            $("#content").replaceWith(response);
+
             $("#dynamicOrderItems").attr("action", PRESENT_SELECTE_SROTE_ITEMS); // change name of form
             $("#dynamicOrderItems").submit(sendDynamicOrderItems);// change name of form + function
             return false;
@@ -327,6 +333,8 @@ function showSelectedStoreInfo() {
 
 function showStoreDiscountsOffers(){
 
+
+    $("#createStaticOrder input[type='submit']").attr("disabled", 'disabled');
     selecetedItemsForStaticOrder = createStaticOrderItemList();
     $.ajax({
         method:'POST',
@@ -348,6 +356,29 @@ function showStoreDiscountsOffers(){
     });
     return false;
 }
+
+
+
+//action= "+ MAKE_ORDER_PAGE_URL + "
+    function buildFormForOrder(){
+     var htmlBuilder = "<div id='content'>" +
+         "<form id='initDataForOrder' action= " + MAKE_ORDER_PAGE_URL + "method='GET' >" +
+         "<input type=\"date\" id=\"dateId\" name=\"dateFromUser\" required>" + "<br><br> " +
+        "<input type=\"radio\" id=\"static\" name=\"typeofOrder\" value=\"static\" checked = true>" +
+        "<label for=\"static\">Static </label>\n" +
+        "<input type=\"radio\" id=\"dynamic\" name=\"typeofOrder\" value=\"dynamic\">\n" +
+        "<label for=\"dynamic\">Dynamic</label><br><br>\n" +
+        " <label for=\"xCord\">X location: </label>\n" +
+        " <input type=\"number\" id=\"xCord\" name=\"xCord\" class=\"\" placeholder=\" x cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
+        " <label for=\"yCord\">Y location: </label>\n" +
+        " <input type=\"number\" id=\"yCord\" name=\"yCord\" class=\"\" placeholder=\"y cord-> int range of 1-50\" min=\"1\" max=\"50\" required/>"+
+        "<br><br>" +
+        " <input type=\"submit\" value=\"start Shopping\" class = \"login-button\"/>"+
+        "</form>"  + "</div>";
+
+    return htmlBuilder ;
+   }
+
 
 function createStaticOrderItemList(){ // whithout discounts.
     var formItems = document.getElementsByName("item");
@@ -599,6 +630,7 @@ function declineOrderButton(){
 }
 
 function ajaxSendStoresFeedbacks(){
+
     var feedBacksList = createFeedBacksList(this);
 
     if(feedBacksList !== null){
