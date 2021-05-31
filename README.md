@@ -21,7 +21,7 @@
 
 ## Requirements
 - Apache Tomcat
-- JRE v7 and above
+- JRE v7 or above
 
 ## Deploying
 1. Install Tomcat on your system
